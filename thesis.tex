@@ -15,7 +15,7 @@
 % dodaj opcję [licencjacka] dla pracy licencjackiej
 % dodaj opcję [en] dla wersji angielskiej (mogą być obie: [licencjacka,en])
 \documentclass{pracamgr}
-\usepackage{hyperref}
+\usepackage[hidelinks]{hyperref}
 \usepackage{tikz}
 % \usepackage{refcheck}
 \usepackage{dirtree}
@@ -38,27 +38,14 @@
 %\hyphenation{InfluxDB}
 
 
-% Dane magistranta:
+% Dane magistrantów:
 \autor{Dominik Murzynowski}{360180}
 \autori{Piotr Zalas}{361374}
 
 
-% Dane magistrantów:
-%\autor{Autor Zerowy}{342007}
-%\autori{Autor Pierwszy}{342013}
-%\autorii{Drugi Autor-Z-Rzędu}{231023}
-%\autoriii{Trzeci z Autorów}{777321}
-%\autoriv{Autor nr Cztery}{432145}
-%\autorv{Autor nr Pięć}{342011}
+\title{Mobilny USOS - aplikacja mobilna dla studentów i pracowników uczelni}
+%\tytulang{ Mobile USOS - mobile application for university students and employees}
 
-%\title{System monitoringu i wizualizacji oświetlenia ulicznego}
-
-
-%\tytulang{Street light monitoring and visualization system}
-
-%kierunek:
-% - matematyka, informacyka, ...
-% - Mathematics, Computer Science, ...
 \kierunek{informatyka}
 
 % informatyka - nie okreslamy zakresu (opcja zakomentowana)
@@ -79,12 +66,12 @@
 % (podać tytuł/stopień imię i nazwisko opiekuna
 % Instytut
 % ew. Wydział ew. Uczelnia (jeżeli nie MIM UW))
-\opiekun{mgr. Radosława Bartosiaka\\
+\opiekun{dr. Janiny Mincer-Daszkiewicz\\
   Wydział Matematyki, Informatyki i Mechaniki\\
   }
 
 % miesiąc i~rok:
-\date{Czerwiec 2017}
+\date{Czerwiec 2019}
 
 %Podać dziedzinę wg klasyfikacji Socrates-Erasmus:
 \dziedzina{
@@ -103,7 +90,7 @@
   Software development techniques}
 
 % Słowa kluczowe:
-\keywords{szeregi czasowe, światła uliczne, monitorowanie, wizualizacje}
+\keywords{keczup, USOS, wow}
 
 % Tu jest dobre miejsce na Twoje własne makra i~środowiska:
 \newtheorem{defi}{Definicja}[section]
@@ -120,14 +107,6 @@
 
 \makeglossaries
 
-
-
-%szereg czasowy:
-%framework
-%JavaScript,
-%continuous integration (CI)
-%szereg czasowy
-%real-time
 % Nowe obiekty do slownika:
 %\newglossaryentry{Luminis}
 %{
@@ -148,9 +127,6 @@
 %\listoffigures
 %\listoftables
 
-
-
-% Wprowadzenie:
 \chapter{Wstęp}
 
 % We wstępie Słownik pojęć, Co to właściwie jest, opis firmy, czemu wybraliśmy ten projekt,(?wizja?)

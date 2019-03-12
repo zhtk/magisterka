@@ -1,0 +1,10 @@
+*.acn
+*.aux
+*.glo
+*.ist
+*.lof
+*.log
+*.out
+*.pdf
+*.synctex.gz
+*.toc
