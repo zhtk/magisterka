@@ -129,6 +129,8 @@
 
 \chapter{Wstęp}
 
+Wzmianka o modułach wniesionych przez UŁ.
+
 % We wstępie Słownik pojęć, Co to właściwie jest, opis firmy, czemu wybraliśmy ten projekt,(?wizja?)
 %Przedstawienie problemu
 %Przedstawienie produktu
@@ -137,6 +139,115 @@
 %Licencja
 %Wykorzystane technologie
 %\addcontentsline{toc}{chapter}{Wstęp}
+
+\chapter{Wizja}
+
+\section{Aplikacje mobilne na innych uczelniach}
+
+	1. Uczelnie mają aplikacje mobilne - tutaj research Kasi
+
+\section{Aplikacja mobilna dla USOS}
+
+2. USOS też ma mieć\\
+3. Dwa modele - aplikacja mobilna albo USOSweb w wersji na komórki\\
+4. Decyzja o aplikacji mobilnej - postanowiliśmy zrobić ankietę u studentów
+
+\section{Wyniki ankiety wśród studentów i samorządu}
+
+5. Wytypowanie podstawowych modułów
+
+\section{Oczekiwania pracowników i administracji uczelni}
+
+Aktualności, moduły dla pracowników, możliwość personalizacji dla uczelni
+
+\chapter{Specyfikacja wymagań}
+
+\section{Wymogi związane z finansowaniem}
+
+\section{Logowanie do aplikacji}
+
+\section{Dashboard}
+
+\section{Oceny}
+
+\section{Sprawdziany}
+
+\section{Protokoły}
+
+\section{itd...}
+
+\chapter{Technologie}
+
+\section{Android}
+
+\section{Firebase}
+
+\section{Gradle}
+
+\section{Jackson}
+
+\section{Java}
+
+Jest beznadziejna
+
+\section{Kotlin}
+
+Tutaj coś o korutynach, null safety, własnościach funkcyjnych i bogatej bibliotece standardowej
+
+\section{OkHttp}
+
+\section{Retrofit}
+
+\chapter{Szczegóły implementacji}
+
+\section{Ogólna budowa aplikacji}
+
+3 główne activity: SplashScreen, LoginActivity, MainActivity.
+Poszczególne ekrany w obrębie MainActivity zrealizowane jako
+Fragmenty.
+
+\section{Komunikacja z USOS API}
+
+\section{System obsługujący powiadomienia}
+
+Firebase + powiadomienia
+
+\section{Budowa typowego fragmentu}
+
+Szablony bazowe klas dla dwóch rodzajów fragmentów:
+wyświetlających pojedynczy widok oraz widoku listy.
+
+\chapter{Wdrożenie w skali polski}
+
+\section{Wyzwania związane z wdrażaniem}
+
+Konieczność zachowania kompatybilności pomiędzy różnymi
+wersjami Mobilnego USOS i USOS API. Dużo uczelni.
+
+\section{System budowania aplikacji}
+
+Tutaj troszkę o private.gradle, kluczach i personalizacji aplikacji,
+może o rzeczach, które uczelnia ma dostarczyć.
+
+\section{Fabric}
+
+Wystawianie aplikacji do testów
+
+\section{Crashlytics}
+
+Łapanie błędów z testów
+
+\section{Jenkins}
+
+Automatyzacja budowania paczek w Jenkins
+
+\section{Wdrożenie do sklepu Play}
+
+Jeden wzorzec, cała czarna robota ze względów logistycznych spada na uczelnię
+
+\chapter{Podsumowanie}
+
+Perspektywy na przyszłość - rozwój przez PW, zewnętrznych magistrantów, apetyt rośnie w miarę jedzenia.
 
 \appendix
 
