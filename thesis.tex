@@ -141,7 +141,8 @@
 
 \chapter{Wstęp}
 
-Wzmianka o modułach wniesionych przez UŁ.
+Wzmianka o modułach wniesionych przez UŁ, oraz że aplikacja jest dostępna
+w dwóch wersjach językowych.
 
 % We wstępie Słownik pojęć, Co to właściwie jest, opis firmy, czemu wybraliśmy ten projekt,(?wizja?)
 %Przedstawienie problemu
@@ -156,25 +157,136 @@ Wzmianka o modułach wniesionych przez UŁ.
 
 \section{Aplikacje mobilne na innych uczelniach}
 
-	1. Uczelnie mają aplikacje mobilne - tutaj research Kasi
+Na zlecenie Międzyuniwersyteckiego Centrum Informatyzacji przeprowadzono
+badanie na temat wykorzystania aplikacji mobilnych przez uczelnie w
+Polsce i na świecie. W wyniku tych badań ustalono, że aplikacje mobilne
+cieszą się dużą popularnością wśród studentów i pracowników uczelni, ale
+między polskimi a zagranicznymi uczelniami występują duże rozbieżności w
+pojmowaniu roli tychże aplikacji.
+
+W Polsce dominuje myślenie, że aplikacja mobilna dla uczelni ma służyć głównie
+wymianie informacji pomiędzy studentami, pracownikami i władzami uczelni.
+Systemy informatycznie uczelni mają usprawniać formalne procesy takie jak
+imatrykulacja, przyjmowanie podań, wystawianie ocen, rejestracje na zajęcia.
+Nie ma w nich miejsca na zdjęcia studentów lub pracowników w luźnej koszuli
+podczas rejsu żaglówką na mazurach. Zamieszczone treści i komunikaty napisane
+są językiem wskazującym na urzędowy charakter relacji pomiędzy użytkownikami
+systemu.
+
+W przypadku uczelni zagranicznych aplikacje mobilne mają mniej formalny
+charakter. Oprócz pełnienia funkcji łączącej studentów, wykładowców i władze
+uczelni pełnią także funkcję społecznościową. Organizacje studenckie tych
+uczelni mają swoje wydzielone miejsce w aplikacji mobilnej, gdzie mogą się
+promować, informować o ciekawych wydarzeniach i spotkaniach mających miejsce
+w obrębie uczelnianego kampusu. Sama szata graficzna tych części aplikacji
+jest mniej surowa, a edytorzy ich treści pozwalają sobie przykładowo na
+swobodniejszy dobór grafik i użycie nieformalnego języka. Wydaje się, że nie
+ma potrzeby przenoszenia tej praktyki na polski grunt.
 
 \section{Aplikacja mobilna dla USOS}
 
-2. USOS też ma mieć\\
-3. Dwa modele - aplikacja mobilna albo USOSweb w wersji na komórki\\
-4. Decyzja o aplikacji mobilnej - postanowiliśmy zrobić ankietę u studentów
+Na bazie wniosków z przeprowadzonego badania zdecydowano, że Uniwersytecki
+System Obsługi Studiów także ma mieć aplikację mobilną. Możliwe były dwa
+modele obsługi urządzeń mobilnych przez USOS:
+
+\begin{itemize}
+	\item USOSweb w wersji na smartfony i tablety.
+	\item Natywna aplikacja mobilna pobierająca dane z USOS API.
+\end{itemize}
+
+Realizacja pierwszego wariantu wydawała się być bardziej atrakcyjna z finansowego
+punktu widzenia, gdyż nie trzeba by było wtedy tworzyć nowej aplikacji, a tylko
+zaadaptować już istniejący serwis poprzez uczynienie go responsywnym. Niestety
+ze względu na architekturę USOSweb i naleciałości historyczne zadanie to okazało
+się być technicznie niewykonalne w realistycznym horyzoncie czasowym. Ponadto
+taka realizacja aplikacji mobilnej pozbawia użytkownika wielu benefitów wypływających
+z natywnej implementacji, jak chociażby niezależności od awarii serwerów uczelni.
+
+W związku z powyższymi rozważaniami MUCI podjęło decycję o stworzeniu natywnej
+aplikacji Mobilny USOS dla platformy Android. Oczywiście Mobilny USOS z założenia
+nie ma reimplementować całej funkcjonalności USOSweb, tylko jej najważniejsze
+elementy. Aby wyłonić kluczowe dla studenta moduły postanowiono przeprowadzić
+ankietę wśród studentów i samorządu.
 
 \section{Wyniki ankiety wśród studentów i samorządu}
 
-5. Wytypowanie podstawowych modułów
+Studenci wydziału MIM UW wypełniający ankietę wpisali takie postulaty dotyczące
+oczekiwanych przyszłych funkcjonalności Mobilnego USOS:
+
+\begin{itemize}
+	\item Przeglądarka ocen i sprawdzianów.
+	\item Plan zajęć wraz z powiadamianiem o zbliżających się zajęciach
+	      i kolokwiach.
+	\item Dostęp do katalogów i wyszukiwarek.
+	\item Mapa uniwersytetu z podziałem na poszczególne wydziały, wraz z
+	      możliwością nawigowania do wybranej lokalizacji.
+	\item Obsługa modułu rejestracji.
+	\item Możliwość podpinania przedmiotów.
+\end{itemize}
+
+Do powyższej listy samorząd studencki wydziału MIM UW dopisałby też:
+
+\begin{itemize}
+	\item Informacje o wydziale przydatne dla studenta -- godziny otwarcia sekcji
+	      studenckiej, terminy dyżuru dziekana wraz z elektronicznymi zapisami na
+	      dyżur, aktualny plan sesji.
+	\item Możliwość wypełniania ankiet wraz z powiadomieniami o nowej ankiecie.
+	\item Informacje o decyzjach i statusie podań.
+	\item Kalendarz rejestracji wraz z powiadomieniami.
+	\item Synchronizację kalendarza widocznego w USOSweb z kalendarzem telefonu.
+\end{itemize}
+
+Samorząd wyraził też obawę, że aplikacja mająca za dużo funkcji, niekoniecznie
+użytecznych dla większości studentów, będzie mniej przyjazna w obsłudze.
+
+Jako rezultat przeprowadzonych ankiet wytypowano następujące podstawowe moduły,
+które przyjęto do realizacji: ankiety, katalog, oceny, plan zajęć, sprawdziany,
+przydatne informacje o uczelni.
 
 \section{Oczekiwania pracowników i administracji uczelni}
 
-Aktualności, moduły dla pracowników, możliwość personalizacji dla uczelni
+Logika USOS związana z pracownikami jest bez porównania znacznie bardziej
+skomplikowana od logiki związanej z studentami. Nie ma sensu przepisywać do
+aplikacji mobilnej modułów związanych np. z uzupełnianiem syllabusów, gdyż
+nie dość, że takie moduły są używane stosunkowo rzadko, to jeszcze operacje
+z ich użyciem wykonuje się zdecydowanie wygodniej z poziomu komputera. Postanowiliśmy
+zaimplementować tylko te moduły, które byłyby przydatne w sytuacji kiedy pracownik
+nie ma dostępu do komputera, np. w trakcie zajęć lub kiedy nadgorliwy student
+spotka pracownika na korytarzu swojego wydziału i będzie oczekiwał natychmiastowej
+informacji na temat swojej oceny.
+
+W związku z powyższym, do realizacji przyjęliśmy moduł protokołów egzaminacyjnych
+i część funkcjonalności sprawdzianów związanej z wystawianiem punktów i ocen.
+Oprócz tego pracownik będzie miał w czasie rzeczywistym dostęp do ilości wypełnionych
+ankiet, które go dotyczą. Dzięki temu będzie mógł skuteczniej wywierać na studentów
+presję w sprawie wypełniania ankiet, co z kolei jest pożądane z punktu widzenia
+uczelnianej administracji.
+
+Innym, niezwykle ważnym z punktu widzenia biura prasowego uczelni modułem są
+aktualności, które pozwalają pracownikom biura publikować artykuły wyświetlane
+w Mobilnym USOS. Autor artykułu powinien mieć możliwość wybrania grupy odbiorców,
+którym wyświetli się notka prasowa.
+
+Przy projektowaniu aplikacji należy uwzględnić różnice między uczelniami.
+Przykładowo, każda uczelnia we własnym zakresie wdraża nowe wersje USOS API.
+Ponadto uczelnie mają wdrożone swoje własne standardy identyfikacji wizualnej.
+Należy zapewnić uczelniom możliwość personalizacji wybranych elementów szaty
+graficznej Mobilnego USOS. Przy wdrażaniu aplikacji należy pamiętać o
+sprawdzeniu kompatybilności z zainstalowaną przez uczelnię wersją serwera API.
+Z wymienionych wyżej powodów zdecydowano, że każda uczelnia będzie miała własną
+wersję Mobilnego USOS tworzoną z wspólnego szablonu.
+
+Największe polskie uczelnie są instytucjami publicznymi i muszą spełniać wytyczne
+dostępności narzucane przez polskie prawo. W przypadku aplikacji mobilnych
+największy nacisk położony jest na spełnienie norm dotyczących kontrastu i prawidłowe
+współdziałanie z oprogramowaniem wspierającym osoby niewidome, takim jak Google
+TalkBack.
 
 \chapter{Specyfikacja wymagań}
 
 \section{Wymogi związane z finansowaniem}
+
+Odpowiednie loga na ekranie logowania, sprawy dostępności.
 
 \section{Logowanie do aplikacji}
 
