@@ -151,7 +151,6 @@ w dwóch wersjach językowych.
 %Funkcje programu
 %Licencja
 %Wykorzystane technologie
-%\addcontentsline{toc}{chapter}{Wstęp}
 
 \chapter{Wizja}
 
@@ -167,7 +166,7 @@ pojmowaniu roli tych aplikacji.
 W Polsce dominuje myślenie, że aplikacja mobilna dla uczelni ma służyć głównie
 wymianie informacji pomiędzy studentami, nauczycielami akademickimi i administracją
 uczelni. Systemy informatycznie uczelni mają usprawniać formalne procesy takie jak
-imatrykulacja, przyjmowanie podań, wystawianie ocen, rejestracje na zajęcia.
+immatrykulacja, przyjmowanie podań, wystawianie ocen, rejestracje na zajęcia.
 Zamieszczone treści i komunikaty napisane są językiem wskazującym na urzędowy
 charakter relacji pomiędzy użytkownikami systemu.
 
@@ -189,7 +188,7 @@ modele dostępu do danych zgromadzonych w USOS:
 
 \begin{itemize}
 	\item USOSweb w wersji na smartfony i tablety.
-	\item Natywna aplikacja mobilna pobierająca dane z USOS API.
+	\item Natywna aplikacja mobilna pobierająca dane z USOS poprzez USOS API.
 \end{itemize}
 
 Realizacja pierwszego wariantu wydawała się być bardziej atrakcyjna z finansowego
@@ -198,7 +197,7 @@ dostosować USOSweb do potrzeb aplikacji mobilnych. Niestety ze względu na arch
 USOSweb i naleciałości historyczne zadanie to okazało się być technicznie niewykonalne
 w realistycznym horyzoncie czasowym. Ponadto taka realizacja aplikacji mobilnej
 pozbawia użytkownika wielu benefitów wypływających z natywnej implementacji.
-W nowej aplikacji wiele funkcjonalności USOSweb jest dostarczanych w inny
+W nowej aplikacji wiele funkcjonalności USOSweb może być dostarczanych w inny
 sposób, który jest dostosowany do specyfiki urządzeń mobilnych.
 
 W związku z przytoczonymi argumentami MUCI podjęło decycję o stworzeniu natywnej
@@ -211,7 +210,7 @@ ankietę wśród studentów i samorządu.
 
 \section{Wyniki ankiety wśród studentów i samorządu}
 
-Studenci Wydziału MIM UW wypełniający ankietę wpisali następujące moduły, które
+Studenci Wydziału MIM UW wypełniający ankietę wskazali następujące moduły, które
 chcieliby znaleźć w Mobilnym USOS:
 
 \begin{itemize}
@@ -225,7 +224,7 @@ chcieliby znaleźć w Mobilnym USOS:
 	\item Podpięcia.
 \end{itemize}
 
-Do powyższej listy samorząd studencki Wydziału MIM UW dopisał:
+Do tej listy samorząd studencki Wydziału MIM UW dopisał:
 
 \begin{itemize}
 	\item Informacje o wydziale przydatne dla studenta -- godziny otwarcia sekcji
@@ -239,13 +238,13 @@ Do powyższej listy samorząd studencki Wydziału MIM UW dopisał:
 Samorząd wyraził też obawę, że aplikacja mająca za dużo funkcji, niekoniecznie
 użytecznych dla większości studentów, będzie mniej przyjazna w obsłudze.
 
-Jako rezultat przeprowadzonych ankiet przyjęto do realizacji następujące moduły:
+W wyniku przeprowadzonych ankiet przyjęto do realizacji następujące moduły:
 ankiety, katalog, oceny, plan zajęć, sprawdziany, przydatne informacje o uczelni.
 
 \section{Oczekiwania nauczycieli akademickich i administracji uczelni}
 
 Logika USOS związana z pracownikami jest bez porównania znacznie bardziej
-skomplikowana od logiki związanej z studentami. Nie ma sensu przepisywać do
+skomplikowana od logiki związanej ze studentami. Nie ma sensu przepisywać do
 aplikacji mobilnej modułów związanych np. z uzupełnianiem sylabusów, gdyż
 nie dość, że takie moduły są używane stosunkowo rzadko, to jeszcze operacje
 z ich użyciem wykonuje się zdecydowanie wygodniej z poziomu komputera. Postanowiliśmy
@@ -256,8 +255,8 @@ informacji na temat swojej oceny.
 
 W związku z powyższym, do realizacji przyjęliśmy moduł ankiet, protokołów
 egzaminacyjnych i część funkcjonalności sprawdzianów związanej z wystawianiem
-punktów i ocen. Kolejnym, niezwykle ważnym z punktu widzenia biura prasowego uczelni
-modułem są aktualności, które pozwalają pracownikom biura publikować artykuły
+punktów i ocen. Kolejnym modułem, niezwykle ważnym z punktu widzenia biura prasowego
+uczelni, są aktualności, które pozwalają pracownikom biura publikować artykuły
 wyświetlane w Mobilnym USOS.
 
 Przy projektowaniu aplikacji należy uwzględnić różnice między uczelniami.
@@ -266,7 +265,7 @@ Ponadto uczelnie mają wdrożone swoje własne standardy identyfikacji wizualnej
 Należy zapewnić uczelniom możliwość personalizacji wybranych elementów szaty
 graficznej Mobilnego USOS. Przy wdrażaniu aplikacji należy pamiętać o
 sprawdzeniu kompatybilności z zainstalowaną przez uczelnię wersją serwera USOS API.
-Z wymienionych wyżej powodów zdecydowano, że każda uczelnia będzie miała własną
+Z wymienionych powodów zdecydowano, że każda uczelnia będzie miała własną
 wersję Mobilnego USOS tworzoną ze wspólnego szablonu.
 
 Największe polskie uczelnie są instytucjami publicznymi i muszą spełniać wytyczne
@@ -320,13 +319,13 @@ na której można przejrzeć częstotliwość występowania błędów wraz z ich
 opisami. W sytuacji gdy pojawia się nowy błąd albo w nagły sposób wzrasta częstotliwość
 występowania danego błędu, Crashlytics wysyła do wszystkich programistów emaila
 z ostrzeżeniem. Raportowanie błędów na poziomie aplikacji działa na dwa sposoby.
-Programista może zainstalować globalny hak, który łapie wszystkie niezłapane
+Programista może zarejestrować globalną funkcję, która łapie wszystkie niezłapane
 wyjątki i wysyła je do Crashlytics. Ponadto przy pomocy dołączonej biblioteki
 możliwe jest ręcznie wysłanie informacji o błędzie.
 
 \section{Fabric}
 
-Fabric łączy funkcjonalność Crashlytics z prostą analityką opartą o dane przesyłane
+Fabric łączy funkcjonalność Crashlytics z prostą analityką opartą na danych przesyłanych
 przez aplikację oraz możliwością tworzenia zamkniętych beta-testów. W Fabric można
 między innymi sprawdzić, ilu użytkowników korzystało z aplikacji w danym przedziale
 czasowym i regionie, ile trwała jedna sesja oraz ile tych sesji było. Wszystkie
@@ -362,7 +361,7 @@ kluczowa jest możliwość definiowania wielu odmian aplikacji, po jednej dla ka
 uczelni. Warianty są tworzone automatycznie na podstawie osobnego, tajnego pliku
 zawierającego listę uczelni i klucze dostępowe do uczelnianego serwera USOS API.
 Ważne dla nas jest to, że możemy uczelni wysłać tylko część pliku zawierającego
-jej dane dostępowe, i ta część może być bezproblemowo użyta do zbudowania aplikacji.
+jej dane dostępowe i ta część może być bezproblemowo użyta do zbudowania aplikacji.
 
 \section{Jackson}
 
@@ -374,7 +373,7 @@ do obsługi języka Kotlin.
 
 \section{Java}
 
-Java jest natywnym językiem w którym się pisze aplikacje dla platformy Android.
+Java jest natywnym językiem, w którym się pisze aplikacje dla platformy Android.
 Niestety sposób obsługi tego języka przez Androida jest dysfunkcyjny. W naszych
 zastosowaniach większość interesującej funkcjonalności biblioteki standardowej
 jest niedostępna, gdyż jest ona podłączana do obrazu aplikacji podczas ładowania
@@ -391,23 +390,24 @@ wartość null i takie, które nie mogą. Specyfikacja języka Kotlin zawiera do
 zaawansowaną inferencję typów, dzięki której kompilator może wyłapać typowe błędy
 związane z obsługą wartości null. Ponadto w języku zdefiniowane są specjalne
 operatory, które pozwalają w zwięzły i czytelny sposób obsługiwać zmienne mogące
-zawierać wartość null. Język Kotlin jest mocno wzorowany na językach funkcyjnych,
+przyjmować wartość null. Język Kotlin jest mocno wzorowany na językach funkcyjnych,
 co znalazło odzwierciedlenie w bibliotece standardowej, która udostępnia typowo
-funkcyjne operacje na kolekcjach takie jak map i filter. Zmienne i klasy
-kolekcji z biblioteki standardowej takie jak listy i mapy są domyślnie niezmienialne
+funkcyjne operacje na kolekcjach, takie jak map i filter. Zmienne i klasy
+kolekcji z biblioteki standardowej, takie jak listy i mapy, są domyślnie niezmienialne
 (ang. \textit{immutable}). Kolejnym bardzo przydatnym mechanizmem wprowadzonym w
 języku Kotlin są korutyny. Wykorzystujemy je do czytelniejszego zapisu wielowątkowego
 kodu. Dzięki mechanizmowi kontynuacji unikamy zjawiska znanego jako \textit{callback hell}
-przy obsłudze wywołań USOS API, które było dla nas źródłem wielu problemów.
+przy obsłudze wywołań USOS API, które było dla nas źródłem wielu problemów w
+początkowej fazie projektu.
 
-Wszystkie wymienione wyżej własności sprawiły, że Kotlin został uznany przez
-Google za oficjalnie wspierany język, w którym można programować Androidowe
-aplikacje. Znalazło to swoje odzwierciedlenie w Android SDK, które jest
+Wszystkie wymienione własności sprawiły, że Kotlin został uznany przez
+Google za oficjalnie wspierany język, w którym można programować aplikacje
+Androidowe. Znalazło to swoje odzwierciedlenie w Android SDK, które jest
 dostosowane do tego języka.
 
 \section{OkHttp}
 
-OkHttp jest biblioteką do asynchronicznej obsługi połączeń SSL. Podczas inicjalizacji
+OkHttp jest biblioteką do asynchronicznej obsługi połączeń SSL. Podczas inicjacji
 tworzy ona sobie wewnętrzną pulę wątków, które są wykorzystywane podczas wykonywania
 połączeń. Programista może modyfikować parametry połączenia, na przykład wstrzykiwać
 wartości nagłówków lub podmieniać dane pobierane przez strumień. Biblioteka ta
@@ -416,18 +416,18 @@ do pobierania danych z USOS API.
 
 \section{Picasso}
 
-Picasso jest kolejną pomocniczą biblioteką która zajmuje się obsługą obrazków
-zgromadzonych na zewnętrznych serwerach. Dzięki tej bibliotece możemy pobrać
+Picasso jest pomocniczą biblioteką, która zajmuje się obsługą obrazków
+zgromadzonych na zewnętrznych serwerach. Dzięki niej możemy pobrać
 zdjęcie zapisane na serwerze USOS API i automatycznie zapisać je w pamięci
 tymczasowej urządzenia. Dzięki temu unikamy przeciążania serwerów, a samo zdjęcie
-jest dostępne nawet w sytuacji po utracie połączenia sieciowego. Po pobraniu zdjęcia
+jest dostępne także po utracie połączenia sieciowego. Po pobraniu zdjęcia
 jest ono automatycznie konwertowane do Androidowej mapy bitowej i wyświetlane w
 widoku wskazanym przy uruchamianiu pobierania. Cała operacja odbywa się asynchronicznie.
 
 \section{Retrofit}
 
 Retrofit jest główną biblioteką wykorzystywaną przez nas do komunikacji z
-USOS API. Generuje ona dla nas klasy odpowiedzialne za pobieranie i deserializację
+USOS API. Generuje ona klasy odpowiedzialne za pobieranie i deserializację
 przysłanych danych z formatu JSON do Javowych klas. Potrzebne klasy są generowane
 przy pomocy mechanizmu refleksji na podstawie prostego interfejsu zawierającego
 odpowiednio zaanotowane sygnatury funkcji.
@@ -447,7 +447,7 @@ systemu Android.
 
 ZXing jest akronimem od angielskich słów ,,\textit{Zebra Crossing}''. Jest to
 biblioteka wykorzystywana do odczytywania i generowania kodów kreskowych. Z
-naszego punktu widzenia istotne jest to, że możemy przy pomocy tej biblioteki
+naszego punktu widzenia istotne jest to, że możemy przy jej pomocy
 generować kody w formacie CODE128 wykorzystywanym przez USOS podczas drukowania
 legitymacji studenckich. Oprócz tego generujemy też przy pomocy tej biblioteki
 kody kreskowe w formacie Aztec.
@@ -517,8 +517,54 @@ Perspektywy na przyszłość - rozwój przez PW, zewnętrznych magistrantów, ap
 %   function}, Mathematica Absurdica, 117 (1965) 338--9.
 %\bibitem[Ajax]{AJAXwikipl} AJAX - Wikipedia \url{https://pl.wikipedia.org/wiki/AJAX} (dostęp 21.03.2017)
 
-\bibitem[1]{android} Google, \textit{Android - Documentation for app developers},
+\bibitem[1]{android} Google Inc., \textit{Android -- Documentation for app developers},
 	 \url{https://developer.android.com/docs}. [Dostęp: 2019-05-04].
+
+\bibitem[2]{androidstudio} Google Inc., \textit{Android Studio},
+	\url{https://developer.android.com/studio}. [Dostęp: 2019-05-07].
+
+\bibitem[3]{androidsupportlibrary} Google Inc., \textit{Android -- Support Library},
+	\url{https://developer.android.com/topic/libraries/support-library}. [Dostęp: 2019-05-07].
+
+\bibitem[4]{crashlytics} Google Inc., \textit{Crashlytics}, \url{https://try.crashlytics.com/}. [Dostęp: 2019-05-07].
+
+\bibitem[5]{fabric} Google Inc., \textit{Fabric}, \url{https://get.fabric.io/}. [Dostęp: 2019-05-07].
+
+\bibitem[6]{firebase} Google Inc., \textit{Firebase}, \url{https://firebase.google.com/}. [Dostęp: 2019-05-07].
+
+\bibitem[7]{git} Software Freedom Conservancy, \textit{Git},
+	\url{https://git-scm.com/}. [Dostęp: 2019-05-07].
+
+\bibitem[8]{gerrit} Google Inc., \textit{Gerrit Code Review},
+	\url{https://www.gerritcodereview.com/}. [Dostęp: 2019-05-07].
+
+\bibitem[9]{jenkins} Continuous Delivery Foundation, \textit{Jenkins},
+	\url{https://jenkins.io/}. [Dostęp: 2019-05-07].
+
+\bibitem[10]{gradle}  Gradle Inc., \textit{Gradle},	\url{https://gradle.org/}. [Dostęp: 2019-05-07].
+
+\bibitem[11]{jackson}  FasterXML, LLC., \textit{Jackson},
+	\url{https://github.com/FasterXML/jackson}. [Dostęp: 2019-05-07].
+
+\bibitem[12]{java} Oracle Corporation, \textit{Java}, \url{https://www.java.com/}. [Dostęp: 2019-05-07].
+
+\bibitem[13]{kotlin} Kotlin Foundation, \textit{Kotlin}, \url{https://kotlinlang.org/}. [Dostęp: 2019-05-07].
+
+\bibitem[14]{okhttp} Square, Inc., \textit{OkHttp},	\url{https://square.github.io/okhttp/}. [Dostęp: 2019-05-07].
+
+\bibitem[15]{picasso} Square, Inc., \textit{Picasso}, \url{https://square.github.io/picasso/}. [Dostęp: 2019-05-07].
+
+\bibitem[16]{retrofit} Square, Inc., \textit{Retrofit}, \url{https://square.github.io/retrofit/}. [Dostęp: 2019-05-07].
+
+\bibitem[17]{googleplay} Google Inc., \textit{Google Play},	\url{https://play.google.com/store}. [Dostęp: 2019-05-07].
+
+\bibitem[18]{googlemaps} Google Inc., \textit{Google Maps},	\url{https://www.google.com/maps}. [Dostęp: 2019-05-07].
+
+\bibitem[19]{googlecalendar} Google Inc., \textit{Google Calendar},	\url{https://www.google.com/calendar}. [Dostęp: 2019-05-07].
+
+\bibitem[20]{gmail} Google Inc., \textit{Gmail}, \url{https://www.google.com/intl/pl/gmail/about/}. [Dostęp: 2019-05-07].
+
+\bibitem[21]{zxing} Google Inc., \textit{ZXing}, \url{https://github.com/zxing/zxing}. [Dostęp: 2019-05-07].
 
 \end{thebibliography}
 
