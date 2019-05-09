@@ -165,10 +165,10 @@ pojmowaniu roli tych aplikacji.
 
 W Polsce dominuje myślenie, że aplikacja mobilna dla uczelni ma służyć głównie
 wymianie informacji pomiędzy studentami, nauczycielami akademickimi i administracją
-uczelni. Systemy informatycznie uczelni mają usprawniać formalne procesy takie jak
-immatrykulacja, przyjmowanie podań, wystawianie ocen, rejestracje na zajęcia.
-Zamieszczone treści i komunikaty napisane są językiem wskazującym na urzędowy
-charakter relacji pomiędzy użytkownikami systemu.
+uczelni. Systemy informatycznie uczelni mają usprawniać formalne procesy, takie jak
+wystawianie ocen, informowanie o wynikach kolokwium czy dostarczanie obowiązującego
+planu zajęć. Zamieszczone treści i komunikaty napisane są językiem wskazującym na
+urzędowy charakter relacji pomiędzy użytkownikami systemu.
 
 W przypadku uczelni zagranicznych aplikacje mobilne mają mniej formalny
 charakter. Oprócz pełnienia funkcji łączącej studentów, nauczycieli akademickich
@@ -302,92 +302,95 @@ W tym rozdziale przedstawiamy użyte technologie, biblioteki i narzędzia.
 
 Mobilny USOS jest napisany dla systemu operacyjnego Android \cite{android}.
 Każda aplikacja działająca na tej platformie musi być napisana z użyciem Android
-SDK. Do rozwoju aplikacji wykorzystaliśmy środowisko programistyczne Android Studio,
-które jest oficjalnie zalecane przez Google. Android Studio posiada odpowiednie
-wtyczki, które automatyzują obsługę emulatorów urządzeń, proces wgrywania i
-odpluskwiania aplikacji na urządzeniu oraz czynności wykonywane podczas instalacji
-Android SDK. Dużym wyzwaniem przy pisaniu aplikacji Androidowych jest zachowanie
-kompatybilności pomiędzy różnymi wersjami systemu operacyjnego. Pomaga w tym
-biblioteka \textit{Android Support Library}, która zapewnia odpowiednią warstwę
-abstrakcji nad wywołaniami specyficznymi dla poszczególnych wersji systemu.
+SDK. Do rozwoju aplikacji wykorzystaliśmy środowisko programistyczne Android Studio
+\cite{androidstudio}, które jest oficjalnie zalecane przez Google. Android Studio
+posiada odpowiednie wtyczki, które automatyzują obsługę emulatorów urządzeń, proces
+wgrywania i odpluskwiania aplikacji na urządzeniu oraz czynności wykonywane podczas
+instalacji Android SDK. Dużym wyzwaniem przy pisaniu aplikacji Androidowych jest
+zachowanie kompatybilności pomiędzy różnymi wersjami systemu operacyjnego. Pomaga
+w tym biblioteka \textit{Android Support Library} \cite{androidsupportlibrary},
+która zapewnia odpowiednią warstwę abstrakcji nad wywołaniami specyficznymi dla
+poszczególnych wersji systemu.
 
 \section{Crashlytics}
 
-Crashlytics jest usługą, która pozwala monitorować błędy występujące w aplikacji.
-Składa się ona z biblioteki dołączanej do aplikacji oraz strony internetowej,
-na której można przejrzeć częstotliwość występowania błędów wraz z ich dokładnymi
-opisami. W sytuacji gdy pojawia się nowy błąd albo w nagły sposób wzrasta częstotliwość
-występowania danego błędu, Crashlytics wysyła do wszystkich programistów emaila
-z ostrzeżeniem. Raportowanie błędów na poziomie aplikacji działa na dwa sposoby.
-Programista może zarejestrować globalną funkcję, która łapie wszystkie niezłapane
-wyjątki i wysyła je do Crashlytics. Ponadto przy pomocy dołączonej biblioteki
-możliwe jest ręcznie wysłanie informacji o błędzie.
+Crashlytics \cite{crashlytics} jest usługą, która pozwala monitorować błędy
+występujące w aplikacji. Składa się ona z biblioteki dołączanej do aplikacji
+oraz strony internetowej, na której można przejrzeć częstotliwość występowania
+błędów wraz z ich dokładnymi opisami. W sytuacji gdy pojawia się nowy błąd albo
+w nagły sposób wzrasta częstotliwość występowania danego błędu, Crashlytics wysyła
+do wszystkich programistów emaila z ostrzeżeniem. Raportowanie błędów na poziomie
+aplikacji działa na dwa sposoby. Programista może zarejestrować globalną funkcję,
+która łapie wszystkie niezłapane wyjątki i wysyła je do Crashlytics. Ponadto przy
+pomocy dołączonej biblioteki możliwe jest ręcznie wysłanie informacji o błędzie.
 
 \section{Fabric}
 
-Fabric łączy funkcjonalność Crashlytics z prostą analityką opartą na danych przesyłanych
-przez aplikację oraz możliwością tworzenia zamkniętych beta-testów. W Fabric można
-między innymi sprawdzić, ilu użytkowników korzystało z aplikacji w danym przedziale
-czasowym i regionie, ile trwała jedna sesja oraz ile tych sesji było. Wszystkie
-dane są zanonimizowane i wyświetlane w sposób zagregowany. W związku z planowanym
-wyłączeniem serwisu Fabric większość jego usług została przeniesiona do Firebase.
+Fabric \cite{fabric} łączy funkcjonalność Crashlytics z prostą analityką opartą na
+danych przesyłanych przez aplikację oraz możliwością tworzenia zamkniętych
+beta-testów. W Fabric można między innymi sprawdzić, ilu użytkowników korzystało
+z aplikacji w danym przedziale czasowym i regionie, ile trwała jedna sesja oraz
+ile tych sesji było. Wszystkie dane są zanonimizowane i wyświetlane w sposób
+zagregowany. W związku z planowanym wyłączeniem serwisu Fabric większość jego
+usług została przeniesiona do Firebase.
 
 \section{Firebase}
 
-Firebase dostarcza pakiet usług do tworzenia bezserwerowych (ang.
-\textit{serverless}) aplikacji. Jest on znany głównie z usługi składowania
+Firebase \cite{firebase} dostarcza pakiet usług do tworzenia bezserwerowych
+(ang. \textit{serverless}) aplikacji. Jest on znany głównie z usługi składowania
 danych w chmurze, z której jednak nie korzystamy. Kluczową usługą Firebase
-wykorzystywaną przez Mobilnego USOS jest \textit{Firebase Cloud Messaging},
-która służy do wysyłania powiadomień z USOS API do określonego urządzenia z
-zainstalowaną aplikacją. Wykorzystujemy tę usługę do odbierania powiadomień o
-zmianie oceny lub punktów w sprawdzianach. Po wyłączeniu Fabric Firebase będzie
-także służył do zbierania informacji o awariach Mobilnego USOS.
+wykorzystywaną przez Mobilnego USOS jest \textit{Firebase Cloud Messaging}
+\cite{firebasecm}, która służy do wysyłania powiadomień z USOS API do określonego
+urządzenia z zainstalowaną aplikacją. Wykorzystujemy tę usługę do odbierania
+powiadomień o zmianie oceny lub punktów w sprawdzianach. Po wyłączeniu Fabric
+Firebase będzie także służył do zbierania informacji o awariach Mobilnego USOS.
 
 \section{Git, Gerrit i Jenkins}
 
-Do składowania kodu wykorzystujemy system kontroli wersji Git. Każdy napisany
-przez nas kawałek kodu trafia do systemu Gerrit, w którym następuje proces
-opiniowania kodu. Gerrit jest połączony z serwerem Jenkins, który wykonuje
-podstawowe testy przesłanego kodu.
+Do składowania kodu wykorzystujemy system kontroli wersji Git \cite{git}. Każdy
+napisany przez nas kawałek kodu trafia do systemu Gerrit \cite{gerrit}, w którym
+następuje proces opiniowania kodu. Gerrit jest połączony z serwerem Jenkins
+\cite{jenkins}, który wykonuje podstawowe testy przesłanego kodu.
 
 \section{Gradle}
 
-Gradle jest głównym systemem budowania aplikacji napisanych w językach Java i
-Kotlin wykorzystywanym przez platformę Android. Skrypty Gradle są napisane w
-języku Groovy. Dzięki odrzuceniu formatu XML wykorzystywanego przez narzędzia
-takie jak Ant i Maven na rzecz pełnoprawnego języka programowania uzyskano dużą
-elastyczność i zwięzłość wymaganą w naszym projekcie. Z naszego punktu widzenia
-kluczowa jest możliwość definiowania wielu odmian aplikacji, po jednej dla każdej
-uczelni. Warianty są tworzone automatycznie na podstawie osobnego, tajnego pliku
-zawierającego listę uczelni i klucze dostępowe do uczelnianego serwera USOS API.
-Ważne dla nas jest to, że możemy uczelni wysłać tylko część pliku zawierającego
+Gradle \cite{gradle} jest głównym systemem budowania aplikacji napisanych w
+językach Java i Kotlin wykorzystywanym przez platformę Android. Skrypty Gradle
+są napisane w języku Groovy. Dzięki odrzuceniu formatu XML wykorzystywanego przez
+narzędzia takie jak Ant i Maven na rzecz pełnoprawnego języka programowania
+uzyskano dużą elastyczność i zwięzłość wymaganą w naszym projekcie. Z naszego
+punktu widzenia kluczowa jest możliwość definiowania wielu odmian aplikacji, po
+jednej dla każdej uczelni. Warianty są tworzone automatycznie na podstawie osobnego,
+tajnego pliku zawierającego listę uczelni i klucze dostępowe do uczelnianego serwera
+USOS API. Ważne dla nas jest to, że możemy uczelni wysłać tylko część pliku zawierającego
 jej dane dostępowe i ta część może być bezproblemowo użyta do zbudowania aplikacji.
 
 \section{Jackson}
 
-Jackson jest biblioteką do deserializacji danych zapisanych w formacie JSON.
-Jest ona o tyle kluczowa, że praktycznie wszystkie dane przesyłane przez USOS API
-są zapisane w tym formacie. W porówaniu do konkurencyjnej biblioteki Gson, Jackson
-zapewnia większą kontrolę nad procesem deserializacji oraz posiada rozszerzenia
-do obsługi języka Kotlin.
+Jackson \cite{jackson} jest biblioteką do deserializacji danych zapisanych w
+formacie JSON. Jest ona o tyle kluczowa, że praktycznie wszystkie dane przesyłane
+przez USOS API są zapisane w tym formacie. W porówaniu do konkurencyjnej biblioteki
+Gson \cite{gson}, Jackson zapewnia większą kontrolę nad procesem deserializacji
+oraz posiada rozszerzenia do obsługi języka Kotlin.
 
 \section{Java}
 
-Java jest natywnym językiem, w którym się pisze aplikacje dla platformy Android.
-Niestety sposób obsługi tego języka przez Androida jest dysfunkcyjny. W naszych
-zastosowaniach większość interesującej funkcjonalności biblioteki standardowej
-jest niedostępna, gdyż jest ona podłączana do obrazu aplikacji podczas ładowania
-Mobilnego USOS przez system operacyjny. Im starsza wersja systemu zainstalowanego
-na telefonie, tym mniejsza część biblioteki standardowej jest dostępna. W związku
-z tym, że Mobilny USOS wspiera bardzo stare wersje systemu praktycznie wszystkie
-interesujące pakiety wprowadzone w Java 8 i nowsze są dla nas niedostępne.
+Java \cite{java} jest natywnym językiem, w którym się pisze aplikacje dla platformy
+Android. Niestety sposób obsługi tego języka przez Androida jest dysfunkcyjny.
+W naszych zastosowaniach większość interesującej funkcjonalności biblioteki
+standardowej jest niedostępna, gdyż jest ona podłączana do obrazu aplikacji podczas
+ładowania Mobilnego USOS przez system operacyjny. Im starsza wersja systemu
+zainstalowanego na telefonie, tym mniejsza część biblioteki standardowej jest
+dostępna. W związku z tym, że Mobilny USOS wspiera bardzo stare wersje systemu
+praktycznie wszystkie interesujące pakiety wprowadzone w Java 8 i nowsze są dla
+nas niedostępne.
 
 \section{Kotlin}
 
-Odpowiedzią na problemy związane z językiem Java jest język Kotlin. System typów
-w języku Kotlin wprowadza rozróżnienie zmiennych na takie, które mogą przyjmować
-wartość null i takie, które nie mogą. Specyfikacja języka Kotlin zawiera dość
-zaawansowaną inferencję typów, dzięki której kompilator może wyłapać typowe błędy
+Odpowiedzią na problemy związane z językiem Java jest język Kotlin \cite{kotlin}.
+System typów w języku Kotlin wprowadza rozróżnienie zmiennych na takie, które mogą
+przyjmować wartość null i takie, które nie mogą. Specyfikacja języka Kotlin zawiera
+dość zaawansowaną inferencję typów, dzięki której kompilator może wyłapać typowe błędy
 związane z obsługą wartości null. Ponadto w języku zdefiniowane są specjalne
 operatory, które pozwalają w zwięzły i czytelny sposób obsługiwać zmienne mogące
 przyjmować wartość null. Język Kotlin jest mocno wzorowany na językach funkcyjnych,
@@ -402,22 +405,22 @@ początkowej fazie projektu.
 
 Wszystkie wymienione własności sprawiły, że Kotlin został uznany przez
 Google za oficjalnie wspierany język, w którym można programować aplikacje
-Androidowe. Znalazło to swoje odzwierciedlenie w Android SDK, które jest
-dostosowane do tego języka.
+Androidowe \cite{kotlinandroid}. Znalazło to swoje odzwierciedlenie w Android SDK,
+które jest dostosowane do tego języka.
 
 \section{OkHttp}
 
-OkHttp jest biblioteką do asynchronicznej obsługi połączeń SSL. Podczas inicjacji
-tworzy ona sobie wewnętrzną pulę wątków, które są wykorzystywane podczas wykonywania
-połączeń. Programista może modyfikować parametry połączenia, na przykład wstrzykiwać
-wartości nagłówków lub podmieniać dane pobierane przez strumień. Biblioteka ta
-pełni u nas funkcję pomocniczą, jest ona wykorzystywana przez bibliotekę Retrofit
-do pobierania danych z USOS API.
+OkHttp \cite{okhttp} jest biblioteką do asynchronicznej obsługi połączeń SSL.
+Podczas inicjacji tworzy ona sobie wewnętrzną pulę wątków, które są wykorzystywane
+podczas wykonywania połączeń. Programista może modyfikować parametry połączenia,
+na przykład wstrzykiwać wartości nagłówków lub podmieniać dane pobierane przez
+strumień. Biblioteka ta pełni u nas funkcję pomocniczą, jest ona wykorzystywana
+przez bibliotekę Retrofit do pobierania danych z USOS API.
 
 \section{Picasso}
 
-Picasso jest pomocniczą biblioteką, która zajmuje się obsługą obrazków
-zgromadzonych na zewnętrznych serwerach. Dzięki niej możemy pobrać
+Picasso \cite{picasso} jest pomocniczą biblioteką, która zajmuje się obsługą
+obrazków zgromadzonych na zewnętrznych serwerach. Dzięki niej możemy pobrać
 zdjęcie zapisane na serwerze USOS API i automatycznie zapisać je w pamięci
 tymczasowej urządzenia. Dzięki temu unikamy przeciążania serwerów, a samo zdjęcie
 jest dostępne także po utracie połączenia sieciowego. Po pobraniu zdjęcia
@@ -426,31 +429,32 @@ widoku wskazanym przy uruchamianiu pobierania. Cała operacja odbywa się asynch
 
 \section{Retrofit}
 
-Retrofit jest główną biblioteką wykorzystywaną przez nas do komunikacji z
-USOS API. Generuje ona klasy odpowiedzialne za pobieranie i deserializację
-przysłanych danych z formatu JSON do Javowych klas. Potrzebne klasy są generowane
-przy pomocy mechanizmu refleksji na podstawie prostego interfejsu zawierającego
-odpowiednio zaanotowane sygnatury funkcji.
+Retrofit \cite{retrofit} jest główną biblioteką wykorzystywaną przez nas do
+komunikacji z USOS API. Generuje ona klasy odpowiedzialne za pobieranie i
+deserializację przysłanych danych z formatu JSON do Javowych klas. Potrzebne klasy
+są generowane przy pomocy mechanizmu refleksji na podstawie prostego interfejsu
+zawierającego odpowiednio zaanotowane sygnatury funkcji.
 
 \section{Usługi Google dla Androida}
 
 Mobilny USOS w znacznym stopniu wykorzystuje usługi Google. Sklep Google Play
-służy do dystrybucji gotowej aplikacji wśród użytkowników końcowych. Mapy Google
-są osadzane wewnątrz aplikacji i służą do pokazywania lokalizacji jednostek.
-Większość akcji związanych z kalendarzem odsyła użytkownika do Kalendarza Google,
-a akcje związane z wysyłaniem wiadomości email odsyłają do klienta pocztowego,
-którym zazwyczaj jest GMail. Decyzja o wykorzystaniu usług Google do realizacji
+\cite{googleplay} służy do dystrybucji gotowej aplikacji wśród użytkowników
+końcowych. Mapy Google \cite{googlemaps} są osadzane wewnątrz aplikacji i służą
+do pokazywania lokalizacji jednostek. Większość akcji związanych z kalendarzem
+odsyła użytkownika do Kalendarza Google \cite{googlecalendar}, a akcje związane
+z wysyłaniem wiadomości email odsyłają do klienta pocztowego, którym zazwyczaj
+jest Gmail \cite{gmail}. Decyzja o wykorzystaniu usług Google do realizacji
 wymienionych akcji jest o tyle naturalna, że te usługi są wplecione w ekosystem
 systemu Android.
 
 \section{ZXing}
 
-ZXing jest akronimem od angielskich słów ,,\textit{Zebra Crossing}''. Jest to
-biblioteka wykorzystywana do odczytywania i generowania kodów kreskowych. Z
-naszego punktu widzenia istotne jest to, że możemy przy jej pomocy
-generować kody w formacie CODE128 wykorzystywanym przez USOS podczas drukowania
-legitymacji studenckich. Oprócz tego generujemy też przy pomocy tej biblioteki
-kody kreskowe w formacie Aztec.
+ZXing jest akronimem od angielskich słów ,,\textit{Zebra Crossing}'' \cite{zxing}.
+Jest to biblioteka wykorzystywana do odczytywania i generowania kodów kreskowych.
+Z naszego punktu widzenia istotne jest to, że możemy przy jej pomocy generować
+kody w formacie CODE128 wykorzystywanym przez USOS podczas drukowania legitymacji
+studenckich. Oprócz tego generujemy też przy pomocy tej biblioteki kody kreskowe
+w formacie Aztec.
 
 \chapter{Szczegóły implementacji}
 
@@ -532,6 +536,9 @@ Perspektywy na przyszłość - rozwój przez PW, zewnętrznych magistrantów, ap
 
 \bibitem[6]{firebase} Google Inc., \textit{Firebase}, \url{https://firebase.google.com/}. [Dostęp: 2019-05-07].
 
+\bibitem[6a]{firebasecm} Google Inc., \textit{Firebase Cloud Messaging},
+	\url{https://firebase.google.com/docs/cloud-messaging}. [Dostęp: 2019-05-09].
+
 \bibitem[7]{git} Software Freedom Conservancy, \textit{Git},
 	\url{https://git-scm.com/}. [Dostęp: 2019-05-07].
 
@@ -541,14 +548,19 @@ Perspektywy na przyszłość - rozwój przez PW, zewnętrznych magistrantów, ap
 \bibitem[9]{jenkins} Continuous Delivery Foundation, \textit{Jenkins},
 	\url{https://jenkins.io/}. [Dostęp: 2019-05-07].
 
-\bibitem[10]{gradle}  Gradle Inc., \textit{Gradle},	\url{https://gradle.org/}. [Dostęp: 2019-05-07].
+\bibitem[10]{gradle} Gradle Inc., \textit{Gradle},	\url{https://gradle.org/}. [Dostęp: 2019-05-07].
 
-\bibitem[11]{jackson}  FasterXML, LLC., \textit{Jackson},
+\bibitem[11]{jackson} FasterXML, LLC., \textit{Jackson},
 	\url{https://github.com/FasterXML/jackson}. [Dostęp: 2019-05-07].
+
+\bibitem[11a]{gson} Google Inc., \textit{Gson},	\url{https://github.com/google/gson}. [Dostęp: 2019-05-09].
 
 \bibitem[12]{java} Oracle Corporation, \textit{Java}, \url{https://www.java.com/}. [Dostęp: 2019-05-07].
 
 \bibitem[13]{kotlin} Kotlin Foundation, \textit{Kotlin}, \url{https://kotlinlang.org/}. [Dostęp: 2019-05-07].
+
+\bibitem[13a]{kotlinandroid} Maxim Shafirov, \textit{Kotlin on Android. Now official},
+	\url{https://blog.jetbrains.com/kotlin/2017/05/kotlin-on-android-now-official/}. [Dostęp: 2019-05-09].
 
 \bibitem[14]{okhttp} Square, Inc., \textit{OkHttp},	\url{https://square.github.io/okhttp/}. [Dostęp: 2019-05-07].
 
