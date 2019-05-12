@@ -19,6 +19,7 @@
 \usepackage{tikz}
 % \usepackage{refcheck}
 \usepackage{dirtree}
+\usepackage{caption}
 \usetikzlibrary{shapes,arrows,positioning}
 
 \tikzstyle{decision} = [diamond, draw, fill=blue!20,
@@ -98,7 +99,7 @@
 \usepackage{url}
 \usepackage{booktabs}
 \usepackage{graphicx}
-\usepackage{longtable}
+\usepackage{tabu}
 \usepackage{caption}
 
 % koniec definicji
@@ -137,7 +138,8 @@
 
 \tableofcontents
 %\listoffigures
-%\listoftables
+\newpage
+\listoftables
 
 \chapter{Wstęp}
 
@@ -204,11 +206,250 @@ W związku z przytoczonymi argumentami MUCI podjęło decycję o stworzeniu naty
 aplikacji Mobilny USOS dla platformy Android. Oczywiście Mobilny USOS z założenia
 nie ma reimplementować całej funkcjonalności USOSweb, tylko jej najważniejsze
 elementy. Aby wyłonić kluczowe dla studenta moduły, postanowiono przeprowadzić
-ankietę wśród studentów i samorządu.
+ogólną ankietę wśród studentów Uniwersytetu Mikołaja Kopernika w Toruniu i Uniwersytetu
+Śląskiego, oraz nieco bardziej szczegółową ankietę wśród studentów i samorządu
+Wydziału MIM UW.
 
-% TODO ogólna ankieta z kilku uczelni
+\section{Wyniki ogólnej ankiety przeprowadzonej na UMK i UŚ}
 
-\section{Wyniki ankiety wśród studentów i samorządu}
+Na początku ankiety poproszono respondentów o podanie podstawowych informacji o
+stopniu studiów i trybie studiowania. Ankietę wypełniło 1216 studentów UMK i
+703 studentów UŚ.
+
+\begingroup
+\centering
+\begin{longtabu} to \textwidth { |X[l]|X[l]|X[l]| }
+	\hline
+	Odpowiedź & Liczba studentów UMK, którzy zaznaczyli daną odpowiedź & Liczba studentów UŚ, którzy zaznaczyli daną odpowiedź\\
+	
+	\hline
+	\multicolumn{3}{|c|}{\textbf{Wskaż stopień swoich studiów}} \\
+	\hline
+	
+	Pierwszego stopnia & 708 & 366\\
+	Drugiego stopnia & 303 & 159\\
+	Jednolite magisterskie & 189 & 163\\
+	Trzeciego stopnia & 43 & 23\\
+	Podyplomowe & 8 & 1\\
+		
+	\hline
+	\multicolumn{3}{|c|}{\textbf{Wskaż tryb swoich studiów}} \\
+	\hline
+
+	Stacjonarne & 1142 & 606\\
+	Niestacjonarne - wieczorowe & 8 & 14\\
+	Niestacjonarne - zaoczne & 73 & 90\\
+	
+	\hline
+\end{longtabu}
+\captionof{table}{Stopień i tryb studiowania u ankietowanych studentów UMK i UŚ}\label{tbl:studank}
+\endgroup
+\medskip
+
+Następnie poproszono ankietowane osoby o wskazanie częstotliwości, z jakimi
+korzystają z wymienionych modułów USOSweb.
+
+\begingroup
+\centering
+\begin{longtabu} to \textwidth { |X[l]|X[l]|X[l]| }
+	\hline
+	Częstotliwość & Liczba studentów UMK, którzy zaznaczyli daną odpowiedź & Liczba studentów UŚ, którzy zaznaczyli daną odpowiedź\\
+	
+	\hline
+	\multicolumn{3}{|c|}{\textbf{Katalog studentów, pracowników, przedmiotów, kierunków studiów}} \\
+	\hline
+	
+	Codziennie & 309 & 42\\
+	Raz w tygodniu & 361 & 187\\
+	Raz na miesiąc & 332 & 195\\
+	Raz na semestr & 134 & 150\\
+	Raz na rok & 17 & 25\\
+	Jednorazowo & 51 & 59\\
+	Nigdy & 12 & 45\\
+	
+	\hline
+	\multicolumn{3}{|c|}{\textbf{Plan zajęć}} \\
+	\hline
+	Codziennie & 428 & 83\\
+	Raz w tygodniu & 459 & 126\\
+	Raz na miesiąc & 133 & 95\\
+	Raz na semestr & 84 & 75\\
+	Raz na rok & 5 & 9\\
+	Jednorazowo & 31 & 62\\
+	Nigdy & 74 & 253\\
+	
+	\hline
+	\multicolumn{3}{|c|}{\textbf{USOSmail (formularz poczty elektronicznej)}} \\
+	\hline
+	Codziennie & 847 & 18\\
+	Raz w tygodniu & 205 & 36\\
+	Raz na miesiąc & 62 & 57\\
+	Raz na semestr & 17 & 47\\
+	Raz na rok & 9 & 19\\
+	Jednorazowo & 27 & 84\\
+	Nigdy & 49 & 442\\	
+	
+	\hline
+	\multicolumn{3}{|c|}{\textbf{Rejestracje na przedmioty, zajęcia, egzaminy}} \\
+	\hline
+	Codziennie & 17 & 12\\
+	Raz w tygodniu & 61 & 21\\
+	Raz na miesiąc & 117 & 56\\
+	Raz na semestr & 957 & 523\\
+	Raz na rok & 19 & 19\\
+	Jednorazowo & 34 & 33\\
+	Nigdy & 11 & 37\\
+	
+	\hline
+	\multicolumn{3}{|c|}{\textbf{Sprawdziany}} \\
+	\hline
+	Codziennie & 65 & 19\\
+	Raz w tygodniu & 137 & 55\\
+	Raz na miesiąc & 159 & 61\\
+	Raz na semestr & 167 & 88\\
+	Raz na rok & 36 & 6\\
+	Jednorazowo & 110 & 46\\
+	Nigdy & 538 & 428\\
+	
+	\hline
+	\multicolumn{3}{|c|}{\textbf{Oceny}} \\
+	\hline
+	Codziennie & 368 & 76\\
+	Raz w tygodniu & 350 & 119\\
+	Raz na miesiąc & 273 & 164\\
+	Raz na semestr & 202 & 261\\
+	Raz na rok & 5 & 5\\
+	Jednorazowo & 15 & 30\\
+	Nigdy & 3 & 48\\
+	
+	\hline
+	\multicolumn{3}{|c|}{\textbf{Podpięcia przedmiotów pod programy studiów}} \\
+	\hline
+	Codziennie & 10 & 9\\
+	Raz w tygodniu & 40 & 17\\
+	Raz na miesiąc & 98 & 61\\
+	Raz na semestr & 900 & 324\\
+	Raz na rok & 27 & 16\\
+	Jednorazowo & 88 & 66\\
+	Nigdy & 52 & 207\\
+	
+	\hline
+	\multicolumn{3}{|c|}{\textbf{Podania studenckie}} \\
+	\hline
+	Codziennie & 7 & 6\\
+	Raz w tygodniu & 15 & 11\\
+	Raz na miesiąc & 90 & 32\\
+	Raz na semestr & 323 & 143\\
+	Raz na rok & 144 & 38\\
+	Jednorazowo & 265 & 115\\
+	Nigdy & 372 & 355\\
+	
+	\hline
+	\multicolumn{3}{|c|}{\textbf{Wnioski (o stypendia naukowe i socjalne, akademik, zapomogę itp.)}} \\
+	\hline
+	Codziennie & 9 & 4\\
+	Raz w tygodniu & 12 & 15\\
+	Raz na miesiąc & 84 & 51\\
+	Raz na semestr & 263 & 157\\
+	Raz na rok & 293 & 62\\
+	Jednorazowo & 184 & 91\\
+	Nigdy & 370 & 319\\
+	
+	\hline
+	\multicolumn{3}{|c|}{\textbf{Międzynarodowa wymiana studencka}} \\
+	\hline
+	Codziennie & 4 & 4\\
+	Raz w tygodniu & 4 & 4\\
+	Raz na miesiąc & 24 & 6\\
+	Raz na semestr & 66 & 14\\
+	Raz na rok & 49 & 14\\
+	Jednorazowo & 102 & 43\\
+	Nigdy & 966 & 615\\
+	
+	\hline
+	\multicolumn{3}{|c|}{\textbf{Ankiety}} \\
+	\hline
+	Codziennie & 5 & 6\\
+	Raz w tygodniu & 33 & 16\\
+	Raz na miesiąc & 105 & 110\\
+	Raz na semestr & 567 & 178\\
+	Raz na rok & 95 & 58\\
+	Jednorazowo & 234 & 215\\
+	Nigdy & 177 & 116\\
+	
+	\hline
+	\multicolumn{3}{|c|}{\textbf{Płatności}} \\
+	\hline
+	Codziennie & 5 & 4\\
+	Raz w tygodniu & 19 & 7\\
+	Raz na miesiąc & 159 & 50\\
+	Raz na semestr & 162 & 119\\
+	Raz na rok & 101 & 63\\
+	Jednorazowo & 324 & 189\\
+	Nigdy & 446 & 269\\
+	
+	\hline
+\end{longtabu}
+\captionof{table}{Jak często studenci UMK i UŚ korzystają z poszczególnych modułów USOSweb}\label{tbl:usoswebank}
+\endgroup
+\medskip
+
+Następnie zapytano o sprawy związane z aplikacją mobilną.
+
+\begingroup
+\centering
+\begin{longtabu} to \textwidth { |X[l]|X[l]|X[l]| }
+	\hline
+	Odpowiedź & Liczba studentów UMK, którzy zaznaczyli daną odpowiedź & Liczba studentów UŚ, którzy zaznaczyli daną odpowiedź\\
+	
+	\hline
+	\multicolumn{3}{|p{\dimexpr 3\tabucolX+3\tabcolsep+\arrayrulewidth\relax}|}{\textbf{Czy Twoim zdaniem przydatna byłaby aplikacja na urządzenia mobilne oferująca funkcje serwisu USOSweb?}} \\
+	\hline
+	
+	Tak & 1172 & 590\\
+	Nie & 43 & 109\\
+	
+	\hline
+	\multicolumn{3}{|p{\dimexpr 3\tabucolX+3\tabcolsep+\arrayrulewidth\relax}|}{\textbf{Jakie moduły serwisu USOSweb powinny być obsługiwane w takiej aplikacji?}} \\
+	\hline
+	
+	Katalogi & 832 & 394\\
+	Plan zajęć & 1127 & 515\\
+	USOSmail & 1087 & 181\\
+	Rejestracje & 726 & 530\\
+	Sprawdziany & 410 & 268\\
+	Oceny & 1179 & 624\\
+	Podpięcia & 459 & 237\\
+	Podania studenckie & 248 & 177\\
+	Wnioski & 355 & 259\\
+	Międzynarodowa wymiana studencka & 126 & 75\\
+	Ankiety & 267 & 94\\
+	Płatności & 310 & 220\\
+	Inne & 25 & 13\\
+	
+	\hline
+	\multicolumn{3}{|p{\dimexpr 3\tabucolX+3\tabcolsep+\arrayrulewidth\relax}|}{\textbf{Jakie systemy operacyjne posiadasz w swoich urządzeniach mobilnych?}} \\
+	\hline
+	
+	Android & 1028 & 540\\
+	iOS & 189 & 90\\
+	Windows Phone & 201 & 113\\
+	Inne & 22 & 23\\
+	Nie wiem & 21 & 34\\
+	Nie posiadam urządzenia mobilnego & 15 & 27\\
+	
+	\hline
+\end{longtabu}
+\captionof{table}{Pytania o aplikację mobilną u ankietowanych studentów UMK i UŚ}\label{tbl:mobilank}
+\endgroup
+\medskip
+
+Z przeprowadzonej ankiety wyciągneliśmy następujące wnioski:
+\begin{itemize}
+	\item TODO % TODO
+\end{itemize}
+
+\section{Wyniki ankiety wśród studentów i samorządu Wydziału MIM UW}
 
 Studenci Wydziału MIM UW wypełniający ankietę wskazali następujące moduły, które
 chcieliby znaleźć w Mobilnym USOS:
