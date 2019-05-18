@@ -102,6 +102,10 @@
 \usepackage{tabu}
 \usepackage{caption}
 
+% reguły łamania słów
+\hyphenation{USOS-web}
+\hyphenation{USOS-mail}
+
 % koniec definicji
 \usepackage{tocloft}
 \setlength{\cftchapnumwidth}{1.75em}
@@ -138,8 +142,9 @@
 
 \tableofcontents
 %\listoffigures
-\newpage
-\listoftables
+%\listoftables
+
+\setlength{\LTpost}{0pt} % Lepsze marginesy w longtable
 
 \chapter{Wstęp}
 
@@ -173,12 +178,12 @@ planu zajęć. Zamieszczone treści i komunikaty napisane są językiem wskazuj�
 urzędowy charakter relacji pomiędzy użytkownikami systemu.
 
 W przypadku uczelni zagranicznych aplikacje mobilne mają mniej formalny
-charakter. Oprócz pełnienia funkcji łączącej studentów, nauczycieli akademickich
-i administracji pełnią także funkcję społecznościową. Organizacje studenckie tych
-uczelni mają swoje wydzielone miejsce w aplikacji mobilnej, gdzie mogą się
-promować, informować o ciekawych wydarzeniach i spotkaniach mających miejsce
-w obrębie uczelnianego kampusu. Sama szata graficzna tych części aplikacji
-jest mniej surowa, a edytorzy ich treści pozwalają sobie przykładowo na
+charakter. Oprócz usprawniania komunikacji między studentami, nauczycielami
+akademickimi i pracownikami administracji pełnią także funkcję społecznościową.
+Organizacje studenckie tych uczelni mają swoje wydzielone miejsce w aplikacji
+mobilnej, gdzie mogą się promować, informować o ciekawych wydarzeniach i spotkaniach
+mających miejsce w obrębie uczelnianego kampusu. Sama szata graficzna tych części
+aplikacji jest mniej surowa, a edytorzy ich treści pozwalają sobie na
 swobodniejszy dobór grafik i użycie nieformalnego języka. Nie taką rolę
 przewidujemy dla oficjalnej aplikacji będącej uzupełnieniem USOSweb.
 
@@ -206,9 +211,9 @@ W związku z przytoczonymi argumentami MUCI podjęło decycję o stworzeniu naty
 aplikacji Mobilny USOS dla platformy Android. Oczywiście Mobilny USOS z założenia
 nie ma reimplementować całej funkcjonalności USOSweb, tylko jej najważniejsze
 elementy. Aby wyłonić kluczowe dla studenta moduły, postanowiono przeprowadzić
-ogólną ankietę wśród studentów Uniwersytetu Mikołaja Kopernika w Toruniu i Uniwersytetu
-Śląskiego, oraz nieco bardziej szczegółową ankietę wśród studentów i samorządu
-Wydziału MIM UW.
+ogólną ankietę wśród studentów Uniwersytetu Mikołaja Kopernika w Toruniu (UMK) i Uniwersytetu
+Śląskiego (UŚ), oraz nieco bardziej szczegółową ankietę wśród studentów i samorządu
+Wydziału Matematyki, Informatyki i Mechaniki Uniwersytetu Warszawskiego (MIM UW).
 
 \section{Wyniki ogólnej ankiety przeprowadzonej na UMK i UŚ}
 
@@ -239,12 +244,11 @@ stopniu studiów i trybie studiowania. Ankietę wypełniło 1216 studentów UMK 
 	Stacjonarne & 1142 & 606\\
 	Niestacjonarne - wieczorowe & 8 & 14\\
 	Niestacjonarne - zaoczne & 73 & 90\\
-	
 	\hline
 \end{longtabu}
 \captionof{table}{Stopień i tryb studiowania u ankietowanych studentów UMK i UŚ}\label{tbl:studank}
-\endgroup
 \medskip
+\endgroup
 
 Następnie poproszono ankietowane osoby o wskazanie częstotliwości, z jakimi
 korzystają z wymienionych modułów USOSweb.
@@ -391,8 +395,8 @@ korzystają z wymienionych modułów USOSweb.
 	\hline
 \end{longtabu}
 \captionof{table}{Jak często studenci UMK i UŚ korzystają z poszczególnych modułów USOSweb}\label{tbl:usoswebank}
-\endgroup
 \medskip
+\endgroup
 
 Następnie zapytano o sprawy związane z aplikacją mobilną.
 
@@ -441,8 +445,8 @@ Następnie zapytano o sprawy związane z aplikacją mobilną.
 	\hline
 \end{longtabu}
 \captionof{table}{Pytania o aplikację mobilną u ankietowanych studentów UMK i UŚ}\label{tbl:mobilank}
-\endgroup
 \medskip
+\endgroup
 
 Z przeprowadzonej ankiety wyciągneliśmy następujące wnioski:
 \begin{itemize}
@@ -502,9 +506,10 @@ informacji na temat swojej oceny.
 
 W związku z powyższym, do realizacji przyjęliśmy moduł ankiet, protokołów
 egzaminacyjnych i część funkcjonalności sprawdzianów związanej z wystawianiem
-punktów i ocen. Kolejnym modułem, niezwykle ważnym z punktu widzenia biura prasowego
-uczelni, są aktualności, które pozwalają pracownikom biura publikować artykuły
-wyświetlane w Mobilnym USOS.
+punktów i ocen. Moduł ankiet jest o tyle istotny, że władzom uczelni zależy na
+zwiększeniu liczby wypełnianych ankiet. Kolejnym modułem, niezwykle ważnym z
+punktu widzenia biura prasowego uczelni, są aktualności, które pozwalają pracownikom
+biura publikować artykuły wyświetlane w Mobilnym USOS.
 
 Przy projektowaniu aplikacji należy uwzględnić różnice między uczelniami.
 Przykładowo, każda uczelnia we własnym zakresie wdraża nowe wersje USOS API.
@@ -519,7 +524,7 @@ Największe polskie uczelnie są instytucjami publicznymi i muszą spełniać wy
 dostępności narzucane przez polskie prawo. W przypadku aplikacji mobilnych
 największy nacisk położony jest na spełnienie norm dotyczących kontrastu i prawidłowe
 współdziałanie z oprogramowaniem wspierającym osoby niewidome, takim jak Google
-TalkBack.
+TalkBack \cite{talkback}.
 
 \chapter{Specyfikacja wymagań}
 
@@ -752,12 +757,19 @@ Jeden wzorzec, cała czarna robota ze względów logistycznych spada na uczelni�
 
 \chapter{Podsumowanie}
 
-Perspektywy na przyszłość - rozwój przez PW, zewnętrznych magistrantów, apetyt rośnie w miarę jedzenia.
+Perspektywy na przyszłość - rozwój przez PW, zewnętrznych magistrantów, apetyt rośnie w miarę jedzenia, wysokie noty w sklepie Play.
 
 \appendix
 
-\newpage
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{chapter}{\listfigurename}
 \listoffigures
+
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{chapter}{\listtablename}
+\listoftables
 
 % \nocite{*}
 
@@ -814,6 +826,8 @@ Perspektywy na przyszłość - rozwój przez PW, zewnętrznych magistrantów, ap
 \bibitem[15]{picasso} Square, Inc., \textit{Picasso}, \url{https://square.github.io/picasso/}. [Dostęp: 2019-05-07].
 
 \bibitem[16]{retrofit} Square, Inc., \textit{Retrofit}, \url{https://square.github.io/retrofit/}. [Dostęp: 2019-05-07].
+
+\bibitem[16a]{talkback} Google Inc., \textit{TalkBack}, \url{https://support.google.com/accessibility/android/topic/3529932}. [Dostęp: 2019-05-07].
 
 \bibitem[17]{googleplay} Google Inc., \textit{Google Play},	\url{https://play.google.com/store}. [Dostęp: 2019-05-07].
 

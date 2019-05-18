@@ -3,6 +3,7 @@
 *.glo
 *.ist
 *.lof
+*.lot
 *.log
 *.out
 *.pdf
