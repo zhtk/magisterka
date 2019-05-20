@@ -32,11 +32,10 @@
 
 % W tym szablonie początki rozdziałów są na nieparzystych stronach, więc pojawia się dużo pustych.
 % W wersji "produkcyjnej" trzeba zakomentować.
-% \let\cleardoublepage\clearpage
+\let\cleardoublepage\clearpage
 \DeclareUnicodeCharacter{00A0}{ }
 
 % blokujemy dzielenie wybranych słów
-%\hyphenation{InfluxDB}
 
 
 % Dane magistrantów:
@@ -727,17 +726,63 @@ Firebase + powiadomienia
 Szablony bazowe klas dla dwóch rodzajów fragmentów:
 wyświetlających pojedynczy widok oraz widoku listy.
 
-\chapter{Wdrożenie w skali polski}
+\chapter{Wdrożenie w skali Polski}
+
+Aplikację Mobilny USOS projektowaliśmy i~rozwijaliśmy z~myślą o~jej wdrażaniu we wszystkich zainteresowanych uczelniach
+korzystających z~USOS. W tym rozdziale przedstawimy wyzwania związane z~procesem wdrażania aplikacji Mobilny USOS na
+polskich uczelniach.
 
 \section{Wyzwania związane z wdrażaniem}
 
-Konieczność zachowania kompatybilności pomiędzy różnymi
-wersjami Mobilnego USOS i USOS API. Dużo uczelni.
+Podstawowym problemem, na który musieliśmy zwracać uwagę podczas projektowania i wdrażania aplikacji, jest liczba
+potencjalnie zainteresowanych uczelni - obecnie 63 uczelnie należą do konsorcjum MUCI \cite{uczelnie-w-muci} i~każda
+z~nich mogła być zainteresowana otrzymaniem wersji dla swojej uczelni. W~okresie październik 2018 - maj 2019 wdrożenia
+produkcyjne zakończyło 13 uczelni \cite{news-musosumk}, 6 kolejnych w~maju 2019 r. było w~fazie testów.
+
+Liczba zainteresowanych zrodziła dwa główne problemy. Po pierwsze, poszczególne uczelnie mogą korzystać z~różnych
+wersji USOS, w~szczególności USOS API. Należało więc utrzymać jednocześnie wsteczną zgodność na wypadek, gdyby uczelnie
+nie aktualizowały systemu oraz dostarczać nowe funkcjonalności, które często wymagają nowej wersji USOS API. Drugim
+problemem jest czas potrzebny na obsługę procesu wdrażania aplikacji do Google Play. Dodanie nowej wersji pakietu
+wymaga od kilku do kilkunastu minut ręcznej pracy, co pomnożone przez liczbę uczelni mogłoby spowodować duże koszty
+czasowe na proces aktualizacji.
 
 \section{System budowania aplikacji}
 
-Tutaj troszkę o private.gradle, kluczach i personalizacji aplikacji,
-może o rzeczach, które uczelnia ma dostarczyć.
+Zdecydowaliśmy, że każda uczelnia otrzyma dedykowaną aplikację. Nazwy są budowane według schematu ,,Mobilny USOS'' i~skrócona nazwa uczelni, np. ,,Mobilny USOS UW''. 
+
+W~ramach przygotowywania aplikacji, uczelnia ma dostarczyć:
+\begin{enumerate}
+	\item Dane dostępowe do USOS API - adres serwera i~klucze autoryzacyjne.
+	\item Klucze do integracji z~Google Firebase i~Google Maps.
+	\item Logotyp uczelni oraz tło, które ma się pojawić w menu. Dla przykładu, w~wersji dla Uniwersytetu Warszawskiego
+        tłem jest zdjęcie Pałacu Kazimierzowskiego.
+	\item Wzór nazwy uczelni do wyświetlenia na legitymacji studenckiej.
+	\item (opcjonalnie) Wzór legitymacji pracowniczej - zdjęcie pustej legitymacji i~układ tekstu oraz zdjęcia.
+	\item (opcjonalnie) Sposób pobierania i~wyświetlania aktualności. Domyślnie moduł Aktualności pobiera dane z~USOS
+        API i~wyświetla je poprzez uproszczone renderowanie HTML. Na życzenie uczelni możliwe jest wyświetlanie
+        aktualności przez komponent \textit{WebView} \cite{webview}, choć nie jest to zalecane ze względu na istotny
+        spadek wydajności aplikacji. Dostępna jest także integracja z~instalacją Wordpress uczelni i~pobieranie z~niej wiadomości.
+	\item Klucz do podpisu aplikacji (na życzenie uczelni może być generowany po stronie MUCI).
+	\item Adres strony z~polityką prywatności aplikacji ze względu na wymagania RODO. Uczelnie mogą skorzystać z~szablonu udostępnionego w~USOSweb.
+	\item Adres e-mail do wysyłania powiadomień o~umieszczeniu na serwerze dystrybucyjnym nowej wersji aplikacji.
+	\item Adres e-mail, który pojawi się pod przyciskiem ,,Napisz do nas'', służącym do kontaktu studentów i~pracowników z~działem wsparcia USOS na danej uczelni.
+\end{enumerate}
+
+Z~perspektywy procesu budowania aplikacji każda uczelnia to osobny wariant aplikacji 
+(\textit{product flavor} \cite{product-flavor}), w~którym umieszczone są dane dedykowane dla tej uczelni i~które w~trakcie
+budowania są scalane z~kodem źródłowym wspólnym dla wszystkich. Dane wrażliwe typu klucze autoryzacyjne i~hasła są
+umieszczone w~specjalnym pliku \texttt{private.gradle}, który nie jest wersjonowany w~repozytorium. Skonstruowany jest on
+ponadto w~taki sposób, że dla skompilowania wersji dla danej uczelni, wymagany jest tylko wpis dla niej, dzięki czemu
+możliwy jest rozwój aplikacji przez osoby z~różnych uczelni bez ryzyka pozyskania dostępu do cudzego systemu.
+
+W~przypadku dodania do aplikacji nowej funkcjonalności, która wymaga nowszej wersji USOS API, sprawdzane jest przy starcie
+aplikacji, czy uczelnia posiada odpowiednio aktualny system. Jeśli nie, funkcjonalność jest ukrywana przed użytkownikami.
+Informujemy uczelnie o~konieczności aktualizacji serwera w~powiadomieniu o~nowej wersji i~w~dzienniku zmian.
+
+Decyzja o~wydawaniu osobnych aplikacji zamiast jednej wspólnej pozwoliła także na przeniesienie na uczelnie obowiązku
+utrzymania spójności wersji aplikacji i~USOS API. W~przypadku braku zgodności (na przykład gdyby zostały wprowadzone
+wstecznie niekompatybilne zmiany w~aplikacji) aplikacja wyświetli komunikat z~prośbą o~kontakt z~uczelnią celem zaktualizowania
+aplikacji lub serwera.
 
 \section{Fabric}
 
@@ -838,6 +883,14 @@ Perspektywy na przyszłość - rozwój przez PW, zewnętrznych magistrantów, ap
 \bibitem[20]{gmail} Google Inc., \textit{Gmail}, \url{https://www.google.com/intl/pl/gmail/about/}. [Dostęp: 2019-05-07].
 
 \bibitem[21]{zxing} Google Inc., \textit{ZXing}, \url{https://github.com/zxing/zxing}. [Dostęp: 2019-05-07].
+
+\bibitem[22]{uczelnie-w-muci} MUCI, \textit{Członkowie MUCI w chronologicznej kolejności przystępowania do konsorcjum}, \url{https://www.usos.edu.pl/czlonkowie-muci-w-chronologicznej-kolejnosci-przystepowania-do-konsorcjum}. [Dostęp: 2019-05-20].
+
+\bibitem[23]{news-musosumk} MUCI, \textit{Mobilny USOS UMK w sklepie Google Play}, \url{https://www.usos.edu.pl/node/4157/mobilny-usos-umk-w-sklepie-google-play}. [Dostęp: 2019-05-20].
+
+\bibitem[24]{webview} Google Inc., \textit{WebView}, \url{https://developer.android.com/reference/android/webkit/WebView}. [Dostęp: 2019-05-20].
+
+\bibitem[25]{product-flavor} Google Inc., \textit{Configure build variants}, \url{https://developer.android.com/studio/build/build-variants#product-flavors}. [Dostęp: 2019-05-20].
 
 \end{thebibliography}
 
