@@ -709,17 +709,68 @@ w formacie Aztec.
 
 \chapter{Szczegóły implementacji}
 
+W tym rozdziale koncentrujemy się na detalach technicznych związanych z implementacją
+Mobilnego USOS.
+
 \section{Ogólna budowa aplikacji}
 
-3 główne activity: SplashScreen, LoginActivity, MainActivity.
-Poszczególne ekrany w obrębie MainActivity zrealizowane jako
-Fragmenty.
+Aplikacje dla platformy Android składają się z aktywności (ang. \textit{activity}).
+Podczas uruchamiania aplikacji system operacyjny czyta manifest Mobilnego USOS,
+odnajduje w nim nazwę głównej aktywności i uruchamia ją. Nasza aplikacja składa
+się z czterech aktywności:
+
+\begin{itemize}
+	\item Ekranu startowego (SplashScreen) -- jest to główna aktywność.
+	      Prezentuje ona nazwę aplikacji i informacje o finansowaniu. Wyświetlana
+	      jest ona przez 3 sekundy, po czym uruchamia kolejną aktywność -- ekran
+	      logowania.
+	\item Ekranu logowania (LoginActivity) -- Obsługuje on proces logowania się
+	      użytkownika do aplikacji.
+	\item Ekranu głównego (MainActivity) -- Tutaj zachodzi większość interakcji
+	      z USOS.
+	\item Aktywności odpowiedzialnej za wyświetlenie dużego podglądu legitymacji
+	      studenckiej.
+\end{itemize}
+
+\begingroup
+\centering
+\includegraphics[scale=0.5]{img/activities.png}
+\captionof{figure}{Aktywności aplikacji}\label{fig:activities}
+\medskip
+\endgroup
+
+Najbardziej skomplikowaną aktywnością jest MainActivity. Składają się na nią
+menu główne, belka tytułowa oraz wyświetlany ekran. Poszczególne ekrany w obrębie
+MainActivity są zrealizowane jako fragmenty (ang. \textit{fragment}). Przykładowo,
+osobnymi fragmentami są: lista grup, lista protokołów, lista studentów w konkretnym
+terminie danego protokołu. Każdy fragment na własną rękę zajmuje się pobieraniem
+danych z USOS API, zapisywaniem ich w pamięci tymczasowej (ang. \textit{cache}),
+wyświetlaniem pobranych danych oraz obsługą interacji z użytkownikiem. Dzięki temu,
+że każdy fragment jest niezależny od danych pobranych przez inne fragmenty, informacje
+wyświetlane na ekranie zawsze tworzą jedną spójną całość, a zarządzanie danymi
+składowanymi w pamięci tymczasowej bardzo proste. Na wygląd fragmentu mogą się
+składać widoki (ang. \textit{view}), które reprezentują np. pojedyncze elementy
+listy.
 
 \section{Komunikacja z USOS API}
 
 \section{System obsługujący powiadomienia}
 
 Firebase + powiadomienia
+
+\begingroup
+\centering
+\includegraphics[scale=0.5]{img/messages.png}
+\captionof{figure}{Usługi zaangażowane w obsługę powiadomień}\label{fig:messages}
+\medskip
+\endgroup
+
+\begingroup
+\centering
+\includegraphics[scale=0.5]{img/firebase.png}
+\captionof{figure}{Dostarczenie powiadomienia do użytkownika}\label{fig:firebase}
+\medskip
+\endgroup
 
 \section{Budowa typowego fragmentu}
 
@@ -852,7 +903,7 @@ Perspektywy na przyszłość - rozwój przez PW, zewnętrznych magistrantów, ap
 \bibitem[9]{jenkins} Continuous Delivery Foundation, \textit{Jenkins},
 	\url{https://jenkins.io/}. [Dostęp: 2019-05-07].
 
-\bibitem[10]{gradle} Gradle Inc., \textit{Gradle},	\url{https://gradle.org/}. [Dostęp: 2019-05-07].
+\bibitem[10]{gradle} Gradle Inc., \textit{Gradle}, \url{https://gradle.org/}. [Dostęp: 2019-05-07].
 
 \bibitem[11]{jackson} FasterXML, LLC., \textit{Jackson},
 	\url{https://github.com/FasterXML/jackson}. [Dostęp: 2019-05-07].
@@ -874,7 +925,7 @@ Perspektywy na przyszłość - rozwój przez PW, zewnętrznych magistrantów, ap
 
 \bibitem[16a]{talkback} Google Inc., \textit{TalkBack}, \url{https://support.google.com/accessibility/android/topic/3529932}. [Dostęp: 2019-05-07].
 
-\bibitem[17]{googleplay} Google Inc., \textit{Google Play},	\url{https://play.google.com/store}. [Dostęp: 2019-05-07].
+\bibitem[17]{googleplay} Google Inc., \textit{Google Play}, \url{https://play.google.com/store}. [Dostęp: 2019-05-07].
 
 \bibitem[18]{googlemaps} Google Inc., \textit{Google Maps},	\url{https://www.google.com/maps}. [Dostęp: 2019-05-07].
 
