@@ -754,9 +754,92 @@ listy.
 
 \section{Komunikacja z USOS API}
 
+Każda uczelnia wdrażająca Mobilnego USOS posiada serwer USOS API, który dostarcza
+naszej aplikacji potrzebne dane. Dostęp do serwera jest broniony przez protokół
+OAuth 1.0a \cite{oauth}. Cała komunikacja z serwerem jest szyfrowana przy użyciu
+protokołu TLS \cite{tls12}.
+
+Każda aplikacja korzystająca z serwera USOS API posiada własny klucz konsumenta
+(ang. \textit{Consumer Key}). Służy on do identyfikacji aplikacji przez serwer
+USOS API \cite{usosapi-auth}. Uczelnia kontroluje komu daje dostęp do USOS API
+poprzez zgodę lub odmowę na wygenerowanie klucza. Klucze konsumenta dzielimy na
+dwa rodzaje:
+\begin{itemize}
+	\item Zwykłe -- nie posiadają żadnych nadzwyczajnych uprawnień. Zazwyczaj
+	pozwalają na pobieranie publicznie dostępnych danych lub działanie w imieniu
+	użytkownika, który wyraźnie się na to zgodził.
+	\item Administracyjne -- przeznaczone są dla aplikacji zaufanych, takich jak
+	aplikacje satelitarne USOS, np. USOSweb. W zależności od uprawnień nadanych
+	takiemu kluczowi, pozwala on na wykonywanie operacji bez wiedzy użytkownika
+	oraz dostęp do wrażliwych danych.
+\end{itemize}
+Mobilny USOS jest publicznie dostępną aplikacją i każda osoba może pobrać jej
+plik wykonywalny, w którym znajdują się klucze konsumenta. W związku z tym należy
+liczyć się z możliwością, że ktoś przy pomocy technik inżynierii wstecznej odczyta
+jego klucz. Z tego powodu nie wolno Mobilnemu USOS przydzielać administracyjnego
+klucza konsumenta.
+
+Mobilny USOS jest traktowany przez USOS API jak aplikacja napisana przez niezależnego
+programistę. Kiedy użytkownik chce się zalogować do aplikacji Mobilny USOS wysyła
+do USOS API prośbę o przydzielenie tymczasowych tokenów identyfikujących użytkownika.
+Następnie prosi użytkownika o zalogowanie się w USOS API. Odbywa się to poprzez
+przeglądarkę zainstalowaną w telefonie użytkownika. Dzięki temu użytkownik ma
+pewność, że Mobilny USOS nie przechwytuje jego hasła do USOS. Po zalogowaniu
+wykorzystujemy mechanizm głębokiego linkowania (ang. \textit{deep links}) by
+przekierować użytkownika z powrotem do Mobilnego USOS \cite{deeplinks}. W tym
+momencie do tymczasowych tokenów wygenerowanych wcześniej przez USOS API zostaje
+przypisana tożsamość użytkownika i uprawnienia, jakie nadał on aplikacji. Po
+zalogowaniu się użytkownika aplikacja otrzymuje specjalny kod, który w połączeniu
+z tymczasowymi tokenami pozwala uzyskać stałe tokeny, które są wykorzystywane do
+dalszej komunikacji z serwerem USOS API.
+
+Każde zapytanie do USOS API odbywa się poprzez metodę POST protokołu HTTP.
+Parametry zapytania są przekazywane w identyczny sposób, w jaki przesyłane są
+pola formularza na stronie WWW. Każde zapytanie jest podpisane przy pomocy klucza
+konsumenta i tokenów użytkownika. Ponadto, aby utrudnić fałszowanie zapytań,
+cześcią podpisu jest dokładny adres URL wywoływanej metody USOS API.
+
+Opiszemy teraz ścieżkę, którą pokonuje typowe zapytanie do USOS API w Mobilnym USOS.
+Każda metoda USOS API ma swój opis w kotlinowym interfejsie. Na ten opis składa
+się sygnatura metody, pobierane parametry, nazwę klasy reprezentującej odpowiedź
+serwera, typ żądania HTTP i adres bazowy metody w USOS API. Ten interfejs jest
+przekazywany do biblioteki Retrofit, która generuje klasę wykonującą zapytanie i
+obsługującą jego wynik. Retrofit jest skonfigurowany w taki sposób, że przy
+wywoływaniu kodu wykonującego zapytanie jego parametry są przekazywane w postaci
+mapy klucz--wartość. Następnie zawartość tej mapy jest serializowana (o ile zachodzi
+taka potrzeba), wyznaczany jest pełen adres URL wywoływanej metody na serwerze USOS
+API, i tak gotowe zapytanie jest przekazywane do biblioteki OkHttp. Biblioteka
+OkHttp dopisuje do zapytania nagłówki OAuth i wysyła odpowiednie żądanie do serwera,
+a następnie przekazuje odpowiedź do Retrofita. Odpowiedź serwera USOS API jest w
+formacie JSON. Retrofit przy pomocy biblioteki Jackson dokonuje deserializacji
+odpowiedzi, a następnie wpisuje jej zawartość do kotlinowej klasy reprezentującej
+zwrócony obiekt.
+
+Komunikacja z serwerem USOS API jest asynchroniczna. Moduł wykonujący zapytanie
+do USOS API nie otrzymuje odpowiedzi wprost, ale w postaci wywołania zwrotnego
+(ang. \textit{callback}). Konieczność wykonania wielu zależnych od siebie zapytań
+prowadzi do zjawiska znanego jako \textit{callback hell}. Wykonania poszczególnych
+zapytań mogą ze sobą interferować, a ich wyniki mogą być dostępne w losowej kolejności.
+Aplikacja musi śledzić, które zapytania się zakończyły, a które jeszcze się wykonują.
+Potrzebny staje się obiekt trzymający globalny stan. Dostęp do tego obiektu musi
+być synchronizowany. Kod obsługujący wywołania staje się coraz dłuższy i coraz
+bardziej skomplikowany, a notorycznie pojawiające się nieprzewidziane przeploty
+powodują coraz częstsze błędy w aplikacji. Zamiast skupić się na rozwoju nowej
+funkcjonalności, programiści zmuszeni są poświęcać swój czas na tropienie i
+naprawianie awarii.
+
+Takie zjawiska miały miejsce, gdy przejęliśmy opiekę nad Mobilnym USOS. Był to
+jeden z najbardziej palących problemów. Rozwiązaliśmy go przy pomocy mechanizmu
+korutyn zaimplementowanego w języku Kotlin. Dzięki opakowaniu każdego wywołania
+zwrotnego w korutynę mogliśmy zapisać asynchroniczną logikę w postaci synchronicznego
+kodu. Uzyskaliśmy znaczne zmniejszenie rozmiaru kodu obsługującego komunikację z
+USOS API, a sam kod stał się znacznie czytelniejszy.
+
 \section{System obsługujący powiadomienia}
 
-Firebase + powiadomienia
+Większość pracy związanej z obsługą powiadomień jest wykonywana przez usługę
+Firebase Cloud Messaging, która odpowiada za transport powiadomienia z serwera
+USOS API do konkretnego urządzenia z zainstalowanym Mobilnym USOS.
 
 \begingroup
 \centering
@@ -765,6 +848,18 @@ Firebase + powiadomienia
 \medskip
 \endgroup
 
+Po zalogowaniu osoby do aplikacji, Firebase przydziela urządzeniu token, który
+identyfikuje parę aplikacja--urządzenie. Ten token jest następnie wysyłany do
+serwera USOS API, gdzie zostaje powiązany z konkretnym użytkownikiem. Kiedy w USOS
+API zostanie wygenerowane nowe zdarzenie, takie jak pojawienie się nowej oceny,
+zostaje ono wysłane do serwera Firebase Cloud Messaging. W treści przesłanego
+komunikatu znajduje się informacja, która pozwoli Mobilnemu USOS odtworzyć treść
+zdarzenia oraz token urządzenia, do którego ma być wysłane powiadomienie. Nie
+możemy w treści komunikatu umieścić informacji, która byłaby uznana za daną osobową.
+Z tego powodu dane przesyłane przez Firebase są stosunkowo mało szczegółowe. Po
+otrzymaniu powiadomienia przez aplikację, Mobilny USOS pobiera z serwera USOS API
+brakujące informacje i wyświetla je użytkownikowi.
+
 \begingroup
 \centering
 \includegraphics[scale=0.5]{img/firebase.png}
@@ -772,9 +867,29 @@ Firebase + powiadomienia
 \medskip
 \endgroup
 
+Wielką uwagę przykładaliśmy do niezawodności mechanizmu powiadomień. Z tego powodu
+zdecydowaliśmy się na użycie gotowej, przetestowanej i szeroko wykorzystywanej
+usługi. Dzięki temu uniknęliśmy wielu problemów, które by się pojawiły gdybyśmy
+sami podjęli się implementacji serwera powiadomień. Usługa odpowiedzialna za
+odbieranie powiadomień jest cześcią systemu Android i działa w tle. Dzięki temu
+Mobilny USOS otrzymuje powiadomienie nawet wtedy, gdy użytkownik wymusi zamknięcie
+aplikacji. Dobra integracja z ekosystemem Androida była kolejnym czynnikiem, który
+przemawiał za wykorzystaniem Firebase.
+
+Do Mobilnego USOS na jednym urządzeniu mogą być w różnym czasie zalogowani różni
+użytkownicy. W sytuacji gdyby doszło do splotu kilku niekorzystnych okoliczności
+związanych z ograniczeniami serwera USOS API, mogłoby się zdarzyć, że do obecnie
+zalogowanego użytkownika przyjdzie powiadomienie związane z poprzednio zalogowanym
+na urządzeniu użytkownkiem. Rozwiązujemy ten problem przez nieprzesyłanie danych
+osobowych w powiadomieniu, pomijanie powiadomień gdy nikt nie jest zalogowany w
+Mobilnym USOS na danym urządzeniu oraz przez wymuszenie wygenerowania nowego tokenu
+Firebase po zalogowaniu nowego użytkownika. Dzięki temu zabiegowi nie grozi nam
+sytuacja, kiedy na jeden token Firebase będą wysyłane powiadomienia dotyczące dwóch
+różnych użytkowników.
+
 \section{Budowa typowego fragmentu}
 
-Szablony bazowe klas dla dwóch rodzajów fragmentów:
+TODO: Szablony bazowe klas dla dwóch rodzajów fragmentów:
 wyświetlających pojedynczy widok oraz widoku listy.
 
 \chapter{Wdrożenie w skali Polski}
@@ -942,6 +1057,14 @@ Perspektywy na przyszłość - rozwój przez PW, zewnętrznych magistrantów, ap
 \bibitem[24]{webview} Google Inc., \textit{WebView}, \url{https://developer.android.com/reference/android/webkit/WebView}. [Dostęp: 2019-05-20].
 
 \bibitem[25]{product-flavor} Google Inc., \textit{Configure build variants}, \url{https://developer.android.com/studio/build/build-variants#product-flavors}. [Dostęp: 2019-05-20].
+
+\bibitem[26]{oauth} OAuth Core Workgroup, \textit{OAuth Core 1.0 Revision A}, \url{https://oauth.net/core/1.0a/}. [Dostęp: 2019-05-28].
+
+\bibitem[27]{tls12} Internet Engineering Task Force, \textit{The Transport Layer Security (TLS) Protocol}, \url{https://tools.ietf.org/html/rfc5246}. [Dostęp: 2019-05-28].
+
+\bibitem[28]{usosapi-auth} MUCI, \textit{USOS API Reference - Authorization}, \url{https://apps.usos.edu.pl/developers/api/authorization/}. [Dostęp: 2019-05-28].
+
+\bibitem[29]{deeplinks} Google Inc., \textit{Create Deep Links to App Content}, \url{https://developer.android.com/training/app-links/deep-linking}. [Dostęp: 2019-05-28].
 
 \end{thebibliography}
 
