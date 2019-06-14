@@ -148,7 +148,7 @@
 \chapter{Wstęp}
 
 Wzmianka o modułach wniesionych przez UŁ, oraz że aplikacja jest dostępna
-w dwóch wersjach językowych.
+w dwóch wersjach językowych. Pamiętać o wspomnieniu eUsług we wstępie!
 
 % We wstępie Słownik pojęć, Co to właściwie jest, opis firmy, czemu wybraliśmy ten projekt,(?wizja?)
 %Przedstawienie problemu
@@ -206,10 +206,10 @@ pozbawia użytkownika wielu benefitów wypływających z natywnej implementacji.
 W nowej aplikacji wiele funkcjonalności USOSweb może być dostarczanych w inny
 sposób, który jest dostosowany do specyfiki urządzeń mobilnych.
 
-W związku z przytoczonymi argumentami MUCI podjęło decycję o stworzeniu natywnej
+W związku z przytoczonymi argumentami MUCI podjęło decyzję o stworzeniu natywnej
 aplikacji Mobilny USOS dla platformy Android. Oczywiście Mobilny USOS z założenia
-nie ma reimplementować całej funkcjonalności USOSweb, tylko jej najważniejsze
-elementy. Aby wyłonić kluczowe dla studenta moduły, postanowiono przeprowadzić
+nie ma reimplementować całej funkcjonalności USOSweb, tylko jego najważniejsze
+moduły. Aby wyłonić kluczowe dla studenta moduły, postanowiono przeprowadzić
 ogólną ankietę wśród studentów Uniwersytetu Mikołaja Kopernika w Toruniu (UMK) i Uniwersytetu
 Śląskiego (UŚ), oraz nieco bardziej szczegółową ankietę wśród studentów i samorządu
 Wydziału Matematyki, Informatyki i Mechaniki Uniwersytetu Warszawskiego (MIM UW).
@@ -449,11 +449,11 @@ Następnie zapytano o sprawy związane z aplikacją mobilną.
 
 Z przeprowadzonej ankiety wyciągneliśmy następujące wnioski:
 \begin{itemize}
-	\item Zdecydowana większość studentów jest uważa, że aplikacja mobilna oferująca funkcje serwisu USOSweb byłaby przydatna.
+	\item Zdecydowana większość studentów uważa, że aplikacja mobilna oferująca funkcje serwisu USOSweb byłaby przydatna.
 	\item Moduły, które przynajmniej 50\% studentów obu uczelni chciałoby widzieć w Mobilnym USOS to: Katalogi, Plan zajęć, Rejestracje, Oceny.
 	\item Kolejnymi często wskazywanymi modułami są: Sprawdziany, Podpięcia, Wnioski, Płatności.
 	\item Wśród studentów UMK najczęściej wykorzystywanym modułem USOSweb jest USOSmail. Jest to drugi w kolejności najważniejszy moduł wskazany przez studentów tej uczelni do realizacji w Mobilnym USOS. Co zaskakujące, u studentów UŚ ten moduł spotkał się z bardzo niskim zainteresowaniem.
-	\item Najniższym zainteresowaniem cieszy się moduł międzynarodowej wymiany akademickiej. Zaraz za nim znalazły się ankiety i podania studenckie.
+	\item Najniższym zainteresowaniem cieszy się moduł międzynarodowej wymiany akademickiej. Blisko końca listy znalazły się też ankiety i podania studenckie.
 	\item Wśród modułów niewymienionych w ankiecie studenci zazwyczaj wskazywali na stypendia.
 	\item Dominującym systemem operacyjnym w urządzeniach mobilnych studentów jest system Android. Windows Phone i iOS znalazły się w zdecydowanej mniejszości.
 \end{itemize}
@@ -755,7 +755,7 @@ listy.
 \section{Komunikacja z USOS API}
 
 Każda uczelnia wdrażająca Mobilnego USOS posiada serwer USOS API, który dostarcza
-naszej aplikacji potrzebne dane. Dostęp do serwera jest broniony przez protokół
+aplikacji potrzebne dane. Dostęp do serwera jest broniony przez protokół
 OAuth 1.0a \cite{oauth}. Cała komunikacja z serwerem jest szyfrowana przy użyciu
 protokołu TLS \cite{tls12}.
 
@@ -780,12 +780,12 @@ jego klucz. Z tego powodu nie wolno Mobilnemu USOS przydzielać administracyjneg
 klucza konsumenta.
 
 Mobilny USOS jest traktowany przez USOS API jak aplikacja napisana przez niezależnego
-programistę. Kiedy użytkownik chce się zalogować do aplikacji Mobilny USOS wysyła
+programistę. Kiedy użytkownik chce się zalogować do aplikacji Mobilny USOS, to wysyła
 do USOS API prośbę o przydzielenie tymczasowych tokenów identyfikujących użytkownika.
 Następnie prosi użytkownika o zalogowanie się w USOS API. Odbywa się to poprzez
 przeglądarkę zainstalowaną w telefonie użytkownika. Dzięki temu użytkownik ma
 pewność, że Mobilny USOS nie przechwytuje jego hasła do USOS. Po zalogowaniu
-wykorzystujemy mechanizm głębokiego linkowania (ang. \textit{deep links}) by
+wykorzystujemy mechanizm głębokiego linkowania (ang. \textit{deep links}), by
 przekierować użytkownika z powrotem do Mobilnego USOS \cite{deeplinks}. W tym
 momencie do tymczasowych tokenów wygenerowanych wcześniej przez USOS API zostaje
 przypisana tożsamość użytkownika i uprawnienia, jakie nadał on aplikacji. Po
@@ -805,7 +805,7 @@ się sygnatura metody, pobierane parametry, nazwę klasy reprezentującej odpowi
 serwera, typ żądania HTTP i adres bazowy metody w USOS API. Ten interfejs jest
 przekazywany do biblioteki Retrofit, która generuje klasę wykonującą zapytanie i
 obsługującą jego wynik. Retrofit jest skonfigurowany w taki sposób, że przy
-wywoływaniu kodu wykonującego zapytanie jego parametry są przekazywane w postaci
+wywoływaniu kodu wykonującego zapytanie, jego parametry są przekazywane w postaci
 mapy klucz--wartość. Następnie zawartość tej mapy jest serializowana (o ile zachodzi
 taka potrzeba), wyznaczany jest pełen adres URL wywoływanej metody na serwerze USOS
 API, i tak gotowe zapytanie jest przekazywane do biblioteki OkHttp. Biblioteka
@@ -887,10 +887,22 @@ Firebase po zalogowaniu nowego użytkownika. Dzięki temu zabiegowi nie grozi na
 sytuacja, kiedy na jeden token Firebase będą wysyłane powiadomienia dotyczące dwóch
 różnych użytkowników.
 
+\section{Logowanie}
+
 \section{Budowa typowego fragmentu}
 
 TODO: Szablony bazowe klas dla dwóch rodzajów fragmentów:
 wyświetlających pojedynczy widok oraz widoku listy.
+
+\section{Dostępność dla osób niepełnosprawnych}
+
+TalkBack.
+
+\section{Wymienność komponentów}
+
+\section{Szata graficzna}
+
+Karteczki. Ciemny motyw?
 
 \chapter{Wdrożenie w skali Polski}
 
