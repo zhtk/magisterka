@@ -779,24 +779,11 @@ liczyć się z możliwością, że ktoś przy pomocy technik inżynierii wsteczn
 jego klucz. Z tego powodu nie wolno Mobilnemu USOS przydzielać administracyjnego
 klucza konsumenta.
 
-Mobilny USOS jest traktowany przez USOS API jak aplikacja napisana przez niezależnego
-programistę. Kiedy użytkownik chce się zalogować do aplikacji Mobilny USOS, to wysyła
-do USOS API prośbę o przydzielenie tymczasowych tokenów identyfikujących użytkownika.
-Następnie prosi użytkownika o zalogowanie się w USOS API. Odbywa się to poprzez
-przeglądarkę zainstalowaną w telefonie użytkownika. Dzięki temu użytkownik ma
-pewność, że Mobilny USOS nie przechwytuje jego hasła do USOS. Po zalogowaniu
-wykorzystujemy mechanizm głębokiego linkowania (ang. \textit{deep links}), by
-przekierować użytkownika z powrotem do Mobilnego USOS \cite{deeplinks}. W tym
-momencie do tymczasowych tokenów wygenerowanych wcześniej przez USOS API zostaje
-przypisana tożsamość użytkownika i uprawnienia, jakie nadał on aplikacji. Po
-zalogowaniu się użytkownika aplikacja otrzymuje specjalny kod, który w połączeniu
-z tymczasowymi tokenami pozwala uzyskać stałe tokeny, które są wykorzystywane do
-dalszej komunikacji z serwerem USOS API.
-
 Każde zapytanie do USOS API odbywa się poprzez metodę POST protokołu HTTP.
 Parametry zapytania są przekazywane w identyczny sposób, w jaki przesyłane są
 pola formularza na stronie WWW. Każde zapytanie jest podpisane przy pomocy klucza
-konsumenta i tokenów użytkownika. Ponadto, aby utrudnić fałszowanie zapytań,
+konsumenta i tokenów użytkownika. Mobilny USOS otrzymuje tokeny użytkownika po
+poprawnym zalogowaniu się osoby do USOS API. Aby utrudnić fałszowanie zapytań,
 cześcią podpisu jest dokładny adres URL wywoływanej metody USOS API.
 
 Opiszemy teraz ścieżkę, którą pokonuje typowe zapytanie do USOS API w Mobilnym USOS.
@@ -834,6 +821,67 @@ korutyn zaimplementowanego w języku Kotlin. Dzięki opakowaniu każdego wywoła
 zwrotnego w korutynę mogliśmy zapisać asynchroniczną logikę w postaci synchronicznego
 kodu. Uzyskaliśmy znaczne zmniejszenie rozmiaru kodu obsługującego komunikację z
 USOS API, a sam kod stał się znacznie czytelniejszy.
+
+\section{Logowanie użytkownika do aplikacji}
+
+Mobilny USOS jest traktowany przez USOS API jak aplikacja napisana przez niezależnego
+programistę. Kiedy użytkownik chce się zalogować do aplikacji Mobilny USOS, to wysyła
+do USOS API prośbę o przydzielenie tymczasowych tokenów identyfikujących użytkownika
+(ang. \textit{request token}). Do prośby dołączony jest adres wywołania zwrotnego,
+na który po poprawnym zalogowaniu zostanie wysłany kod weryfikujący, oraz lista
+wymaganych przez aplikację uprawnień.
+
+Następnie Mobilny USOS wywołuje kolejną metodę USOS API, która przekierowuje
+użytkownika do ekranu logowania. To wywołanie ma miejsce w przeglądarce zainstalowanej
+w telefonie użytkownika. Dzięki temu użytkownik ma pewność, że Mobilny USOS nie
+przechwytuje jego hasła do USOS. Ponadto może on ręcznie zweryfikować certyfikat SSL
+by upewnić się, że łączy się z prawdziwym serwerem USOS API. Gdybyśmy do realizacji
+mechanizmu logowania wykorzystali komponent WebView osadzany wewnątrz aplikacji,
+Mobilny USOS mógłby odczytać wszystkie dane wprowadzone na stronie logowania.
+Ponadto użytkownik nie miałby możliwości zweryfikowania ważności certyfikatu SSL.
+W związku z tym twórcy USOS API odradzają podawanie swoich danych logowania w
+aplikacji innej niż przeglądarka internetowa.
+
+Poleganie na zewnętrznej aplikacji przysporzyło nam wielu problemów. Niektórzy
+producenci telefonów zamiast przeglądarki będącej częścią projektu Android
+dostarczają własne aplikacje. W przypadku niektórych telefonów marki Samsung
+okazało się, że taka przeglądarka niepoprawnie wyświetla stronę logowania, w
+skutek czego użytkownik nie jest w stanie zalogować się do USOS. Niektórzy
+użytkownicy instalują własne przeglądarki, których konfiguracja nie pozwala na
+poprawne działanie mechanizmu logowania. W zależności od wersji systemu operacyjnego
+istnieją rozbieżności między domyślnie instalowanymi przeglądarkami -- Android w
+wersjach powyżej 5.0 korzysta z Google Chrome, starsze wersje korzystają z własnego
+komponentu. Wszystko to sprawia, że nie da się uzyskać przewidywalnego środowiska,
+w którym mógłby działać Mobilny USOS. Jednocześnie ze względu na mnogość różnych
+konfiguracji nie jesteśmy w stanie obsłużyć i przetestować wszystkich możliwych
+przypadków. Wykorzystanie zewnętrzej aplikacji ma jeszcze jedną wadę -- w trakcie
+testów użytkownicy narzekali, że po zakończonym procesie logowania w tle pozostaje
+otwarty proces przeglądarki, którego nie byliśmy w stanie zamknąć. Czasem powodowało
+to, że użytkownik w panelu systemowym widział dwie otwarte aplikacje Mobilny USOS,
+z czego poprawnie działała tylko jedna.
+
+W obliczu wymienionych problemów zdecydowaliśmy się na następujące rozwiązanie.
+Kiedy pojawia się potrzeba przekierowania użytkownika do przeglądarki, próbujemy
+w pierwszej kolejności otworzyć Google Chrome. Jest to aplikacja sprawdzona,
+poprawnie obsługująca stronę logowania do USOS oraz obecna na zdecydowanej
+większości urządzeń. Ponadto obsługuje ona rozszerzenie Chrome Custom Tabs, które
+pozwala nam osadzić przeglądarkę wewnątrz Mobilnego USOS. Taka przeglądarka w
+dalszym ciągu zachowuje autonomię, która nie pozwala Mobilnemu USOS odczytać
+hasła użytkownika, z drugiej strony Mobilny USOS może lepiej kontrolować zachowanie
+takiej przeglądarki. Jeżeli próba uruchomienia Google Chrome się nie powiedzie,
+Mobilny USOS uruchamia domyślną przeglądarkę. Uważamy, że wypracowane rozwiązanie
+jest dobrym kompromisem, dzięki któremu niemal wszyscy użytkownicy są w stanie
+zalogować się do Mobilnego USOS. Do tej pory nie otrzymaliśmy żadnej skargi na
+działanie tego mechanizmu.
+
+Po zalogowaniu USOS API przekierowuje użytkownika do wskazanego przez Mobilnego USOS
+adresu URL. Wykorzystujemy mechanizm głębokiego linkowania (ang. \textit{deep links}),
+by przekierować użytkownika z przeglądarki z powrotem do aplikacji \cite{deeplinks}.
+W tym momencie do tymczasowych tokenów wygenerowanych wcześniej przez USOS API zostaje
+przypisana tożsamość użytkownika. Mobilny USOS otrzymuje specjalny kod, który w
+połączeniu z tymczasowymi tokenami pozwala uzyskać od USOS API stałe tokeny (ang.
+\textit{access token}), które są wykorzystywane w dalszej komunikacji z serwerem
+USOS API.
 
 \section{System obsługujący powiadomienia}
 
@@ -887,18 +935,46 @@ Firebase po zalogowaniu nowego użytkownika. Dzięki temu zabiegowi nie grozi na
 sytuacja, kiedy na jeden token Firebase będą wysyłane powiadomienia dotyczące dwóch
 różnych użytkowników.
 
-\section{Logowanie}
-
 \section{Budowa typowego fragmentu}
 
-TODO: Szablony bazowe klas dla dwóch rodzajów fragmentów:
-wyświetlających pojedynczy widok oraz widoku listy.
+Podczas prac nad Mobilnym USOS szybko zauważyliśmy, że praktycznie wszystkie
+fragmenty mają identyczny cykl życia. Po uruchomieniu fragmentu tworzone są
+wszystkie jego komponenty graficzne. Następnie ekran jest zasłaniany przez pasek
+ładowania i w tle inicjowane jest pobieranie danych z USOS API. Równolegle fragment
+próbuje odczytać dane zapisane w pamięci urządzenia. Jeżeli mu się to uda, to
+wyświetla wczytane dane i usuwa pasek ładowania. W międzyczasie z USOS API mogą
+zostać pobrane świeże dane. W takiej sytuacji są one zapisywane do pamięci stałej,
+a ekran jest odświeżany. Użytkownik może ręcznie zainicjować pobieranie danych z
+serwera, aby odświeżyć wyświetlany widok. Jeżeli pobieranie danych się nie powiedzie,
+trzeba wyświetlić odpowiedni komunikat o błędzie.
+
+Przedstawiony cykl życia jest stosunkowo skomplikowany, występuje w nim wiele
+przypadków brzegowych i łatwo popełnić błąd podczas implementowania go. Z tego
+powodu postanowiliśmy wydzielić kod zarządzający cyklem życia fragmentu do osobnej
+klasy bazowej. Każdy fragment dziedziczy po tej klasie i implementuje następujący
+interfejs:
+\begin{itemize}
+	\item Stwórz komponenty graficzne fragmentu
+	\item Pobierz dane z USOS API
+	\item Wczytaj dane z pamięci stałej
+	\item Zapisz dane w pamięci stałej
+	\item Wyświetl odczytane lub pobrane dane
+\end{itemize}
+
+Wiele fragmentów w Mobilnym USOS wyświetla listę obiektów, np. listę grup zajęciowych
+albo listę protokołów. Stworzyliśmy klasę bazową, która zawiera kod wspólny takich
+fragmentów. Dzięki temu programista nie musi za każdym razem implementować odpowiednich
+widoków, filtrowania i wyświetlania listy. Wystarczy, że zaimplementuje funkcje
+odpowiedzialne za pobieranie danych z USOS API i tworzenie prostych struktur
+opisujących pełną zawartość listy.
 
 \section{Dostępność dla osób niepełnosprawnych}
 
 TalkBack.
 
 \section{Wymienność komponentów}
+
+A właściwie elementy personalizacyjne.
 
 \section{Szata graficzna}
 
