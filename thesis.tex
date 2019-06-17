@@ -970,15 +970,55 @@ opisujących pełną zawartość listy.
 
 \section{Dostępność dla osób niepełnosprawnych}
 
-TalkBack.
+Mobilny USOS musi spełniać wytyczne podane w ustawie o dostępności cyfrowej stron
+internetowych i aplikacji mobilnych podmiotów publicznych \cite{uodc}. Bazują one
+na normach WCAG 2.1 \cite{wcag21}. Wiele spośród wymienionych norm Mobilny USOS
+spełniał przed uchwaleniem ustawy, dlatego skupiliśmy się głównie na dostępności
+dla osób niewidomych i posiadających dysfunkcje narządu wzroku.
+
+Podstawowym narzędziem systemu Android z którego korzystają osoby niewidome jest
+TalkBack. Służy on do głównie czytania zawartości ekranu i nawigowania po systemie
+przy pomocy gestów. Aby TalkBack działał poprawnie wystarczyło w Mobilnym USOS
+dodać tekst alternatywny do obrazków. Możliwe jest zgrupowanie kilku elementów w
+taki sposób, aby były czytane razem. Podmiana tekstu alternatywnego takiej grupy
+pozwala sterować zawartością czytanego komunikatu. Skorzystaliśmy z tej możliwości
+w miejscach, gdzie czytanie pojedynczych elementów byłoby mylące lub czytanemu
+elementowi brakowałoby kontekstu. Dobrym przykładem takiego miejsca jest ekran z
+listą ocen, gdzie znaczenie poszczególnych pól tekstowych jest nadawane przez
+graficzny układ elementów. Aby zapewnić odpowiednią dostępność, jako tekst alternatywny
+ustawiliśmy słowny opis treści, którą chcieliśmy tym układem przekazać.
 
 \section{Wymienność komponentów}
 
-A właściwie elementy personalizacyjne.
+Jedną z naszych decyzji projektowych było to, że każda uczelnia ma mieć własną
+wersję aplikacji. Dzięki temu budowa Mobilnego USOS jest znacznie prostsza w porównaniu
+do sytuacji, gdy jedna aplikacja obsługuje wszystkie uczelnie, ale w zamian za to
+pojawia się wyzwanie związane z utrzymywaniem wielu wersji aplikacji. W związku z
+tym zdecydowaliśmy, że uczelnie będą miały w ograniczonym zakresie możliwość
+personalizacji aplikacji. Więcej informacji na ten temat przedstawiliśmy w rozdziale
+poświęconym wdrożeniu.
 
 \section{Szata graficzna}
 
-Karteczki. Ciemny motyw?
+Szata graficzna Mobilnego USOS jest ustandaryzowana. Poświęcamy bardzo wiele
+uwagi jej spójności. Praktycznie wszystkie fragmenty są tworzone z dwóch gotowych
+szablonów. Użyte czcionki, rozmiary i kolory tekstu, przycisków, grafik oraz odstępy
+między elementami są jednolite. Sposób rozmieszczenia informacji na ekranie i
+zastosowane ikonki są możliwie jak najbardziej spójne.
+
+Jednym z podstawowych elementów wyświetlanych na ekranie jest karteczka. Nazywamy
+tak rzucający cień biały prostokąt z zaokrąglonymi rogami. Służy on do wyświetlenia
+podstawowej porcji informacji takiej jak grupa na liście grup lub węzeł na liście
+dzieci folderu sprawdzianu. Karteczka zazwyczaj składa się z wyróżnionej informacji
+głównej i informacji pomocniczej zapisanej mniejszą czcionką. W zależności od potrzeby
+karteczka może być rozwijalna. Karteczki są najbardziej widocznym symbolem wysiłku
+intelektualnego, jaki włożyliśmy w to, by szata graficzna Mobilnego USOS była nie
+tylko spójna, ale też elegancka.
+
+Zezwalamy użytkownikom na częściową konfigurację wyglądu aplikacji. Do wyboru są
+dwa motywy kolorystyczne -- domyślny jasny i ciemny do użytku aplikacji w nocy.
+Ponadto użytkownik może niezależnie od ustawień systemowych ustawić sobie język
+Mobilnego USOS, o co prosiło nas wiele osób odbywających zagraniczne praktyki.
 
 \chapter{Wdrożenie w skali Polski}
 
@@ -1153,6 +1193,11 @@ Perspektywy na przyszłość - rozwój przez PW, zewnętrznych magistrantów, ap
 \bibitem[28]{usosapi-auth} MUCI, \textit{USOS API Reference - Authorization}, \url{https://apps.usos.edu.pl/developers/api/authorization/}. [Dostęp: 2019-05-28].
 
 \bibitem[29]{deeplinks} Google Inc., \textit{Create Deep Links to App Content}, \url{https://developer.android.com/training/app-links/deep-linking}. [Dostęp: 2019-05-28].
+
+\bibitem[30]{uodc} Sejm RP, \textit{Ustawa o dostępności cyfrowej stron internetowych i aplikacji mobilnych podmiotów publicznych}, Dziennik Ustaw z roku 2019, poz. 848.
+
+\bibitem[31]{wcag21} World Wide Web Consortium, \textit{Web Content Accessibility Guidelines (WCAG) 2.1},
+\url{https://www.w3.org/TR/WCAG21/}. [Dostęp: 2019-06-17].
 
 \end{thebibliography}
 
