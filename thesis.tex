@@ -1078,17 +1078,34 @@ utrzymania spójności wersji aplikacji i~USOS API. W~przypadku braku zgodności
 wstecznie niekompatybilne zmiany w~aplikacji) aplikacja wyświetli komunikat z~prośbą o~kontakt z~uczelnią celem zaktualizowania
 aplikacji lub serwera.
 
-\section{Fabric}
+\section{Fabric i Crashlytics}
 
-Wystawianie aplikacji do testów
+Istotną częścią procesu rozwoju aplikacji i~wdrażania na kolejne uczelnie były testy.
 
-\section{Crashlytics}
+Do dystrybucji wersji testowych wykorzystaliśmy wspomniany wcześniej system Fabric \cite{fabric}. 
+Integracja tego systemu z Crashlytics pozwoliła nam na sprawne wykrywanie i~łatanie niedoskonałości w~aplikacji.
 
-Łapanie błędów z testów
+Dodatkowo przez Fabric udostępnialiśmy wersje deweloperskie aplikacji w~ramach specjalnej instancji DEMO. Dzięki temu
+wszystkie osoby zainteresowane podglądem i~testami funkcjonalności aktualnie rozwijanych otrzymywały dedykowane wydania.
+Dodatkowym czynnikiem, który przemawiał za użyciem Fabric jako systemu dystrybucji testowej była możliwość ustawienia grupy
+docelowej dla każdego pakietu instalacyjnego z~osobna. Dzięki temu łatwo mogliśmy na przykład równolegle przedstawiać
+Biuru Osób Niepełnosprawnych UW postępy w~temacie dostosowywania aplikacji do potrzeb osób niepełnosprawnych, konsultować
+z~grafikiem projekt graficzny modułu kalendarza i~testować edycję sprawdzianów przez pracownika.
 
 \section{Jenkins}
 
-Automatyzacja budowania paczek w Jenkins
+W~związku z~decyzją, że każda uczelnia to inny wariant aplikacji, proces budowania nowej wersji oznaczał kompilowanie
+kodu dla każdej uczelni osobno. Ponadto chcieliśmy, aby przygotowanie nowego wydania ograniczało się do kliknięcia przycisku
+"rozpocznij wdrożenie". Należało także wybrać formę przekazywania skompilowanej aplikacji uczelniom, zgodnie
+z~decyzją, że to uczelnie wybierają moment przeprowadzenia wdrożenia nowej wersji.
+
+Skorzystaliśmy z~istniejącego systemu dystrybucji USOS i~narzędzia Jenkins. Zaletami tej decyzji są powszechne
+wykorzystanie w projekcie USOS, dzięki czemu wdrożeniowcy na uczelniach wiedzieli, jak odbierać od nas nowe wersje,
+oraz wsparcie dla Jenkinsa wśród programistów USOS, także wśród tworzących Mobilnego USOS, ponieważ już we wczesnej
+fazie rozwoju aplikacji była ona automatycznie tam testowana.
+
+Jenkins dodatkowo przechowuje zależności i~szczegóły procesu budowania wewnątrz swojej konfiguracji, co istotnie
+zmniejsza ryzyko awarii wywołanej niedopatrzeniem wdrożeniowca.
 
 \section{Wdrożenie do sklepu Play}
 
