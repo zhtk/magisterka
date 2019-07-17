@@ -547,15 +547,67 @@ sesję użytkownika bezterminowo, do wylogowania się bądź odinstalowania apli
 Pozwala to uniknąć regularnego wpisywania hasła, co na telefonie jest szczególnie
 niewygodne, a~także niebezpieczne, ponieważ atakujący może łatwiej podejrzeć hasło.
 
+Ostatnim z~wymagań w~kategorii logowania i~bezpieczeństwa było zabezpieczenie aplikacji
+przed wykorzystaniem aktywnej sesji przez niepowołane osoby. Po dyskusjach przedstawicieli
+uczelni, to wymaganie zostało sprecyzowane, aplikacja miała być na życzenie użytkownika
+blokowana hasłem, którego podanie byłoby wymagane przy każdym starcie aplikacji.
+
 \section{Dashboard}
 
+Głównym ekranem i~sercem aplikacji jest dashboard. W~zależności od punktu widzenia, pełni
+on kilka ról.
 
+Dla studenta i~pracownika, dashboard ma dawać możliwość szybkiego sprawdzenia informacji
+potrzebnych w~ciągu dnia na uczelni. Oczywistym przykładem takiej informacji jest plan zajęć,
+który także wyświetla się na ekranie głównym USOSweb zarówno u pracownika, jak i~u~studenta.
+Student ponadto powinien otrzymywać szybką informację o~nowych ocenach.
+
+Jeśli spojrzymy na perspektywę uczelni, możemy zobaczyć nacisk na ankiety i aktualności.
+Uczelnie chcą zwrócić uwagę studentów na sesje ankietowe, żeby zmaksymalizować liczbę
+wypełnionych ankiet i~dzięki temu ulepszać swoją ofertę programową i~lepiej dobierać
+prowadzących przedmioty. Sami prowadzący otrzymują przez ankiety przydatną informację zwrotną.
+Dlatego podczas sesji ankietowej w~dashboardzie powinna wyświetlać się lista oczekujacych
+ankiet. Wyświetlanie aktualności w~aplikacji ma na celu zwiększenie zainteresowania tym,
+co ogólnie dzieje się na uczelni. Dzięki aplikacji, artykuły znacznie zwiększą swój zasięg,
+ponieważ student lub pracownik, którzy do tej pory nie zaglądali na portal z~wiadomościami
+o~uczelni, dowiedzą się o~samym fakcie istnienia tych wiadomości, a~od tego dość blisko do
+ich przeczytania, jeśli nagłówek będzie interesujący.
 
 \section{Oceny}
 
+Do modułów aplikacji najbardziej pożądanych przez studentów zdecydowanie należały oceny.
+Możemy ten moduł podzielić na dwie perspektywy - studencką i~pracowniczą.
+
+Z~perspektywy studenta, możemy wskazać dwie najważniejsze funkcjonalności. Pierwsza to
+informacja o~nowych ocenach. Studenci wskazywali, że ważnym sposobem informowania o~nowej
+ocenie jest powiadomienie systemowe w~momencie wystawienia oceny, tak by student natychmiast
+wiedział, że taka ocena się pojawiła. Dodatkowo, o~nowych ocenach powinien być powiadamiany
+w~dashboardzie. Drugą funkcjonalnością jest podgląd wszystkich otrzymanych do tej pory ocen,
+analogicznie jak w~USOSweb, tak aby logowanie to systemu przeglądarkowego nie było konieczne
+do sprawdzenia swojej historii.
+
+Z~perspektywy pracownika, przydatną funkcjonalnością jest wystawianie ocen do protokołów
+oraz późniejszy podgląd i~edycja już wystawionych. USOSweb udostępnia tę funkcjonalność
+w~trzech wariantach - ,,wystaw szybko ocenę'', gdzie na podstawie imienia i~nazwiska bądź
+numeru indeksu pracownik otrzymuje listę protokołów, w~których może wystawić ocenę
+studentowi, widok listy wszystkich dostępnych protokołów, gdzie po wybraniu jednego
+z~nich pojawia się lista osób, którym w ramach tego protokołu można wystawić ocenę oraz
+możliwość automatycznego przepisania oceny ze sprawdzianów.
+
+Ze względu na przewidywane przypadki użycia Mobilnego USOS przez pracowników -
+wystawianie oceny kolejnym egzaminowanym ustnie studentom jednego przedmiotu
+i~odpowiedzi na pytania studentów o~ocenę, najbardziej przydatnym i~wygodnym wydało się
+udostępnienie w~aplikacji mobilnej wariantu drugiego protokołów. Nacisk tu padł na
+przejrzystość interfejsu i~umożliwienie edycji wszystkich elementów wpisu do protokołu
+(samej oceny, ale także komentarza publicznego, widocznego dla studenta i~prywatnego,
+dostępnego tylko dla pracownika w~widoku protokołu).
+
 \section{Sprawdziany}
 
-\section{Protokoły}
+Na niektórych uczelniach i~wydziałach (chociażby na wydziale MIM UW czy na Politechnice
+Warszawskiej) intensywnie korzysta się z~modułu sprawdzianów. Przedstawiciele tych
+uczelni zabiegali o wprowadzenie do Mobilnego USOS obsługi sprawdzianów. Podobnie do ocen
+moduł ten możemy podzielić na perspektywę studenta i~pracownika.
 
 \section{Moje legitymacje i Moje eID}
 
