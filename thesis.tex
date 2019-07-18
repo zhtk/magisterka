@@ -529,7 +529,16 @@ TalkBack \cite{talkback}.
 
 \section{Wymogi związane z finansowaniem}
 
-Odpowiednie loga na ekranie logowania, sprawy dostępności, dwa języki (?).
+W~związku z~rozwojem aplikacji w~ramach projektu współfinansowanego z~budżetów Unii
+Europejskiej i~Województwa Mazowieckiego, wymagane było umieszczenie informacji
+o~podmiotach finansujących i~programach, w~ramach których odbywało się finansowanie.
+
+Z~tego powodu na ekranie powitalnym aplikacji pojawiają się logo sponsorów,
+a~po wybraniu z~menu głównego opcji ,,O~aplikacji'' na ekranie, poza wersją aplikacji,
+pojawia się notka o~własności i~źródle finansowania.
+
+W~związku z~finansowaniem ze środków publicznych, aplikacja musi także spełniać wymogi
+dostępności\cite{uodc}, co opisaliśmy poniżej.
 
 \section{Logowanie do aplikacji}
 
@@ -576,7 +585,7 @@ ich przeczytania, jeśli nagłówek będzie interesujący.
 \section{Oceny}
 
 Do modułów aplikacji najbardziej pożądanych przez studentów zdecydowanie należały oceny.
-Możemy ten moduł podzielić na dwie perspektywy - studencką i~pracowniczą.
+Możemy ten moduł podzielić na dwie perspektywy -- studencką i~pracowniczą.
 
 Z~perspektywy studenta, możemy wskazać dwie najważniejsze funkcjonalności. Pierwsza to
 informacja o~nowych ocenach. Studenci wskazywali, że ważnym sposobem informowania o~nowej
@@ -609,9 +618,75 @@ Warszawskiej) intensywnie korzysta się z~modułu sprawdzianów. Przedstawiciele
 uczelni zabiegali o wprowadzenie do Mobilnego USOS obsługi sprawdzianów. Podobnie do ocen
 moduł ten możemy podzielić na perspektywę studenta i~pracownika.
 
+Ze względu na fakt, że potrzeby studenta są analogiczne, co w przypadku ocen -- powiadomienia
+o~nowych punktach i~ocenach w~sprawdzianach oraz dostęp do informacji o~wszystkich wpisach
+w~sprawdzianach, nie będziemy tu opisywać wymagań bardziej szczegółowo. Istotną różnicą
+w~stosunku do ocen jest dostęp do histogramów wyników, dzięki czemu studenci w~trakcie
+roku mogą porównywać swoje wyniki z~ogółem studentów, na przykład aby przewidywać, jakie
+mogą być progi punktowe na koniec przedmiotu.
+
+Z~perspektywy pracownika, oczekiwane funkcjonalności aplikacji mobilnej różnią się od tego,
+co jest dostępne dla pracownika w USOSweb. Mając na uwadze wygodę użytkowania, zdecydowano
+o~ograniczeniu funkcjonalności do wystawiania punktów, ocen i~możliwości pokazania bądź
+ukrycia wyników danego węzła w~drzewie sprawdzianu. Zrezygnowano ze zbyt skomplikowanego
+widoku edycji struktury drzewa, algorytmu automatycznego wystawiania oceny oraz z~przepisywania
+oceny do protokołu.
+
 \section{Moje legitymacje i Moje eID}
 
-\section{itd...}
+W~trakcie rozwoju aplikacji pojawiło się zapotrzebowanie na możliwość symulowania
+aplikacją mobilną zbliżeniowej karty bibliotecznej. W~toku prac nad specyfikacją wymagań
+tego zadania okazało się, że nie ma wsparcia systemowego dla emulacji używanego w~legitymacjach
+modułu Mifare\cite{mifare}, przez co pomysł został porzucony.
+
+Projekt zyskał jednak dwóch następców. W~module legitymacji użytkownik mógłby, na wzór
+aplikacji mObywatel\cite{mobywatel}, obejrzeć swoją legitymację studencką, doktorancką czy
+pracowniczą. W~dłuższej perspektywie wyświetlane w~aplikacji legitymacje mogłyby służyć
+uwierzytelnianiu np. na uczelnianej bibliotece.
+
+Drugim z~modułów potomnych jest moduł Moje eID. Ma on za zadanie umożliwić użytkownikowi
+wyświetlenie identyfikatorów (PESEL, numeru albumu, numeru legitymacji bibliotecznej, itp.)
+w~formie kodu paskowego bądź QR. Dzięki temu na przykład byłoby możliwe
+wypożyczanie książek, jeśli uczelnia posiada skanery QR. Inną ciekawą możliwością jest
+przypominanie i~udostępnianie przez pracownika osobom zainteresowanym identyfikatorów
+PBN i~ORCID, jeśli te są zapisane w~bazie USOS.
+
+\section{Kalendarz roku akademickiego}
+
+Politechnika Warszawska zgłosiła chęć pokazania użytkownikom kalendarza wydarzeń
+roku akademickiego. Moduł ten miał powstać w~oparciu o~funkcjonujący w~systemie USOS
+kalendarz, który służy np. do obliczania, które dni są wolne od zajęć dydaktycznych
+czy jak wygląda podział semestru na tygodnie parzyste i~nieparzyste. Widok w~aplikacji
+miał stanowić naturalne rozwinięcie istniejącego raportu, który jednostka może wygenerować
+z~systemu administracyjnego USOSadm.
+
+W~widoku użytkownik powinien mieć możliwość wyboru jednostki, dla której chce zobaczyć
+dane. Sam kalendarz powinien w graficzny sposób wskazywać użytkownikowi, kiedy mają miejsce 
+interesujące go zdarzenia, dni wolne, kiedy powinien przygotować się do sesji, itd. 
+Po wybraniu z~kalendarza interesującego dnia powinna się pojawić szczegółowa lista zdarzeń.
+Moduł powinien być też łatwo rozwijalny, na przykład o~rejestracje na zajęcia czy informacje
+o~terminach wniosków o~stypendium.
+
+\section{Informacje o uczelni}
+
+Ostatnim z~dużych modułów dostępnych w~aplikacji są informacje o~uczelni. Można je
+podzielić na dwie części -- przewodnik i~mapa.
+
+Przewodnik, jak sama nazwa wskazuje, ma w kilku zakładkach zbierać przydatne, zwłaszcza
+nowych studentów informacje o~uczelni i~wydziale studenta. Zawartość przewodnika jest
+wypełniana przez uczelnię w~ramach dostarczonego modułu do wspomnianego wcześniej
+USOSadm. Dzięki przewodnikowi student, zwłaszcza świeżo upieczony, otrzyma w jednym
+miejscu na przykład kontakty do prodziekana, samorządu studenckiego, trochę historii
+uczelni czy zbiór odnośników do potencjalnie przydatnych stron.
+
+Mapa ma zawierać listę budynków należących do uczelni i~do wydziałów użytkownika.
+Po wybraniu budynku powinny pojawić się podstawowe informacje o nim, jak nazwa,
+dokładny adres, jednostka, do której budynek należy i, jeśli to dostępne, numer telefonu.
+Powinna być także dostępna opcja nawigacji do wybranego miejsca.
+
+\section{Dostępność}
+
+% TODO :(
 
 \chapter{Technologie}
 
@@ -1284,6 +1359,10 @@ Perspektywy na przyszłość - rozwój przez PW, zewnętrznych magistrantów, ap
 
 \bibitem[31]{wcag21} World Wide Web Consortium, \textit{Web Content Accessibility Guidelines (WCAG) 2.1},
 \url{https://www.w3.org/TR/WCAG21/}. [Dostęp: 2019-06-17].
+
+\bibitem[32]{mifare} NXP Semiconductors Austria GmbH, \textit{Mifare ICs}, \url{https://www.mifare.net/en/products/chip-card-ics/}. [Dostęp: 2019-07-18].
+
+\bibitem[33]{mobywatel} Ministerstwo Cyfryzacji, \textit{mDokumenty. Potwierdzaj tożsamość smartfonem},\\ \url{https://obywatel.gov.pl/dokumenty-i-dane-osobowe/mdokumenty-potwierdzaj-tozsamosc-smartfonem}. [Dostęp: 2019-07-18].
 
 \end{thebibliography}
 
