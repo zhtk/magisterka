@@ -91,7 +91,7 @@
   TODO}
 
 % Słowa kluczowe:
-\keywords{keczup, USOS, wow, TODO}
+\keywords{USOS, Android, Kotlin, mobile}
 
 % Tu jest dobre miejsce na Twoje własne makra i~środowiska:
 \newtheorem{defi}{Definicja}[section]
@@ -147,8 +147,36 @@
 
 \chapter{Wstęp}
 
-Wzmianka o modułach wniesionych przez UŁ, oraz że aplikacja jest dostępna
-w dwóch wersjach językowych. Pamiętać o wspomnieniu eUsług we wstępie!
+Mobilny USOS powstaje w~ramach projektu ,,e-UW – rozwój e-usług Uniwersytetu Warszawskiego
+związanych z edukacją'', realizowanego w~latach 2016-2019. W~ramach wstępu przedstawimy rys
+historyczny rozwoju aplikacji.
+
+Proces tworzenia aplikacji rozpoczął się w~roku 2016. Autorami kodu w~pierwszej iteracji
+rozwoju byli programiści z~Uniwersytetu Łódzkiego. Zakończyli oni prace nad kodem aplikacji
+w~styczniu 2018~r. Na tym etapie prac aplikacja posiadała moduły: aktualności, ankiety, oceny,
+informacje o~uczelni, dashboard, mapa, plan zajęć oraz katalog osób i~zajęć (nazywany
+wtedy modułem dziekanatu). Aplikacja od początku była rozwijana w~językach polskim
+i~angielskim, analogicznie do innych modułów systemu USOS, jak USOSweb.
+
+Od kwietnia 2018~r. aplikacja była rozwijana przez nas w~ramach pracy magisterskiej oraz
+przez studentkę Politechniki Warszawskiej w~ramach praktyk, a~później także pracy
+inżynierskiej. Ten etap możemy podzielić na dwie fazy -- przygotowanie do wdrożenia
+produkcyjnego i~rozwój funkcjonalności.
+
+Przygotowanie do wdrożenia oznaczało gruntowny refaktoring kodu, czego istotnym elementem
+była migracja z Javy na Kotlin (o~wyborze technologii obecnych w~produkcyjnej wersji
+aplikacji opowiemy w~odpowiednim rozdziale), zastąpienie wadliwego rozwiązania problemu
+wykonywania asynchronicznych zapytań do USOS API przez mechanizm korutyn 
+(ang. \textit{coroutines}) oraz naprawienie innych błędów w~oryginalnym kodzie.
+
+Etap rozwoju funkcjonalności rozpoczął się jeszcze w~lipcu 2018 roku, do lipca 2019 roku
+aplikacja otrzymała moduły: protokoły, sprawdziany, moje legitymacje i eID, kalendarz
+akademicki. Ponadto gruntownemu przeprojektowaniu uległ moduł ocen oraz dostosowaliśmy
+aplikację do potrzeb związanych z~dostępnością.
+
+W~kolejnych rozdziałach przedstawimy wizję aplikacji i~wymagania, wykorzystane technologie,
+wskażemy istotne szczegóły implementacji i~przedstawimy stan wdrożenia Mobilnego USOS
+w~skali kraju.
 
 % We wstępie Słownik pojęć, Co to właściwie jest, opis firmy, czemu wybraliśmy ten projekt,(?wizja?)
 %Przedstawienie problemu
@@ -1216,8 +1244,7 @@ polskich uczelniach.
 Podstawowym problemem, na który musieliśmy zwracać uwagę podczas projektowania i wdrażania aplikacji, jest liczba
 potencjalnie zainteresowanych uczelni - obecnie 63 uczelnie należą do konsorcjum MUCI \cite{uczelnie-w-muci} i~każda
 z~nich mogła być zainteresowana otrzymaniem wersji dla swojej uczelni. W~okresie październik 2018 - maj 2019 wdrożenia
-produkcyjne zakończyło 13 uczelni \cite{news-musosumk}, 6 kolejnych w~maju 2019 r. było w~fazie testów.
-% TODO zaktualizować liczbę uczelni
+produkcyjne zakończyło 14 uczelni \cite{news-musosumk}\cite{news-musospwste}, 7 kolejnych w~lipcu 2019 r. było w~fazie testów.
 
 Liczba zainteresowanych zrodziła dwa główne problemy. Po pierwsze, poszczególne uczelnie mogą korzystać z~różnych
 wersji USOS, w~szczególności USOS API. Należało więc utrzymać jednocześnie wsteczną zgodność na wypadek, gdyby uczelnie
@@ -1295,11 +1322,53 @@ zmniejsza ryzyko awarii wywołanej niedopatrzeniem wdrożeniowca.
 
 \section{Wdrożenie do sklepu Play}
 
-Jeden wzorzec, cała czarna robota ze względów logistycznych spada na uczelnię
+Kolejnym z~efektów decyzji o~wydawaniu aplikacji dla każdej uczelni z~osobna była
+konieczność opracowania procedury wdrażania aplikacji do sklepu Google Play w~taki
+sposób, aby była jak najbardziej odporna na błędy ludzkie.
+
+Dla wygody wdrażających i~dla maksymalnej spójności między uczelniami, stworzyliśmy
+następujący schemat obsługi sklepu:
+\begin{itemize}
+	\item Dla każdej wersji aplikacji przygotowujemy prostą uwagę do sklepu w~wersji
+	polskiej i~angielskiej. Uczelnia przekleja tę uwagę do formularza w~konsoli
+	Google Play.
+	\item Aplikacja ma ustandaryzowany opis funkcjonalności, uczelnia ma wyłącznie
+	obowiązek wstawić do tego opisu swoją nazwę w~odpowiednim miejscu.
+	\item Kolejne wersje aplikacji pojawiają się w~dedykowanym katalogu uczelni na
+	serwerze z~dystrybucjami systemu USOS. Wdrażający pobiera odpowiedni plik i~bez
+	modyfikacji umieszcza go w~konsoli. Google Play automatycznie wykryje i~wskaże
+	wersję aplikacji.
+	\item Na specjalny adres e-mail wysyłamy informację o~przygotowaniu nowej wersji
+	aplikacji wraz z~odwołaniem do dziennika zmian i~informacją do sklepu. Ponadto,
+	jeśli nowa wersja aplikacji zawiera moduł wymagający aktualizacji USOS API
+	(o czym pisaliśmy wcześniej), zwracamy na to uwagę wdrażających zarówno w~dzienniku
+	zmian, jak i~w~wiadomości.
+\end{itemize}
+
+Mechanizm ten sprawdził się dobrze w~praktyce, redukuje on do minimum potrzebną pracę
+zarówno po stronie zespołu deweloperskiego, jak i~wdrażających na poszczególnych uczelniach.
 
 \chapter{Podsumowanie}
 
-Perspektywy na przyszłość - rozwój przez PW, zewnętrznych magistrantów, apetyt rośnie w miarę jedzenia, wysokie noty w sklepie Play.
+Aplikacja została naszym zdaniem ciepło przyjęta przez studentów i~pracowników.
+W~zależności od uczelni, oceny oscylują między 3.8 a 4.9 na 5 gwiazdek.
+Wyjątkiem jest tu Uniwerystet Łódzki ze średnią ocen na poziomie 3.5/5, co prawdopodobnie
+jest związane z~faktem, że na tej uczelni wdrożona została wersja przedprodukcyjna z~wieloma
+błędami. Na pozostałych uczelniach większość negatywnych uwag była związana z~brakującymi
+funkcjonalnościami, jak sprawdziany, więc wraz z~wdrażaniem nowych modułów, oceny powinny
+wciąż rosnąć.
+
+Duże plany wobec aplikacji ma Politechnika Warszawska. W~ramach ich projektu e-usług
+aplikacja otrzyma kilka nowych modułów, w~tym rejestracje na zajęcia. W~międzyczasie
+rozpoczął się port Mobilnego USOS na system iOS, jego pierwsza wersja została wdrożona
+już m.in. na UW\cite{uw-ios}\cite{appstore}.
+
+Zdecydowanie nie możemy uznać aplikacji za projekt zakończony, w~zależności od pomysłów
+uczelni otrzyma prawdopodobnie szereg kolejnych przydatnych funkcjonalności. W~ramach tej
+pracy przygotowaliśmy bazę pod ciągłe rozbudowywanie i~ulepszanie komponentów aplikacji,
+może to być na przykład tematem kolejnych prac magisterskich. Liczymy też w~dłuższej
+perspektywie na to, że liczba uczelni korzystających z~Mobilnego USOS nie zamknie się na
+kilkunastu.
 
 \appendix
 
@@ -1385,6 +1454,8 @@ Perspektywy na przyszłość - rozwój przez PW, zewnętrznych magistrantów, ap
 
 \bibitem[23]{news-musosumk} MUCI, \textit{Mobilny USOS UMK w sklepie Google Play}, \url{https://www.usos.edu.pl/node/4157/mobilny-usos-umk-w-sklepie-google-play}. [Dostęp: 2019-05-20].
 
+\bibitem[23a]{news-musospwste} MUCI, \textit{Mobilny USOS PWSTE w sklepie Google Play}, \url{https://www.usos.edu.pl/node/4170/mobilny-usos-pwste-w-sklepie-google-play}. [Dostęp: 2019-07-19].
+
 \bibitem[24]{webview} Google Inc., \textit{WebView}, \url{https://developer.android.com/reference/android/webkit/WebView}. [Dostęp: 2019-05-20].
 
 \bibitem[25]{product-flavor} Google Inc., \textit{Configure build variants}, \url{https://developer.android.com/studio/build/build-variants#product-flavors}. [Dostęp: 2019-05-20].
@@ -1405,6 +1476,14 @@ Perspektywy na przyszłość - rozwój przez PW, zewnętrznych magistrantów, ap
 \bibitem[32]{mifare} NXP Semiconductors Austria GmbH, \textit{Mifare ICs}, \url{https://www.mifare.net/en/products/chip-card-ics/}. [Dostęp: 2019-07-18].
 
 \bibitem[33]{mobywatel} Ministerstwo Cyfryzacji, \textit{mDokumenty. Potwierdzaj tożsamość smartfonem},\\ \url{https://obywatel.gov.pl/dokumenty-i-dane-osobowe/mdokumenty-potwierdzaj-tozsamosc-smartfonem}. [Dostęp: 2019-07-18].
+
+\bibitem[34]{uw-ios} Uniwersytet Warszawski,
+\textit{Aplikacja Mobilny USOS już dostępna na iOS},\\
+\url{https://www.uw.edu.pl/aplikacja-mobilny-usos-juz-dostepna-na-ios/}. [Dostęp: 2019-07-18].
+
+\bibitem[35]{appstore} Apple Inc.,
+\textit{Aplikacja Mobile USOS UW w App Store},\\
+\url{https://apps.apple.com/us/app/mobilny-usos-uw/id1447221710}. [Dostęp: 2019-07-18].
 
 \end{thebibliography}
 
