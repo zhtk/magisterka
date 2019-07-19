@@ -686,7 +686,49 @@ Powinna być także dostępna opcja nawigacji do wybranego miejsca.
 
 \section{Dostępność}
 
-% TODO :(
+Aplikacja musi spełniać wymogi dostępności określone w~standardzie WCAG 2.1\cite{wcag21}.
+Standard ten określa trzy poziomy dostępności -- A, AA i~AAA, które można określić jako
+odpowiednio ,,musi spełniać kryteria'', ,,powinno spełniać kryteria'',
+,,spełnienie kryteriów jest opcjonalne, ale zalecane''.
+Wymogi te można podzielić na kilka kategorii.
+
+W~ramach kategorii postrzegalność, aplikacja ma wspierać czytniki ekranowe oraz być czytelna
+dla osób słabo widzących.
+
+Pierwsze kryterium dzieli się na dwie części. Treść widoczna
+w~aplikacji w~formie tekstowej powinna być czytana przez czytniki ekranowe, ponadto
+jeśli jest to konieczne dla zrozumienia elementów aplikacji, tekst powinien być przeredagowany.
+Dla przykładu element interfejsu zawierający numer pytania w ankiecie powinien informować, że
+użytkownik patrzy na ,,Pytanie numer trzy'', a nie samą liczbę 3. Drugą częścią są elementy
+nietekstowe -- wszelkiego rodzaju kontrolki, obrazki, itp. Dla wszystkich takich elementów
+powinien być zapewniony opis do wykorzystania przez czytnik ekranowy, na przykład ,,Adres
+e-mail'' na ikonie koperty przy liście adresów e-mail pracownika. Ponadto aplikacja ma
+przekazywać do czytnika ekranowego informację o~stanie komponentów, gdzie to istotne dla
+nawigacji, na przykład informację, że pytanie jest zwinięte. Jeśli komponent nie ma 
+znaczenia -- jest czysto dekoracyjny lub służy do formatowania, na przykład obrazek w~tle
+czy ikonka obok tekstu, należy poinformować czytnik ekranowy, że ma zignorować komponent.
+
+W~drugim kryterium istotną uwagę należy zwrócić na kolory. Kolor nie może być jedynym
+wyznacznikiem cechy elementu, możliwej akcji czy oczekiwania na odpowiedź użytkownika.
+Dla przykładu -- przycisk poza kolorem powinien na przykład wyróżniać się cieniem, inną
+czcionką czy obrazkiem. Współczynnik kontrastu tekstu powinien wynosić co najmniej 4,5:1,
+z wyjątkiem elementów nieaktywnych, które nie mają wymagań i~dużego tekstu, którego
+kontrast musi wynosić co najmniej 3:1. Dla kontrastu występuje także nieobowiązkowe
+kryterium AAA, gdzie kontrasty to odpowiednio 7:1 i~4,5:1. Dla elementów niebędących
+tekstem, kontrast musi wynosić co najmniej 3:1, chyba że dany element musi być wyświetlony
+z~danymi kolorami, na przykład logo uczelni.
+
+W~ramach kategorii funkcjonalność istotne są elementy nawigacyjne. Przechodzenie
+przy użyciu klawiatury bądź technologii wspomagających między kolejnymi elementami 
+interfejsu powinno dawać logiczną nawigację, bez nieoczywistych skoków. 
+Łączy się to z~wymaganiem dotyczącym czytania treści aplikacji, ponieważ czytniki ekranowe
+czytają kolejne elementy z~fokusem.
+
+Ostatnią istotną z~punktu widzenia aplikacji mobilnej kategorią jest zrozumiałość.
+W~tej kategorii zwróciliśmy uwagę przede wszystkim na obsługę języka.
+Domyślny język aplikacji i~język treści powinien być możliwy do sprawdzenia przez
+oprogramowanie asystujące, tak żeby na przykład można było wybrać przy text-to-speech
+lektora w~odpowiednim języku.
 
 \chapter{Technologie}
 
