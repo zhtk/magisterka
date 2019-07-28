@@ -32,7 +32,7 @@
 
 % W tym szablonie początki rozdziałów są na nieparzystych stronach, więc pojawia się dużo pustych.
 % W wersji "produkcyjnej" trzeba zakomentować.
-\let\cleardoublepage\clearpage
+% \let\cleardoublepage\clearpage
 \DeclareUnicodeCharacter{00A0}{ }
 
 % blokujemy dzielenie wybranych słów
@@ -71,7 +71,7 @@
   }
 
 % miesiąc i~rok:
-\date{Czerwiec 2019}
+\date{Sierpień 2019}
 
 %Podać dziedzinę wg klasyfikacji Socrates-Erasmus:
 \dziedzina{
@@ -92,7 +92,7 @@
 	Software design techniques}
 
 % Słowa kluczowe:
-\keywords{USOS, Android, Kotlin}
+\keywords{Android, aplikacja mobilna, Firebase, Jackson, Java, Kotlin, USOS, USOS API, wdrożenie}
 
 % Tu jest dobre miejsce na Twoje własne makra i~środowiska:
 \newtheorem{defi}{Definicja}[section]
@@ -138,11 +138,11 @@
   W~ramach pracy zostały zaimplementowane m.in. moduły do obsługi 
   sprawdzianów i~ocen, zarówno po stronie studenta, jak i~pracownika, katalogi
   przedmiotów i~osób oraz~plan zajęć. Ważną usługą zapewnianą przez 
-  aplikację jest powiadamianie o~zdarzeniach w~czasie rzeczywistym, typu wystawione
-  oceny. Aplikacja została wdrożona na UW i~kilkunastu innych uczelniach, projekt zakłada możliwość udostępnienia
-  aplikacji wszystkim uczelniom korzystającym z~USOS. Do aplikacji dołączyliśmy
-  dokumentację instalacyjną dla wdrożeniowców.
-  Aplikacja będzie dostępna na platformie Android.
+  aplikację jest powiadamianie o~zdarzeniach w~czasie rzeczywistym, np. o wystawionych
+  ocenach. Aplikacja została wdrożona na UW i~kilkunastu innych uczelniach. Projekt
+  zakłada możliwość udostępnienia aplikacji wszystkim uczelniom korzystającym z~USOS.
+  Do aplikacji dołączyliśmy dokumentację instalacyjną dla wdrożeniowców. Aplikacja
+  będzie dostępna na platformie Android.
 \end{abstract}
 
 \tableofcontents
@@ -161,10 +161,12 @@ rozwoju byli programiści z~Uniwersytetu Łódzkiego. Zakończyli oni prace nad 
 w~styczniu 2018~r. Na tym etapie prac aplikacja miała moduły: aktualności, ankiety, oceny,
 informacje o~uczelni, dashboard, mapa, plan zajęć oraz katalog osób i~zajęć (nazywany
 wtedy modułem dziekanatu). Aplikacja od początku była rozwijana w~językach polskim
-i~angielskim, analogicznie do innych modułów systemu USOS, jak USOSweb.
+i~angielskim, analogicznie do innych modułów Uniwersyteckiego Systemu Obsługi Studiów (USOS)
+\cite{usos}, takich jak USOSweb.
 
 Od kwietnia 2018~r. przejęliśmy rozwój aplikacji. Naszym głównym celem
-było wdrożenie na uczelniach z~konsorcjum MUCI. MUCI -- Międzyuniwersyteckie Centrum Informatyzacji --  zajmuje się m.in. tworzeniem, rozwojem i~wdrażaniem systemów wspierających
+było wdrożenie jej na uczelniach wchodzących w skład Międzyuniwersyteckiego Centrum Informatyzacji (MUCI).
+MUCI zajmuje się m. in. tworzeniem, rozwojem i~wdrażaniem systemów wspierających
 uczelnie \cite{muci}. W~ramach dążenia do tego celu naszymi zadaniami
 były m.in. refaktoring kodu, rozbudowa o~nowe moduły oraz dostosowanie do potrzeb osób 
 niepełnosprawnych.
@@ -200,7 +202,8 @@ wizję projektu, w~3. specyfikację wymagań, w~5. szczegóły implementacji.
 Na zlecenie Międzyuniwersyteckiego Centrum Informatyzacji \cite{muci} przeprowadzono
 badania na temat wykorzystania aplikacji mobilnych przez uczelnie w~Polsce i~na świecie. W~wyniku tych badań ustalono, że aplikacje mobilne
 cieszą się dużą popularnością wśród studentów i~pracowników uczelni, ale
-między polskimi i~zagranicznymi uczelniami występują duże rozbieżności w~pojmowaniu roli tych aplikacji.
+między polskimi i~zagranicznymi uczelniami występują duże rozbieżności w~pojmowaniu
+roli tych aplikacji \cite{przegladaplikacji}.
 
 W~Polsce dominuje myślenie, że aplikacja mobilna dla uczelni ma służyć głównie
 wymianie informacji pomiędzy studentami, nauczycielami akademickimi i~administracją
@@ -225,7 +228,7 @@ bez aspektu społecznościowego.
 \section{Aplikacja mobilna dla USOS}
 
 Na bazie wniosków z przeprowadzonego badania zdecydowano, że Uniwersytecki
-System Obsługi Studiów \cite{usos} także ma mieć aplikację mobilną. Możliwe były dwa
+System Obsługi Studiów także ma mieć aplikację mobilną. Możliwe były dwa
 modele dostępu do danych zgromadzonych w~USOS:
 
 \begin{itemize}
@@ -303,7 +306,9 @@ Następnie spytano ankietowane osoby, jak często korzystają z~wymienionych mod
 	Raz na rok & 17 & 25\\
 	Jednorazowo & 51 & 59\\
 	Nigdy & 12 & 45\\
-	
+	\hline
+\end{longtabu}
+\begin{longtabu} to \textwidth { |X[l]|X[l]|X[l]| }
 	\hline
 	\multicolumn{3}{|c|}{\textbf{Plan zajęć}} \\
 	\hline
@@ -358,7 +363,10 @@ Następnie spytano ankietowane osoby, jak często korzystają z~wymienionych mod
 	Raz na rok & 5 & 5\\
 	Jednorazowo & 15 & 30\\
 	Nigdy & 3 & 48\\
-	
+	\hline
+\end{longtabu}
+\newpage
+\begin{longtabu} to \textwidth { |X[l]|X[l]|X[l]| }
 	\hline
 	\multicolumn{3}{|c|}{\textbf{Podpięcia przedmiotów pod programy studiów}} \\
 	\hline
@@ -413,7 +421,10 @@ Następnie spytano ankietowane osoby, jak często korzystają z~wymienionych mod
 	Raz na rok & 95 & 58\\
 	Jednorazowo & 234 & 215\\
 	Nigdy & 177 & 116\\
-	
+	\hline
+\end{longtabu}
+\newpage
+\begin{longtabu} to \textwidth { |X[l]|X[l]|X[l]| }
 	\hline
 	\multicolumn{3}{|c|}{\textbf{Płatności}} \\
 	\hline
@@ -477,7 +488,7 @@ Następnie zapytano o~sprawy związane z~aplikacją mobilną.
 	
 	\hline
 \end{longtabu}
-\captionof{table}{Pytania o~aplikację mobilną do ankietowanych studentów UMK i~UŚ}\label{tbl:mobilank}
+\captionof{table}{Pytania o~aplikację mobilną skierowane do ankietowanych studentów UMK i~UŚ}\label{tbl:mobilank}
 \medskip
 \endgroup
 
@@ -580,8 +591,8 @@ niewygodne, a~także niebezpieczne, ponieważ atakujący może łatwiej podejrze
 
 Ostatnim z~wymagań z~zakresu logowania i~bezpieczeństwa było zabezpieczenie aplikacji
 przed wykorzystaniem aktywnej sesji przez niepowołane osoby. Wymaganie to zostało później
-sprecyzowane -- użytkownik powinien móc wskazać, że aplikacja przy każdym uruchomieniu
-ma zażądać hasła do odblokowania.
+sprecyzowane -- użytkownik powinien móc ustawić osobne hasło, które będzie wymagane 
+przy każdym uruchomieniu aplikacji.
 
 \section{Dashboard}
 
@@ -590,15 +601,15 @@ on kilka ról.
 
 Z~punktu widzenia studenta i~pracownika, ważna jest możliwość szybkiego sprawdzenia informacji
 potrzebnych w~ciągu dnia na uczelni. Oczywistym przykładem takiej informacji jest plan zajęć,
-który także wyświetla się na ekranie głównym USOSweb zarówno u pracownika, jak i~u~studenta.
+który także wyświetla się na ekranie głównym USOSweb, zarówno u pracownika, jak i~u~studenta.
 Student ponadto powinien otrzymywać szybką informację o~nowych ocenach i~wynikach sprawdzianów.
 
-Z~punktu widzenia uczelni, ważna są ankiety i~przekazywanie na bieżąco aktualności z~życia
-uczelni.Uczelnie chcą zmaksymalizować liczbę
+Z~perspektywy uczelni ważne są ankiety i~przekazywanie na bieżąco aktualności z~życia
+uczelni. Uczelnie chcą zmaksymalizować liczbę
 wypełnionych ankiet i~dzięki temu ulepszać swoją ofertę programową i~lepiej dobierać
 prowadzących przedmioty. Prowadzący otrzymują przez ankiety przydatną informację zwrotną.
 Dlatego podczas sesji ankietowej w~dashboardzie powinna wyświetlać się lista aktywnych
-ankiet, czekających na wypełnienie. Wyświetlanie aktualności w~aplikacji ma na
+ankiet czekających na wypełnienie. Wyświetlanie aktualności w~aplikacji ma na
 celu zwiększenie zainteresowania tym,
 co ogólnie dzieje się na uczelni. Dzięki aplikacji, artykuły znacznie zwiększą swój zasięg,
 ponieważ student lub pracownik, którzy do tej pory nie zaglądali na portal z~wiadomościami
@@ -608,14 +619,14 @@ ich przeczytania, jeśli nagłówek będzie interesujący.
 \section{Oceny}
 
 Do modułów aplikacji najbardziej pożądanych przez studentów zdecydowanie należą oceny.
-Możemy na ten moduł spojrzeć z~dwóch perspektyw2 -- studenta i~pracownika.
+Możemy na ten moduł spojrzeć z~dwóch perspektyw -- studenta i~pracownika.
 
 Z~perspektywy studenta możemy wskazać dwie najważniejsze funkcjonalności. Pierwsza to
 informacja o~nowych ocenach. Studenci wskazywali, że ważnym sposobem informowania o~nowej
 ocenie jest powiadomienie systemowe w~momencie wystawienia oceny, tak by student natychmiast
 wiedział, że taka ocena się pojawiła. Dodatkowo, o~nowych ocenach powinien być powiadamiany
 w~dashboardzie. Drugą funkcjonalnością jest podgląd wszystkich otrzymanych do tej pory ocen,
-analogicznie jak w~USOSweb, tak aby logowanie to systemu przeglądarkowego nie było konieczne.
+analogicznie jak w~USOSweb, tak aby logowanie do systemu przeglądarkowego nie było konieczne.
 
 Z~perspektywy pracownika przydatną funkcjonalnością jest wpisywanie ocen do protokołów
 oraz późniejszy podgląd i~edycja już wystawionych. USOSweb udostępnia tę funkcjonalność
@@ -623,16 +634,16 @@ w~trzech wariantach:
 \begin{itemize}
 	\item ,,wystaw szybko ocenę'', gdzie wyszukawszy studenta po imieniu i~nazwisku bądź
 	numerze indeksu, pracownik otrzymuje listę protokołów, w~których może wystawić ocenę
-	studentowi,
+	studentowi.
 	\item widok listy wszystkich dostępnych protokołów, gdzie po wybraniu jednego
-	z~nich pojawia się lista osób, którym w~ramach tego protokołu można wystawić ocenę,
+	z~nich pojawia się lista osób, którym w~ramach tego protokołu można wystawić ocenę.
 	\item możliwość automatycznego przepisania oceny ze sprawdzianów.
 \end{itemize}
 
 Ze względu na przewidywane przypadki użycia Mobilnego USOS przez pracowników --
 wystawianie oceny z~jednego przedmiotu kolejnym egzaminowanym ustnie studentom
 i~odpowiedzi na pytania studentów o~ocenę, najbardziej przydatnym i~wygodnym wydało się
-udostępnienie w~aplikacji mobilnej wariantu drugiego protokołów. Nacisk tu należy położyć na
+udostępnienie w~aplikacji mobilnej wariantu drugiego protokołów. Nacisk należy tu położyć na
 przejrzystość interfejsu i~umożliwienie edycji wszystkich elementów wpisu do protokołu
 (samej oceny, ale także komentarza publicznego, widocznego dla studenta i~prywatnego,
 dostępnego tylko dla pracownika w~widoku protokołu).
@@ -664,7 +675,7 @@ Politechnika Warszawska zgłosiła chęć pokazania użytkownikom kalendarza wyd
 roku akademickiego. Moduł ten ma powstać w~oparciu o~funkcjonujący w~systemie USOS
 kalendarz, który służy np. do obliczania, które dni są wolne od zajęć dydaktycznych
 czy jak wygląda podział semestru na tygodnie parzyste i~nieparzyste. Widok w~aplikacji
-miał stanowić naturalne rozwinięcie istniejącego raportu, który jednostka może wygenerować
+ma stanowić naturalne rozwinięcie istniejącego raportu, który jednostka może wygenerować
 z~systemu administracyjnego USOSadm.
 
 W~widoku użytkownik powinien mieć możliwość wyboru jednostki, dla której chce zobaczyć
@@ -704,7 +715,7 @@ pracowniczą. W~dłuższej perspektywie wyświetlane w~aplikacji legitymacje mog
 uwierzytelnianiu np. w~uczelnianej bibliotece.
 
 Drugim modułem jest Moje eID. Ma on za zadanie umożliwić użytkownikowi
-wyświetlenie identyfikatorów (PESEL, numeru albumu, numeru legitymacji bibliotecznej, itp.)
+wyświetlenie identyfikatorów (PESEL, numeru albumu, numeru legitymacji bibliotecznej itp.)
 w~formie kodu paskowego bądź QR. Dzięki temu na przykład byłoby możliwe
 wypożyczanie książek, jeśli uczelnia posiada skanery QR. Inną ciekawą możliwością jest
 przypominanie i~udostępnianie przez pracownika osobom zainteresowanym identyfikatorów
@@ -713,11 +724,11 @@ PBN i~ORCID, jeśli te są zapisane w~bazie USOS.
 \section{Wymogi związane z finansowaniem}
 
 W~związku z~rozwojem aplikacji w~ramach projektu współfinansowanego z~budżetów Unii
-Europejskiej i~Województwa Mazowieckiego, wymagane było umieszczenie informacji
+Europejskiej i~Województwa Mazowieckiego, wymagane jest umieszczenie informacji
 o~podmiotach finansujących i~programach, w~ramach których odbywało się finansowanie.
 
 W~związku z~finansowaniem ze środków publicznych, aplikacja musi także spełniać wymogi
-dostępności\cite{uodc}, co opisaliśmy poniżej.
+dostępności \cite{uodc}, co opisaliśmy poniżej.
 
 \section{Dostępność dla niepełnosprawnych}
 
@@ -790,7 +801,7 @@ występujące w~aplikacji. Składa się ona z~biblioteki dołączanej do aplikac
 oraz strony internetowej, na której można przejrzeć częstotliwość występowania
 błędów wraz z~ich dokładnymi opisami. W~sytuacji gdy pojawia się nowy błąd albo
 w nagły sposób wzrasta częstotliwość występowania danego błędu, Crashlytics wysyła
-do wszystkich programistów e-mail z~ostrzeżeniem. Raportowanie błędów na poziomie
+do wszystkich programistów e-maila z~ostrzeżeniem. Raportowanie błędów na poziomie
 aplikacji działa na dwa sposoby. Programista może zarejestrować globalną funkcję,
 która przechwytuje wszystkie nieobsłużone wyjątki i~wysyła je do Crashlytics. Ponadto przy
 pomocy dołączonej biblioteki możliwe jest ręcznie wysłanie informacji o~błędzie.
@@ -1168,7 +1179,7 @@ wyświetla wczytane dane i~usuwa pasek ładowania. W~międzyczasie z~USOS API mo
 zostać pobrane świeże dane. W~takiej sytuacji są one zapisywane do pamięci stałej,
 a ekran jest odświeżany. Użytkownik może ręcznie zainicjować pobieranie danych z
 serwera, aby odświeżyć wyświetlany widok. Jeżeli pobieranie danych się nie powiedzie,
-trzeba wyświetlić odpowiedni komunikat o~błędzie.
+to trzeba wyświetlić odpowiedni komunikat o~błędzie.
 
 Przedstawiony cykl życia jest stosunkowo skomplikowany, występuje w~nim wiele
 przypadków brzegowych i~łatwo popełnić błąd podczas implementowania go. Z~tego
@@ -1238,16 +1249,27 @@ karteczka może być rozwijalna. Karteczki są najbardziej widocznym symbolem wy
 intelektualnego, jaki włożyliśmy w~to, by szata graficzna Mobilnego USOS była nie
 tylko spójna, ale też elegancka.
 
+W trakcie prac nad szatą graficzną okazało się, że brakuje nam spójnej wizji, jak
+miałaby ona wyglądać. W związku z tym MUCI podjęło decyzję o zatrudnieniu profesjonalnej
+graficzki, która przeprowadziła inwentaryzację wszystkich ekranów aplikacji. Na tej
+bazie zostały zaproponowane znaczące poprawki do wyglądu Mobilnego USOS \cite{propozycjaszaty}.
+Przedstawione propozycje poprawiały czytelność aplikacji i dostosowywały ją do
+wymagań WCAG 2.1.
+
 Zezwalamy użytkownikom na częściową konfigurację wyglądu aplikacji. Do wyboru są
 dwa motywy kolorystyczne -- domyślny jasny i~ciemny do użytku aplikacji w~nocy.
 Ponadto użytkownik może niezależnie od ustawień systemowych ustawić sobie język
 Mobilnego USOS, o~co prosiło nas wiele osób odbywających zagraniczne praktyki.
 
-% coś o współpracy z grafikiem here
+\section{Widget z planem zajęć}
+
+% TODO
+TODO działanie widgetu i czemu android jest tak skopany
 
 \chapter{Przegląd funkcjonalności}
 
 % TODO dużo obrazków, trochę lania wody, dużo chwalenia się, że dowiezione rzeczy
+% JMD: mapa aplikacji, może referencja do adobe XD?
 
 \chapter{Wdrożenie w skali Polski}
 
@@ -1367,6 +1389,10 @@ następujący schemat obsługi sklepu:
 Mechanizm ten sprawdził się dobrze w~praktyce, redukuje on do minimum potrzebną pracę
 zarówno po stronie zespołu deweloperskiego, jak i~wdrażających na poszczególnych uczelniach.
 
+\chapter{Wkład poszczególnych autorów w pracę}
+
+% TODO wkład autorów
+
 \chapter{Podsumowanie}
 
 Projekt Mobilny USOS jest naszym zdaniem dużym sukcesem. Udało nam się doprowadzić do
@@ -1415,6 +1441,7 @@ perspektywie na to, że aplikacje wdrożą wszystkie uczelnie z~MUCI.
 \begin{thebibliography}{99}
 \addcontentsline{toc}{chapter}{Bibliografia}
 
+% TODO posortowanie alfabetyczne
 %\bibitem[Bea65]{beaman} Juliusz Beaman, \textit{Morbidity of the Jolly
 %   function}, Mathematica Absurdica, 117 (1965) 338--9.
 %\bibitem[Ajax]{AJAXwikipl} AJAX - Wikipedia \url{https://pl.wikipedia.org/wiki/AJAX} (dostęp 21.03.2017)
@@ -1428,6 +1455,12 @@ perspektywie na to, że aplikacje wdrożą wszystkie uczelnie z~MUCI.
 
 \bibitem{usos} Międzyuniwersyteckie Centrum Informatyzacji, \textit{USOS},
 \url{https://www.usos.edu.pl/usos-start}. [Dostęp: 2019-07-24].
+
+\bibitem{przegladaplikacji}  Katarzyna Moszczyńska, \textit{Przegląd uniwersyteckich aplikacji mobilnych},
+\url{https://www.usos.edu.pl/sites/default/files/pl_aplikacje_mobilne_przeglad.pdf}. [Dostęp: 2019-07-28].
+
+\bibitem{propozycjaszaty}  Katarzyna Moszczyńska, \textit{Propozycja szaty graficznej dla Mobilnego USOS},
+\url{https://xd.adobe.com/spec/cc492e84-e31b-4fa9-4c7f-3a5ff3d62678-ba78/grid/}. [Dostęp: 2019-07-28].
 
 \bibitem{usosapi} Międzyuniwersyteckie Centrum Informatyzacji, \textit{USOS API Reference},
 \url{https://apps.usos.edu.pl/developers/api/}. [Dostęp: 2019-07-24].
