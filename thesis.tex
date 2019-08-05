@@ -1271,7 +1271,7 @@ TODO działanie widgetu i czemu android jest tak skopany
 W~tym rozdziale postanowiliśmy zaprezentować przegląd zrealizowanych funkcjonalności
 i~poprawek do oryginalnej aplikacji.
 
-% TODO dużo obrazków, trochę lania wody, dużo chwalenia się, że dowiezione rzeczy
+% TODO *dużo obrazków*, trochę lania wody, dużo chwalenia się, że dowiezione rzeczy
 % JMD: mapa aplikacji, może referencja do adobe XD?
 
 \section{Ekran powitalny}
@@ -1279,50 +1279,174 @@ i~poprawek do oryginalnej aplikacji.
 Po uruchomieniu Mobilnego USOS pojawia się ekran powitalny składający się z~nazwy
 aplikacji, loga, nazwy uczelni oraz informacji o finansowaniu projektu.
 Ekran jest wyświetlany przez dokładnie 3 sekundy, po czym aplikacja przechodzi do
-ekranu logowania. Naszym wkładem w ten ekran było dodanie tekstu alternatywnego
-do~obrazków i dodanie sprawdzenia, czy na serwer USOS API uczelni jest zainstalowany
-w obsługiwanej wersji. Jeżeli nie jest, użytkownik zostaje poinformowany o~konieczności
-zaktualizowania aplikacji.
+ekranu logowania.
+
+Naszym wkładem w ten ekran było dodanie tekstu alternatywnego do~obrazków i dodanie
+sprawdzenia, czy na serwer USOS API uczelni jest zainstalowany w obsługiwanej wersji.
+Jeżeli nie jest, użytkownik zostaje poinformowany o~konieczności zaktualizowania
+aplikacji. Oprócz tego przy pierwszym uruchomieniu Mobilnego USOS wyświetlane jest
+pytanie, czy użytkownik chce przesyłać anonimowe informacje diagnostyczne do programistów.
 
 \section{Ekran logowania}
 
+Na ekranie logowania użytkownik potwierdza swoją tożsamość. Wyzwaniem, z jakim się
+zetknęliśmy podczas prac nad tym ekranem, było zapewnienie bezpieczeństwa hasła
+wpisywanego przez użytkownika i obsłużenie kilku scenariuszy logowania.
+
+Gdyby hasło było wpisywane przez WebView, aplikacja miałaby możliwość przeczytać hasło
+użytkownika, co jest sprzeczne z założeniami protokołu OAuth. W związku z tym
+użytkownik podaje swoje dane logowania w zaufanej aplikacji, którą jest przeglądarka
+internetowa.
+
+Problematyczna była także obsługa kilku scenariuszy logowania przez jeden ekran.
+Użytkownik wchodząc do aplikacji mógł być niezalogowany, mógł być zalogowany i
+wtedy logowanie stawało się niepotrzebne, mógł zostać wylogowany w trakcie korzystania
+z aplikacji, np. z powodu upłynięcia daty ważności tokenów, wreszcie mógł zostać
+poproszony o dodatkowe zalogowanie aby uzyskać potwierdzenie wykonania szczególnie
+niebezpiecznej operacji. W każdym z tych przypadków Mobilny USOS musi się zachować
+inaczej. W sytuacji, gdy do aplikacji może się logować nowa osoba, należy usunąć
+stare dane sesji aby nikt niepowołony nie mógł ich odczytać. Z kolei nie wolno
+tego robić, gdy ekran logowania ma potwierdzić wykonanie operacji, gdyż wtedy
+nie byłoby wiadomo, jaka operacja była potwierdzana. Przykładowo, żądamy ponownego
+wpisania hasła podczas wystawiania ocen. Gdyby po wpisaniu hasła dane użytkownika
+były usuwane, stracone byłyby także wpisane oceny, bo nie zostały jeszcze wysłane
+do serwera USOS API.
+
 \section{Mój USOS}
+
+Mój USOS jest jednym z bardziej skomplikowanych ekranów. W zamierzeniu ma wyświetlać
+wszystkie informacje potrzebne użytkownikowi. W związku z tym wyświetlone są na nim
+obecnie zalogowany użytkownik, nowe oceny u studenta, lista aktywnych protokołów u
+pracownika, plan zajęć, ankiety oraz najnowsze aktualności uczelniane. Ponadto
+dostępna jest wyszukiwarka, która zapewnia szybki dostęp do katalogów.
 
 \section{Oceny}
 
+Na tym ekranie student może zobaczyć informacje o swoich ocenach. Wyświetlane są
+wszystkie przedmioty wraz z powiązanymi protokołami, oraz informacjami uzyskanymi
+w ramach danego protokołu. Wyzwaniem tutaj był dość skomplikowany model danych który
+zakładał, że do jednego przedmiotu może być przypisanych kilka protokołów, np. osobne
+protokoły do całych zajęć, wykładu i ćwiczeń. Student otrzymuje informacje o ocenie
+i wystawiającym. Miłym dodatkiem do załączonych informacji jest wykres z ocenami
+wszystkich studentów. Ponadto funkcjonuje system powiadomień który sprawia, że
+informacja o nowej ocenie przychodzi na telefon w 20 sekund od wystawienia.
+
 \section{Protokoły}
+
+Protokoły służą do wystawiania ocen przez prowadzącego. Po otwarciu modułu wykładowca
+widzi listę protokołów, która jest przeszukiwalna. Po kliknięciu protokołu i wybraniu
+sesji egzaminacyjnej, prowadzący uzyskuje dostęp do listy studentów i ich ocen. W tym
+momencie może sprawdzić informacje o protokole, statystyki ocen labo wyszukać
+studenta i wystawić mu ocenę. Pierwsze wystawienie oceny musi być potwierdzone przez
+wizytę na ekranie logowania. Ze względów bezpieczeństwa informacje o studentach nie
+są przechowywane w pamięci stałej telefonu.
 
 \section{Sprawdziany}
 
+Moduł sprawdziany stanowiły jak dotąd największe wyzwanie w zakresie projektowania
+interfejsu. Podstawowym problemem była konieczność przedstawienia drzewiastej
+struktury sprawdzianu w formie listy. Zadania nie ułatwiały bardzo różnorodne
+topologie drzewa sprawdzianów. Część wykładowców tworzyła płaskie drzewa, a druga
+część bardzo złożone, drobiazgowe i głębokie drzewa. Po długim namyśle i kilku próbach
+zdecydowaliśmy, że potraktujemy sprawdzian jak drzewo katalogów, po którym może
+nawigować użytkownik.
+
+Student wchodzący do modułu widzi listę sprawdzianów posortowaną po cyklu dydaktycznym.
+Po wybraniu konkretnego sprawdzianu otwiera się widok jego korzenia. Jako pierwsza
+zawsze jest wyświetlana karteczka z właściwościami i statystykami aktualnie otwartego
+węzła. Następnie pokazywane są karteczki reprezentujące dzieci danego węzła.
+W zależności od typu dziecka, można wejść w głąb drzewa lub rozwinąć informację
+o punktach i ocenie.
+
 \section{Sprawdziany pracownika}
+
+Idea, o którą oparliśmy sprawdziany pracowników, jest połączeniem sprawdzianów
+studenta i protokołów. Do nawigowania po poszczególnych węzłach wykorzystujemy
+ten sam mechanizm, co w sprawdzianach studenta. Z kolei po wejściu w konkretny
+węzeł z punktami lub ocenami i przy próbie edycji oceny wyświetlany jest ekran
+analogiczny do protokołów. Pewnym dodatkiem, który nie występował w wymienionych
+modułach, jest możliwość zmiany widoczności węzła, tj. odsłonięcia lub ukrycia
+wyników dla studentów. Przycisk, który to umożliwia, umieściliśmy w pierwszej
+karteczce, która wyświetla właściwości właśnie otwartego węzła.
 
 \section{Plan zajęć}
 
+Plan zajęć jest wyświetlany z podziałem na dzisiaj, jutro, cały tydzień, przyszły
+tydzień oraz wybrany tydzień. Po wybraniu odpowiedniego podziału wyświetlana jest
+posortowana lista zajęć. Student klikając w odpowiednie miejsce może sobie sprawdzić
+powiązaną grupę zajęciową, dodać spotkanie do kalendarza i otworzyć na mapie
+lokalizację budynku, gdzie odbywają się zajęcia. Ponadto, jeżeli wybrany jest
+jednodniowy podział, to student może sprawdzić listę prowadzących grupę i napisać
+do nich e-maila.
+
+\section{Widget z planem zajęć}
+
+% TODO
+TODO
+
 \section{Grupy zajęciowe}
+
+Ten ekran wyświetla posortowaną listę wszystkich grup zajęciowych studenta.
+Student może kliknąć wybraną grupę aby zobaczyć szczegóły.
 
 \section{Widok grupy}
 
+W tym widoku student widzi szczegóły wybranej grupy zajęciowej. W szczególności
+ma możliwość przejścia do powiązanego przedmiotu, może sprawdzić kalendarz spotkań
+i listy wszystkich uczestników zajęć. Ciekawym dodatkiem jest możliwość łatwego
+dodania wpisów o wszystkich spotkaniach do kalendarza w telefonie.
+
 \section{Widok przedmiotu}
+
+W tym widoku student może sprawdzić syllabus przedmiotu, różne informacje wprowadzone
+przez wykładowcę, zobaczyć adres strony WWW przedmiotu oraz plan zajęć powiązanych grup.
 
 \section{Ankiety}
 
+TODO
+
 \section{Ankiety pracownika}
+
+TODO
 
 \section{USOSmail}
 
+TODO
+
 \section{Moje legitymacje}
+
+Moduł ,,Moje legitymacje'' pozwala na wyświetlenie podglądu wszystkich legitymacji
+przypisanych do użytkownika oraz informacji o dacie ważności.
 
 \section{Moje eID}
 
+,,Moje eID'' wyświetla numery identyfikacyjne przypisane do użytkownika takie jak
+PESEL, numer karty bibliotecznej, ORCID i PBN. Moduł ma w swoim założeniu umożliwiać
+łatwą wymianę wymienionych numerów, dlatego każdy numer może zostać wyświetlony na
+ekranie w formacie CODE128 i Aztec.
+
 \section{Przydatne informacje o uczelni}
+
+TODO
 
 \section{Aktualności uczelniane}
 
+TODO
+
 \section{Mapa uczelni}
+
+Mapa uczelni wyświetla wszystkie budynki powiązane z uczelnią lub wybraną jednostką
+użytkownika na mapie Google. Użytkownik po kliknięciu na danym budynku może uzyskać
+informację o jednostce, która jest właścicielem budynku, danych kontaktowych oraz
+może otworzyć nawigację.
 
 \section{Katalog osób, przedmiotów i jednostek}
 
+TODO
+
 \section{Ustawienia}
+
+TODO
 
 \chapter{Wdrożenie w skali Polski}
 
