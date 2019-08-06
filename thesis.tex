@@ -1341,7 +1341,7 @@ studenta i wystawić mu ocenę. Pierwsze wystawienie oceny musi być potwierdzon
 wizytę na ekranie logowania. Ze względów bezpieczeństwa informacje o studentach nie
 są przechowywane w pamięci stałej telefonu.
 
-\section{Sprawdziany}
+\section{Sprawdziany studenta}
 
 Moduł sprawdziany stanowiły jak dotąd największe wyzwanie w zakresie projektowania
 interfejsu. Podstawowym problemem była konieczność przedstawienia drzewiastej
@@ -1381,8 +1381,9 @@ do nich e-maila.
 
 \section{Widget z planem zajęć}
 
-% TODO
-TODO
+Użytkownik może sobie umieścić na pulpicie telefonu widget, który będzie prezentował
+plan zajęć na dany dzień. W razie potrzeby możliwe jest rozwinięcie informacji o
+miejscu zajęć.
 
 \section{Grupy zajęciowe}
 
@@ -1401,22 +1402,35 @@ dodania wpisów o wszystkich spotkaniach do kalendarza w telefonie.
 W tym widoku student może sprawdzić syllabus przedmiotu, różne informacje wprowadzone
 przez wykładowcę, zobaczyć adres strony WWW przedmiotu oraz plan zajęć powiązanych grup.
 
-\section{Ankiety}
+\section{Ankiety studenta}
 
-TODO
+W tym module student może wyświetlić listę ankiet do wypełnienia. Po wybraniu ankiety
+możliwe jest wypełnienie jej i wysłanie do serwera. Ankiety w USOS dzielą się na dwa
+rodzaje: ogólne i zajęciowe, dotyczące wykładowców. W przypadku ankiet zajęciowych
+Mobilny USOS oprócz pytań do ankiety dodatkowo wyświetla informację o ocenianych
+zajęciach i wykładowcy.
 
 \section{Ankiety pracownika}
 
-TODO
+Ankiety pracownika moją nieco inny charakter od modułu przeznaczonego dla studentów.
+Wykładowca może tutaj sprawdzić status wypełnienia ankiet, które są podpięte pod
+niego. Dzięki temu wie, kiedy powinien prosić swoją grupę o wypełnienie brakujących
+ankiet. Pasek postępu wypełnienia jest aktualizowany w czasie rzeczywistym.
 
 \section{USOSmail}
 
-TODO
+USOSmail służy do komunikacji z innymi studentami i pracownikami uczelni. Obecnie
+moduł ten służy do łatwego wysyłania wiadomości e-mail. Użytkownik najpierw wybiera
+odbiorców wiadomości. Może to być konkretna osoba, grupa osób zdefiniowana przez
+użytkownika w USOS albo grupa zajęciowa. Możliwe jest wybranie kilku grup.
+Po wybraniu grupy zajęciowej można zawęzić listę odbiorców do studentów lub
+wykładowców. Po uzupełnieniu tytułu i treści wiadomości jest ona wysyłana do USOS
+API w celu dostarczenia do wybranych osób.
 
 \section{Moje legitymacje}
 
 Moduł ,,Moje legitymacje'' pozwala na wyświetlenie podglądu wszystkich legitymacji
-przypisanych do użytkownika oraz informacji o dacie ważności.
+przypisanych do użytkownika oraz informacji o ich dacie ważności.
 
 \section{Moje eID}
 
@@ -1427,11 +1441,29 @@ ekranie w formacie CODE128 i Aztec.
 
 \section{Przydatne informacje o uczelni}
 
-TODO
+Moduł przydatne informacje ma agregować rzadko zmieniane treści dotyczące uczelni,
+które mogą okazać się interesujące dla użytkownika. Przykładem takiej informacji
+są np. władze wydziału, numery telefonów i godziny pracy dziekanatu. Osoba wchodząca
+do modułu wybiera interesującą siebie jednostkę, a następnie w panelu z zakładkami
+wybiera właściwą kategorię tematyczną, po czym wyszukuje odpowiednią sekcję
+zawierającą potrzebną informację.
 
 \section{Aktualności uczelniane}
 
-TODO
+Uczelnie mają możliwość umieszczania swoich aktualności w Mobilnym USOS. Może się
+to odbywać w dwojaki sposób: albo poprzez odpowiedni panel w USOSadm, albo przez
+zewnętrzny serwer Wordpress. Tak pobierane aktualności dzielone są na trzy kategorie:
+
+\begin{itemize}
+	\item Wszystkie aktualności, także te niezwiązane z użytkownikiem,
+	\item Aktualności z jednostek użytkownika,
+	\item Aktualności dotyczące wszystkich osób z uczelni.
+\end{itemize}
+
+Poszczególne aktualności są podzielone i posortowane według daty dodania. Po
+kliknięciu w aktualność wyświetla się podgląd, na który składa się obrazek ilustrujący,
+tytuł, nagłówek i treść artykułu. Możliwa jest łatwa nawigacja gestami pomiędzy
+artykułami.
 
 \section{Mapa uczelni}
 
@@ -1442,11 +1474,26 @@ może otworzyć nawigację.
 
 \section{Katalog osób, przedmiotów i jednostek}
 
-TODO
+Katalog jest uniwersalną wyszukiwarką, dzięki której użytkownik może wyszukać
+studentów, pracowników, przedmioty i jednostki uczelni. Po odnalezieniu szukanego
+obiektu użytkownik może się przenieść do ekranu prezentującego szczegóły.
 
 \section{Ustawienia}
 
-TODO
+Na tym ekranie użytkownik może ustawić:
+
+\begin{itemize}
+	\item Raportowanie anonimowych informacji o awariach Mobilnego USOS.
+	\item Ukryć swoje zdjęcie na ekranie Mój USOS.
+	\item Zmienić język aplikacji.
+	\item Wybrać sposób wysyłania wiadomości -- przez USOSmail, klienta pocztowego,
+	lub zawsze wybierać między tymi dwoma.
+	\item Aktywować blokadę aplikacji -- przed każdym uruchomieniem Mobilnego USOS
+	wymagane będzie podanie ustawionego kodu.
+\end{itemize}
+
+Ponadto ekran ustawień zawiera odnośniki do polityki prywatności, pomocy technicznej
+oraz listy aplikacji, którym przyznano dostęp do USOS API.
 
 \chapter{Wdrożenie w skali Polski}
 
