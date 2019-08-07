@@ -1263,8 +1263,60 @@ Mobilnego USOS, o~co prosiło nas wiele osób odbywających zagraniczne praktyki
 
 \section{Widget z planem zajęć}
 
-% TODO
-TODO działanie widgetu i czemu android jest tak skopany
+W~sekcji \textit{Budowa typowego fragmentu} zwróciliśmy uwagę na identyczny cykl życia
+fragmentów i~związane z~tym uogólnienia implementacji. Specjalnym przypadkiem modułu
+aplikacji, który zarówno pod względem ogólnego projektu, jak i~implementacji odbiega
+znacząco od reszty, jest widget z~planem zajęć.
+
+Implementacja widgetu (gdzie ,,widget'' rozumiemy jako interaktywny moduł umieszczany
+na systemowym pulpicie) w~systemie Android jest wyzwaniem związanym przede wszystkim
+ze sposobem ich obsługi przez system operacyjny. Podczas gdy aplikacja jest uruchamiana
+jako osobny proces, a~fragmenty mogą współdzielić dane i~struktury, kod widżetu jest
+wykonywany przez procesy systemu operacyjnego, co powoduje, że nie można korzystać
+z~wielu standardowych mechanizmów implementacji np. komunikacji i~obsługi zdarzeń.
+Jest to spowodowane m.in. faktem, że widget ma działać także wtedy, gdy dostarczająca go
+aplikacja zostanie zamknięta, a~obsługa przez lekkie wątki systemowe wymusza na twórcy
+oprogramowania pisanie w~sposób energooszczędny.
+
+Lista ograniczeń jest długa. Z~punktu widzenia projektu graficznego, nie mamy dostępu
+do większości animacji i~komponentów, system ogranicza obsługę do tych komponentów,
+które obsługują protokół \texttt{RemoteViews}. Nie są też dostępne style graficzne,
+przez co widget nie mógł otrzymać ciemnego motywu. Z~punktu widzenia obsługi zdarzeń
+zamiast standardowych wywołań zwrotnych mamy do dyspozycji mechanizm \texttt{Intent}.
+Widget może utrzymywać ograniczony stan wewnętrzny, którego nie można wprost
+synchronizować z~główną częścią aplikacji. W~związku z~obsługą zdarzeń przez system
+operacyjny, nie mamy też kontroli nad liczbą wątków wykonujących na raz kod widgetu
+oraz nie możemy korzystać z~korutyn, ponieważ system nie dostarcza wątków roboczych,
+a~kod musi być w~pełni synchroniczny. Mamy także ograniczoną kontrolę nad odświeżaniem
+danych, w~konfiguracji widgetu należy podać oczekiwaną częstotliwość aktualizacji widoku,
+ale system ma prawo ją zignorować ze względów np. oszczędzania energii.
+
+Widget w~Mobilnym USOS składa się z~listy zajęć z~danego dnia, gdzie każdą pozycję można
+rozwinąć po więcej szczegółów, przycisku przełączenia widoku między planem na dziś i~jutro
+oraz przycisku wymuszonego odświeżenia planu. Przykładowy rysunek można znaleźć w~rozdziale
+,,Przegląd funkcjonalności''.
+
+W~związku z~narzuconymi przez system ograniczeniami, rdzeniem implementacji jest mechanizm
+preferencji współdzielonych (\texttt{SharedPreferences}), pozwalający przechowywać pary
+klucz-wartość, dostępne z~poziomu dowolnego wątku, zarówno aplikacji, jak i~obsługującego
+widget. Aplikacja w~trakcie procesu logowania zapisuje w~preferencjach tokeny do podpisywania
+zapytań. Sam widget zaś zapisuje w~preferencjach informacje synchronizacyjne (czy odświeżanie
+danych jest w~trakcie oraz czas ostatniego odświeżenia) oraz informacje, co i~w~jaki
+sposób wyświetlać. Należy tutaj zwrócić uwagę na przyczyny przechowywania w~dzielonej
+przestrzeni stanu wewnętrznego widgetu.
+
+Widget wyświetlający zmienną liczbę obiektów wymaga dodatkowo adaptera, którego zadaniem jest
+generowanie widoków poszczególnych elementów listy. Istotny w~tym miejscu jest fakt, że dane
+do wygenerowania widoków są w~wewnętrznym stanie adaptera, ale obsługa zdarzeń dotyczących
+zarówno elementów listy, jak i~innych komponentów widgetu, jest zadaniem dla głównej usługi.
+W~związku z~tym dodatkowy mechanizm przekazywania stanu jest konieczny, aby zdarzenia typu
+kliknięcie powodowały zmianę wizualną elementów listy, na przykład rozwinięcie wpisu.
+
+Z~podobnej przyczyny dane synchronizacyjne zostały także umieszczone w~pamięci współdzielonej.
+Jedynym komunikatem, który można wysłać do adaptera jest ,,dane się zmieniły, odśwież się''.
+Potrzebna jest więc możliwość przekazania adapterowi przyczyny rozkazu odświeżenia widoku --
+czy z~powodu zmiany rozwinięcia elementu, zmiany dnia, czy też na skutek rozkazu odświeżenia
+danych od użytkownika.
 
 \chapter{Przegląd funkcjonalności}
 
