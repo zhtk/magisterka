@@ -15,13 +15,18 @@
 % dodaj opcję [licencjacka] dla pracy licencjackiej
 % dodaj opcję [en] dla wersji angielskiej (mogą być obie: [licencjacka,en])
 \documentclass{pracamgr}
-\usepackage[hidelinks]{hyperref}
-\usepackage{tikz}
-% \usepackage{refcheck}
-\usepackage{dirtree}
+\usepackage{booktabs}
 \usepackage{caption}
+\usepackage{dirtree}
 \usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{longtable}
+%\usepackage{refcheck}
 \usepackage{subcaption}
+\usepackage{tabu}
+\usepackage{tocloft}
+\usepackage{tikz}
+\usepackage{url}
 \usetikzlibrary{shapes,arrows,positioning}
 
 \tikzstyle{decision} = [diamond, draw, fill=blue!20,
@@ -46,7 +51,7 @@
 
 
 \title{Mobilny USOS -- aplikacja mobilna dla studentów i~pracowników uczelni}
-%\tytulang{ Mobile USOS - mobile application for university students and employees}
+\tytulang{Mobile USOS -- mobile application for university students and employees}
 
 \kierunek{informatyka}
 
@@ -98,11 +103,6 @@
 
 % Tu jest dobre miejsce na Twoje własne makra i~środowiska:
 \newtheorem{defi}{Definicja}[section]
-\usepackage{url}
-\usepackage{booktabs}
-\usepackage{graphicx}
-\usepackage{tabu}
-\usepackage{caption}
 
 % reguły łamania słów
 \hyphenation{USOS-web}
@@ -112,7 +112,6 @@
 \hyphenation{MUCI}
 
 % koniec definicji
-\usepackage{tocloft}
 \setlength{\cftchapnumwidth}{1.75em}
 
 
@@ -134,7 +133,7 @@
   ocenach. Aplikacja została wdrożona na UW i~kilkunastu innych uczelniach. Projekt
   zakłada możliwość udostępnienia aplikacji wszystkim uczelniom korzystającym z~USOS.
   Do aplikacji dołączyliśmy dokumentację instalacyjną dla wdrożeniowców. Aplikacja
-  będzie dostępna na platformie Android.
+  jest dostępna na platformie Android.
 \end{abstract}
 
 \tableofcontents
@@ -159,8 +158,8 @@ i~angielskim, analogicznie do innych modułów Uniwersyteckiego Systemu Obsługi
 Od kwietnia 2018~r. przejęliśmy rozwój aplikacji. Naszym głównym celem
 było wdrożenie jej na uczelniach wchodzących w skład Międzyuniwersyteckiego Centrum Informatyzacji (MUCI).
 MUCI zajmuje się m. in. tworzeniem, rozwojem i~wdrażaniem systemów wspierających
-uczelnie \cite{muci}. W~ramach dążenia do tego celu naszymi zadaniami
-były m.in. refaktoring kodu, rozbudowa o~nowe moduły oraz dostosowanie do potrzeb osób 
+uczelnie \cite{muci}. W~ramach dążenia do tego celu należało wykonać
+refaktoring kodu, rozbudować aplikację o~nowe moduły oraz dostosować ją do potrzeb osób 
 niepełnosprawnych.
 
 Istotnym elementem refaktoringu kodu była migracja z~Javy na Kotlin (o~wyborze technologii obecnych w~produkcyjnej wersji
@@ -168,8 +167,8 @@ aplikacji opowiemy w~rozdziale 4.), zastąpienie wadliwego rozwiązania problemu
 wykonywania asynchronicznych zapytań do USOS API przez mechanizm korutyn 
 (ang. \textit{coroutines}) oraz naprawienie innych błędów w~oryginalnym kodzie.
 
-1 października 2018 roku wdrożyliśmy oficjalnie Mobilnego USOS na Uniwersytecie Warszawskim,
-wypełniając tym samym pierwszą część celu pracy -- wdrożenie produkcyjne pierwszej uczelni.
+1 października 2018 roku wdrożyliśmy oficjalnie Mobilny USOS na Uniwersytecie Warszawskim,
+wypełniając tym samym pierwszą część celu pracy -- wdrożenie produkcyjne na pierwszej uczelni.
 W~rozdziale 7. wskażemy wyzwania związane z~procesem wdrażania oraz procedury wdrożeniowe.
 
 Równolegle do prac nad wdrażaniem aplikacji na kolejnych uczelniach rozwijaliśmy kolejne
@@ -214,7 +213,7 @@ aplikacji jest mniej surowa, a~edytorzy treści pozwalają sobie na
 swobodniejszy dobór grafik i~użycie nieformalnego języka. 
 
 Mobilny USOS ma być uzupełnieniem USOSweb, przewidujemy dla niego rolę informacyjną,
-zgodną z~dominującym w~Polsce podejściem do tematu aplikacji mobilnej dla uczelni,
+zgodną z~dominującym w~Polsce podejściem do przeznaczenia aplikacji mobilnej dla uczelni,
 bez aspektu społecznościowego.
 
 \section{Aplikacja mobilna dla USOS}
@@ -233,7 +232,7 @@ punktu widzenia, gdyż nie trzeba by było wtedy tworzyć nowej aplikacji, a~tyl
 dostosować USOSweb do potrzeb aplikacji mobilnych. Niestety ze względu na architekturę
 USOSweb i~naleciałości historyczne zadanie to okazało się być technicznie niewykonalne
 w realistycznym horyzoncie czasowym. Ponadto taka realizacja aplikacji mobilnej
-pozbawia użytkownika wielu benefitów wypływających z~natywnej implementacji.
+pozbawia użytkownika wielu korzyści wypływających z~natywnej implementacji.
 W nowej aplikacji wiele funkcjonalności USOSweb może być dostarczanych w~inny
 sposób, który jest dostosowany do specyfiki urządzeń mobilnych.
 
@@ -537,7 +536,7 @@ nie dość, że takie moduły są używane stosunkowo rzadko, to jeszcze operacj
 z ich użyciem wykonuje się zdecydowanie wygodniej z~poziomu komputera. Postanowiliśmy
 zaimplementować tylko te moduły, które byłyby przydatne w~sytuacji kiedy pracownik
 nie ma dostępu do komputera, np. w~trakcie zajęć lub kiedy nadgorliwy student
-spotka pracownika na korytarzu swojego wydziału i~będzie oczekiwał natychmiastowej
+spotka pracownika na korytarzu i~będzie oczekiwał natychmiastowej
 informacji na temat swojej oceny.
 
 W związku z~powyższym, do realizacji przyjęliśmy moduł ankiet, protokołów
@@ -554,8 +553,8 @@ graficznej Mobilnego USOS. Przy wdrażaniu aplikacji należy pamiętać o~sprawd
 Z wymienionych powodów zdecydowano, że każda uczelnia będzie miała własną
 wersję Mobilnego USOS tworzoną ze wspólnego szablonu. W~związku z~faktem, że
 niektóre uczelnie nie korzystają z~części funkcjonalności USOSweb (na przykład nie
-wpisują do USOS planów zajęć), udostępniliśmy możliwość ukrycia wybranych modułów aplikacji,
-tak by uniknąć negatywnych komentarzy użytkowników końcowych związanych z~pustymi zakładkami.
+wpisują do USOS planów zajęć), należało wprowadzić możliwość ukrycia wybranych modułów aplikacji,
+aby uniknąć negatywnych komentarzy użytkowników końcowych, niezadowolonych z~pustych zakładek.
 
 Największe polskie uczelnie są instytucjami publicznymi i~muszą spełniać wytyczne
 dostępności narzucane przez polskie prawo \cite{uodc}. W~przypadku aplikacji mobilnych
@@ -567,7 +566,7 @@ TalkBack \cite{talkback}.
 
 \section{Logowanie do aplikacji}
 
-Mobilny USOS, jako część aplikacji rozwijanych w~ramach USOS, powinien być silnie 
+Mobilny USOS, jako aplikacja rozwijana w~ramach USOS, powinien być silnie 
 zintegrowany z~całą platformą. Logowanie do aplikacji powinno być bezpieczne i~możliwie
 intuicyjne dla użytkowników końcowych.
 
@@ -581,15 +580,14 @@ sesję użytkownika bezterminowo, do wylogowania się bądź odinstalowania apli
 Pozwala to uniknąć regularnego wpisywania hasła, co na telefonie jest szczególnie
 niewygodne, a~także niebezpieczne, ponieważ atakujący może łatwiej podejrzeć hasło.
 
-Ostatnim z~wymagań z~zakresu logowania i~bezpieczeństwa było zabezpieczenie aplikacji
-przed wykorzystaniem aktywnej sesji przez niepowołane osoby. Wymaganie to zostało później
-sprecyzowane -- użytkownik powinien móc ustawić osobne hasło, które będzie wymagane 
-przy każdym uruchomieniu aplikacji.
+Ostatnim z~wymagań było zabezpieczenie aplikacji przed wykorzystaniem sesji przez
+niepowołane osoby. Użytkownik powinien mieć możliwość zablokować aplikację kodem PIN
+lub wzorem, które będą wymagane przy każdym uruchomieniu aplikacji.
 
 \section{Dashboard}
 
 Głównym ekranem i~sercem aplikacji jest dashboard. W~zależności od punktu widzenia, pełni
-on kilka ról.
+on kilka funkcji.
 
 Z~punktu widzenia studenta i~pracownika, ważna jest możliwość szybkiego sprawdzenia informacji
 potrzebnych w~ciągu dnia na uczelni. Oczywistym przykładem takiej informacji jest plan zajęć,
@@ -604,7 +602,7 @@ Dlatego podczas sesji ankietowej w~dashboardzie powinna wyświetlać się lista 
 ankiet czekających na wypełnienie. Wyświetlanie aktualności w~aplikacji ma na
 celu zwiększenie zainteresowania tym,
 co ogólnie dzieje się na uczelni. Dzięki aplikacji, artykuły znacznie zwiększą swój zasięg,
-ponieważ student lub pracownik, którzy do tej pory nie zaglądali na portal z~wiadomościami
+ponieważ studenci lub pracownicy, którzy do tej pory nie zaglądali na portal z~wiadomościami
 o~uczelni, dowiedzą się o~samym fakcie istnienia tych wiadomości, a~od tego dość blisko do
 ich przeczytania, jeśli nagłówek będzie interesujący.
 
@@ -634,24 +632,24 @@ w~trzech wariantach:
 
 Ze względu na przewidywane przypadki użycia Mobilnego USOS przez pracowników --
 wystawianie oceny z~jednego przedmiotu kolejnym egzaminowanym ustnie studentom
-i~odpowiedzi na pytania studentów o~ocenę, najbardziej przydatnym i~wygodnym wydało się
-udostępnienie w~aplikacji mobilnej wariantu drugiego protokołów. Nacisk należy tu położyć na
+i~odpowiedzi na pytania studentów o~ocenę, najbardziej przydatnymi w~aplikacji mobilnej
+wydały się pierwszy i~drugi wariant protokołów. Nacisk należy tu położyć na
 przejrzystość interfejsu i~umożliwienie edycji wszystkich elementów wpisu do protokołu
-(samej oceny, ale także komentarza publicznego, widocznego dla studenta i~prywatnego,
-dostępnego tylko dla pracownika w~widoku protokołu).
+(samej oceny, ale także komentarza publicznego, widocznego dla studenta, i~prywatnego,
+dostępnego tylko dla pracownika).
 
 \section{Sprawdziany}
 
 Na niektórych uczelniach i~wydziałach (chociażby na Wydziale MIM UW, czy na Politechnice
 Warszawskiej) intensywnie korzysta się z~modułu sprawdzianów. Przedstawiciele tych
 uczelni zabiegali o~wprowadzenie do Mobilnego USOS obsługi sprawdzianów.
-Podobnie do przypadku ocen, na moduł możemy spojrzeć z~perspektywy studenta i~pracownika.
+Podobnie jak w~przypadku ocen, na moduł możemy spojrzeć z~perspektywy studenta i~pracownika.
 
 Ze względu na fakt, że potrzeby studenta są analogiczne, jak w~przypadku ocen -- powiadomienia
 o~nowych punktach i~ocenach w~sprawdzianach oraz dostęp do informacji o~wszystkich wpisach
 w~sprawdzianach, nie będziemy tu opisywać wymagań bardziej szczegółowo. Istotną różnicą
 w~stosunku do ocen jest dostęp do histogramów wyników, dzięki czemu studenci w~trakcie
-roku mogą porównywać swoje wyniki z~ogółem studentów, na przykład aby przewidywać, jakie
+roku mogą porównywać swoje wyniki z~wynikami ogółu studentów, aby na przykład przewidywać, jakie
 mogą być progi punktowe na koniec semestru.
 
 Z~perspektywy pracownika, oczekiwane funkcjonalności aplikacji mobilnej różnią się od tego,
@@ -663,16 +661,14 @@ oceny do protokołu.
 
 \section{Kalendarz roku akademickiego}
 
-Politechnika Warszawska zgłosiła chęć pokazania użytkownikom kalendarza wydarzeń
-roku akademickiego. Moduł ten ma powstać w~oparciu o~funkcjonujący w~systemie USOS
-kalendarz, który służy np. do obliczania, które dni są wolne od zajęć dydaktycznych
-czy jak wygląda podział semestru na tygodnie parzyste i~nieparzyste. Widok w~aplikacji
-ma stanowić naturalne rozwinięcie istniejącego raportu, który jednostka może wygenerować
-z~systemu administracyjnego USOSadm.
+W~systemie USOS dostępny jest raport \textit{kalendarz roku akademickiego}. Zawiera on podział
+roku akademickiego na semestry, okresy trwania sesji, święta państwowe, dni wolne od zajęć
+oraz inne ważne wydarzenia z~życia uczelni. Aplikacja powinna zawierać widok, będący
+wizualizacją tego raportu.
 
 W~widoku użytkownik powinien mieć możliwość wyboru jednostki, dla której chce zobaczyć
 dane. Sam kalendarz powinien w~graficzny sposób wskazywać użytkownikowi, kiedy mają miejsce 
-interesujące go zdarzenia, dni wolne, okres sesji, itd. 
+interesujące go zdarzenia. 
 Po wybraniu z~kalendarza interesującego dnia powinna się pojawić szczegółowa lista zdarzeń.
 Moduł powinien być też łatwo rozwijalny, na przykład o~rejestracje na zajęcia czy informacje
 o~terminach składania wniosków o~stypendium.
@@ -720,9 +716,10 @@ Europejskiej i~Województwa Mazowieckiego, wymagane jest umieszczenie informacji
 o~podmiotach finansujących i~programach, w~ramach których odbywało się finansowanie.
 
 W~związku z~finansowaniem ze środków publicznych, aplikacja musi także spełniać wymogi
-dostępności \cite{uodc}, co opisaliśmy poniżej.
+dostępności \cite{uodc}, co opisaliśmy w p.~\ref{sec:dostepnosc}.
 
 \section{Dostępność dla niepełnosprawnych}
+\label{sec:dostepnosc}
 
 Aplikacja musi spełniać wymogi dostępności określone w~standardzie WCAG 2.1 \cite{wcag21}.
 Standard ten określa trzy poziomy dostępności -- A, AA i~AAA, które można określić jako
@@ -801,10 +798,10 @@ pomocy dołączonej biblioteki możliwe jest ręcznie wysłanie informacji o~bł
 \section{Fabric}
 
 Fabric \cite{fabric} łączy funkcjonalność Crashlytics z~prostą analityką opartą na
-danych przesyłanych przez aplikację oraz możliwością tworzenia zamkniętych
-beta-testów. W~Fabric można między innymi sprawdzić, ilu użytkowników korzystało
+danych przesyłanych przez aplikację oraz możliwością tworzenia zamkniętych grup
+beta-testerów. W~Fabric można między innymi sprawdzić, ilu użytkowników korzystało
 z aplikacji w~danym przedziale czasowym i~regionie, ile trwała jedna sesja oraz
-ile tych sesji było. Wszystkie dane są zanonimizowane i~wyświetlane w~sposób
+ile było tych sesji. Wszystkie dane są zanonimizowane i~wyświetlane w~sposób
 zagregowany. W~związku z~planowanym wyłączeniem serwisu Fabric większość jego
 usług została przeniesiona do Firebase.
 
@@ -813,7 +810,7 @@ usług została przeniesiona do Firebase.
 Firebase \cite{firebase} dostarcza pakiet usług do tworzenia bezserwerowych
 (ang. \textit{serverless}) aplikacji. Jest on znany głównie z~usługi składowania
 danych w~chmurze, z~której jednak nie korzystamy. Kluczową usługą Firebase
-wykorzystywaną przez Mobilnego USOS jest \textit{Firebase Cloud Messaging}
+wykorzystywaną przez Mobilny USOS jest \textit{Firebase Cloud Messaging}
 \cite{firebasecm}, która służy do wysyłania powiadomień z~USOS API do określonego
 urządzenia z~zainstalowaną aplikacją. Wykorzystujemy tę usługę do odbierania
 powiadomień o~zmianie oceny lub punktów w~sprawdzianach. Po wyłączeniu Fabric
@@ -823,16 +820,16 @@ Firebase będzie także służył do zbierania informacji o~awariach Mobilnego U
 
 Do składowania kodu wykorzystujemy system kontroli wersji Git \cite{git}. Każdy
 napisany przez nas kawałek kodu trafia do systemu Gerrit \cite{gerrit}, w~którym
-następuje proces opiniowania kodu. Gerrit jest połączony z~serwerem Jenkins
+kod jest opiniowany. Gerrit jest połączony z~serwerem Jenkins
 \cite{jenkins}, który wykonuje podstawowe testy przesłanego kodu.
 
 \section{Gradle}
 
 Gradle \cite{gradle} jest głównym systemem budowania aplikacji napisanych w
 językach Java i~Kotlin wykorzystywanym przez platformę Android. Skrypty Gradle
-są napisane w~języku Groovy. Dzięki odrzuceniu formatu XML wykorzystywanego przez
-narzędzia takie jak Ant i~Maven na rzecz pełnoprawnego języka programowania
-uzyskano dużą elastyczność i~zwięzłość wymaganą w~naszym projekcie. Z~naszego
+są napisane w~języku Groovy. Dzięki odrzuceniu formatu XML, wykorzystywanego przez
+narzędzia takie jak Ant i~Maven, na rzecz pełnoprawnego języka programowania
+uzyskano dużą elastyczność i~zwięzłość wymaganą w~projekcie. Z~naszego
 punktu widzenia kluczowa jest możliwość definiowania wielu odmian aplikacji, po
 jednej dla każdej uczelni. Warianty są tworzone automatycznie na podstawie osobnego,
 tajnego pliku zawierającego listę uczelni i~klucze dostępowe do uczelnianego serwera
@@ -844,8 +841,8 @@ jej dane dostępowe i~ta część może być bezproblemowo użyta do zbudowania 
 Jackson \cite{jackson} jest biblioteką do deserializacji danych zapisanych w
 formacie JSON. Jest ona o~tyle kluczowa, że praktycznie wszystkie dane przesyłane
 przez USOS API są zapisane w~tym formacie. W~porówaniu do konkurencyjnej biblioteki
-Gson \cite{gson}, Jackson zapewnia większą kontrolę nad procesem deserializacji
-oraz posiada rozszerzenia do obsługi języka Kotlin.
+Gson \cite{gson}, Jackson zapewnia lepszą kontrolę nad procesem deserializacji,
+dostarczane do niego są także rozszerzenia do obsługi języka Kotlin.
 
 \section{Java}
 
@@ -865,14 +862,14 @@ Odpowiedzią na problemy związane z~językiem Java jest język Kotlin \cite{kot
 System typów w~języku Kotlin wprowadza rozróżnienie zmiennych na takie, które mogą
 przyjmować wartość null i~takie, które nie mogą. Specyfikacja języka Kotlin zawiera
 dość zaawansowaną inferencję typów, dzięki której kompilator może wyłapać typowe błędy
-związane z~obsługą wartości null. Ponadto w~języku zdefiniowane są specjalne
+związane z~obsługą wartości \texttt{null}. Ponadto w~języku zdefiniowane są specjalne
 operatory, które pozwalają w~zwięzły i~czytelny sposób obsługiwać zmienne mogące
-przyjmować wartość null. Język Kotlin jest mocno wzorowany na językach funkcyjnych,
+przyjmować wartość \texttt{null}. Język Kotlin jest mocno wzorowany na językach funkcyjnych,
 co znalazło odzwierciedlenie w~bibliotece standardowej, która udostępnia typowo
-funkcyjne operacje na kolekcjach, takie jak map i~filter. Zmienne i~klasy
-kolekcji z~biblioteki standardowej, takie jak listy i~mapy, są domyślnie niezmienialne
-(ang. \textit{immutable}). Kolejnym bardzo przydatnym mechanizmem wprowadzonym w
-języku Kotlin są korutyny. Wykorzystujemy je do czytelniejszego zapisu wielowątkowego
+funkcyjne operacje na kolekcjach, takie jak \texttt{map()} i~\texttt{filter()}. Zmienne i~klasy
+kolekcji z~biblioteki standardowej, takie jak listy i~mapy, są domyślnie niemodyfikowalne
+(ang. \textit{immutable}). Kolejnym bardzo przydatnym mechanizmem dostępnym w~języku
+Kotlin są korutyny. Wykorzystujemy je do czytelniejszego zapisu wielowątkowego
 kodu. Dzięki mechanizmowi kontynuacji unikamy zjawiska znanego jako \textit{callback hell}
 przy obsłudze wywołań USOS API, które było dla nas źródłem wielu problemów w
 początkowej fazie projektu.
@@ -943,13 +940,13 @@ odnajduje w~nim nazwę głównej aktywności i~uruchamia ją. Nasza aplikacja sk
 się z~czterech aktywności (por. Rysunek~\ref{fig:activities}):
 
 \begin{itemize}
-	\item Ekranu startowego (SplashScreen) -- jest to główna aktywność.
-	      Prezentuje ona nazwę aplikacji i~informacje o~finansowaniu. Wyświetlana
+	\item Ekranu startowego (\texttt{SplashScreen}) -- jest to główna aktywność.
+	      Prezentuje ona nazwę aplikacji i~informacje o~sponsorze. Wyświetlana
 	      jest ona przez 3 sekundy, po czym uruchamia kolejną aktywność -- ekran
 	      logowania.
-	\item Ekranu logowania (LoginActivity) -- Obsługuje on proces logowania się
+	\item Ekranu logowania (\texttt{LoginActivity}) -- Obsługuje on proces logowania się
 	      użytkownika do aplikacji.
-	\item Ekranu głównego (MainActivity) -- Tutaj zachodzi większość interakcji
+	\item Ekranu głównego (\texttt{MainActivity}) -- Tutaj zachodzi większość interakcji
 	      z~USOS.
 	\item Aktywności odpowiedzialnej za wyświetlenie dużego podglądu legitymacji
 	      studenckiej.
@@ -957,21 +954,21 @@ się z~czterech aktywności (por. Rysunek~\ref{fig:activities}):
 
 \begingroup
 \centering
-\includegraphics[scale=0.5]{img/activities.png}
+\includegraphics[scale=0.7]{img/activities.png}
 \captionof{figure}{Aktywności aplikacji}\label{fig:activities}
 \medskip
 \endgroup
 
-Najbardziej skomplikowaną aktywnością jest MainActivity. Składają się na nią
+Najbardziej skomplikowaną aktywnością jest \texttt{MainActivity}. Składają się na nią
 menu główne, belka tytułowa oraz wyświetlany ekran. Poszczególne ekrany w~obrębie
-MainActivity są zrealizowane jako fragmenty (ang. \textit{fragment}). Przykładowo,
+tej aktywności są zrealizowane jako fragmenty (ang. \textit{fragment}). Przykładowo,
 osobnymi fragmentami są: lista grup, lista protokołów, lista studentów w~konkretnym
-terminie danego protokołu. Każdy fragment na własną rękę zajmuje się pobieraniem
-danych z~USOS API, zapisywaniem ich w~pamięci tymczasowej (ang. \textit{cache}),
+terminie danego protokołu. Każdy fragment niezależnie od innych pobiera
+danych z~USOS API, zapisywaniem ich w~schowku (ang. \textit{cache}),
 wyświetlaniem pobranych danych oraz obsługą interacji z~użytkownikiem. Dzięki temu,
 że każdy fragment jest niezależny od danych pobranych przez inne fragmenty, informacje
 wyświetlane na ekranie zawsze tworzą jedną spójną całość, a~zarządzanie danymi
-składowanymi w~pamięci tymczasowej staje się bardzo proste. Na wygląd fragmentu mogą się
+składowanymi w~schowku staje się bardzo proste. Na wygląd fragmentu mogą się
 składać widoki (ang. \textit{view}), które reprezentują np. pojedyncze elementy
 listy.
 
@@ -1023,7 +1020,7 @@ OkHttp dopisuje do zapytania nagłówki OAuth i~wysyła odpowiednie żądanie do
 a następnie przekazuje odpowiedź do Retrofita. Odpowiedź serwera USOS API jest w
 formacie JSON. Retrofit przy pomocy biblioteki Jackson dokonuje deserializacji
 odpowiedzi, a~następnie wpisuje jej zawartość do kotlinowej klasy reprezentującej
-zwrócony obiekt.
+przekazany obiekt.
 
 Komunikacja z~serwerem USOS API jest asynchroniczna. Moduł wykonujący zapytanie
 do USOS API nie otrzymuje odpowiedzi wprost, ale w~postaci wywołania zwrotnego
@@ -1077,9 +1074,9 @@ wersjach powyżej 5.0 korzysta z~Google Chrome, starsze wersje korzystają z~wł
 komponentu. Wszystko to sprawia, że nie da się uzyskać przewidywalnego środowiska,
 w którym mógłby działać Mobilny USOS. Jednocześnie ze względu na mnogość różnych
 konfiguracji nie jesteśmy w~stanie obsłużyć i~przetestować wszystkich możliwych
-przypadków. Wykorzystanie zewnętrzej aplikacji ma jeszcze jedną wadę -- w~trakcie
-testów użytkownicy narzekali, że po zakończonym procesie logowania w~tle pozostaje
-otwarty proces przeglądarki, którego nie byliśmy w~stanie zamknąć. Czasem powodowało
+przypadków. Wykorzystanie zewnętrznej aplikacji ma także tę wadę, że w~trakcie
+testów użytkownicy narzekali, że po zakończonym procesie logowania na liście aplikacji
+pozostaje okno przeglądarki, którego nie byliśmy w~stanie zamknąć. Czasem powodowało
 to, że użytkownik w~panelu systemowym widział dwie otwarte aplikacje Mobilny USOS,
 z czego poprawnie działała tylko jedna.
 
@@ -1091,14 +1088,14 @@ większości urządzeń. Ponadto obsługuje ona rozszerzenie Chrome Custom Tabs,
 pozwala nam osadzić przeglądarkę wewnątrz Mobilnego USOS. Taka przeglądarka w
 dalszym ciągu zachowuje autonomię, która nie pozwala Mobilnemu USOS odczytać
 hasła użytkownika, z~drugiej strony Mobilny USOS może lepiej kontrolować zachowanie
-takiej przeglądarki. Jeżeli próba uruchomienia Google Chrome się nie powiedzie,
+takiej przeglądarki. Jeżeli próba uruchomienia Google Chrome zakończy się porażką,
 Mobilny USOS uruchamia domyślną przeglądarkę. Uważamy, że wypracowane rozwiązanie
 jest dobrym kompromisem, dzięki któremu niemal wszyscy użytkownicy są w~stanie
 zalogować się do Mobilnego USOS. Do tej pory nie otrzymaliśmy żadnej skargi na
 działanie tego mechanizmu.
 
-Po zalogowaniu USOS API przekierowuje użytkownika do wskazanego przez Mobilnego USOS
-adresu URL. Wykorzystujemy mechanizm głębokiego linkowania (ang. \textit{deep links}),
+Po zalogowaniu USOS API przekierowuje użytkownika pod adres URL wskazany przez Mobilny USOS.
+Wykorzystujemy mechanizm głębokiego linkowania (ang. \textit{deep links}),
 by przekierować użytkownika z~przeglądarki z~powrotem do aplikacji \cite{deeplinks}.
 W tym momencie do tymczasowych tokenów wygenerowanych wcześniej przez USOS API zostaje
 przypisana tożsamość użytkownika. Mobilny USOS otrzymuje specjalny kod, który w
@@ -1135,7 +1132,7 @@ i~interakcje związane z~powiadomieniami są przedstawione na rysunku \ref{fig:f
 
 \begingroup
 \centering
-\includegraphics[scale=0.5]{img/firebase.png}
+\includegraphics[width=\linewidth]{img/firebase.png}
 \captionof{figure}{Dostarczenie powiadomienia do użytkownika}\label{fig:firebase}
 \medskip
 \endgroup
@@ -1152,8 +1149,8 @@ przemawiał za wykorzystaniem Firebase.
 Do Mobilnego USOS na jednym urządzeniu mogą być w~różnym czasie zalogowani różni
 użytkownicy. W~sytuacji gdyby doszło do splotu kilku niekorzystnych okoliczności
 związanych z~ograniczeniami serwera USOS API, mogłoby się zdarzyć, że do obecnie
-zalogowanego użytkownika przyjdzie powiadomienie związane z~poprzednio zalogowanym
-na urządzeniu użytkownkiem. Rozwiązujemy ten problem przez nieprzesyłanie danych
+zalogowanego użytkownika przyjdzie powiadomienie związane z~użytkownkiem poprzednio zalogowanym
+na urządzeniu. Rozwiązujemy ten problem przez nieprzesyłanie danych
 osobowych w~powiadomieniu, pomijanie powiadomień, gdy nikt nie jest zalogowany w
 Mobilnym USOS na danym urządzeniu oraz przez wymuszenie wygenerowania nowego tokenu
 Firebase po zalogowaniu nowego użytkownika. Dzięki temu zabiegowi nie grozi nam
@@ -1161,6 +1158,7 @@ sytuacja, kiedy na jeden token Firebase będą wysyłane powiadomienia dotycząc
 różnych użytkowników.
 
 \section{Budowa typowego fragmentu}
+\label{sec:budowa}
 
 Podczas prac nad Mobilnym USOS szybko zauważyliśmy, że praktycznie wszystkie
 fragmenty mają identyczny cykl życia. Po uruchomieniu fragmentu tworzone są
@@ -1237,9 +1235,8 @@ tak rzucający cień biały prostokąt z~zaokrąglonymi rogami. Służy on do wy
 podstawowej porcji informacji, takiej jak grupa na liście grup lub węzeł na liście
 dzieci folderu sprawdzianu. Karteczka zazwyczaj składa się z~wyróżnionej informacji
 głównej i~informacji pomocniczej zapisanej mniejszą czcionką. W~zależności od potrzeby
-karteczka może być rozwijalna. Karteczki są najbardziej widocznym symbolem wysiłku
-intelektualnego, jaki włożyliśmy w~to, by szata graficzna Mobilnego USOS była nie
-tylko spójna, ale też elegancka.
+karteczka może być rozwijalna. Karteczki zwiększają wewnętrzną spójność ekranów aplikacji,
+a~ponadto mają istotny udział w~tworzeniu wyróżniającego się stylu graficznego.
 
 W trakcie prac nad szatą graficzną okazało się, że brakuje nam spójnej wizji, jak
 miałaby ona wyglądać. W związku z tym MUCI podjęło decyzję o zatrudnieniu profesjonalnej
@@ -1255,7 +1252,7 @@ Mobilnego USOS, o~co prosiło nas wiele osób odbywających zagraniczne praktyki
 
 \section{Widget z planem zajęć}
 
-W~sekcji \textit{Budowa typowego fragmentu} zwróciliśmy uwagę na identyczny cykl życia
+W~sekcji \ref{sec:budowa} zwróciliśmy uwagę na identyczny cykl życia
 fragmentów i~związane z~tym uogólnienia implementacji. Specjalnym przypadkiem modułu
 aplikacji, który zarówno pod względem ogólnego projektu, jak i~implementacji odbiega
 znacząco od reszty, jest widget z~planem zajęć.
@@ -1263,9 +1260,9 @@ znacząco od reszty, jest widget z~planem zajęć.
 Implementacja widgetu (gdzie ,,widget'' rozumiemy jako interaktywny moduł umieszczany
 na systemowym pulpicie) w~systemie Android jest wyzwaniem związanym przede wszystkim
 ze sposobem ich obsługi przez system operacyjny. Podczas gdy aplikacja jest uruchamiana
-jako osobny proces, a~fragmenty mogą współdzielić dane i~struktury, kod widżetu jest
+jako osobny proces, a~fragmenty mogą współdzielić dane i~struktury, kod widgetu jest
 wykonywany przez procesy systemu operacyjnego, co powoduje, że nie można korzystać
-z~wielu standardowych mechanizmów implementacji np. komunikacji i~obsługi zdarzeń.
+z~wielu standardowych mechanizmów implementacji, np. komunikacji i~obsługi zdarzeń.
 Jest to spowodowane m.in. faktem, że widget ma działać także wtedy, gdy dostarczająca go
 aplikacja zostanie zamknięta, a~obsługa przez lekkie wątki systemowe wymusza na twórcy
 oprogramowania pisanie w~sposób energooszczędny.
@@ -1281,12 +1278,12 @@ operacyjny, nie mamy też kontroli nad liczbą wątków wykonujących na raz kod
 oraz nie możemy korzystać z~korutyn, ponieważ system nie dostarcza wątków roboczych,
 a~kod musi być w~pełni synchroniczny. Mamy także ograniczoną kontrolę nad odświeżaniem
 danych, w~konfiguracji widgetu należy podać oczekiwaną częstotliwość aktualizacji widoku,
-ale system ma prawo ją zignorować ze względów np. oszczędzania energii.
+ale system ma prawo ją zignorować z powodu np. oszczędzania energii.
 
 Widget w~Mobilnym USOS składa się z~listy zajęć z~danego dnia, gdzie każdą pozycję można
 rozwinąć po więcej szczegółów, przycisku przełączenia widoku między planem na dziś i~jutro
-oraz przycisku wymuszonego odświeżenia planu. Przykładowy rysunek można znaleźć w~rozdziale
-,,Przegląd funkcjonalności''.
+oraz przycisku wymuszającego odświeżenie planu. Przykładowy rysunek można znaleźć w~rozdziale
+\ref{sec:przeglad}.
 
 W~związku z~narzuconymi przez system ograniczeniami, rdzeniem implementacji jest mechanizm
 preferencji współdzielonych (\texttt{SharedPreferences}), pozwalający przechowywać pary
@@ -1306,29 +1303,28 @@ kliknięcie powodowały zmianę wizualną elementów listy, na przykład rozwini
 
 Z~podobnej przyczyny dane synchronizacyjne zostały także umieszczone w~pamięci współdzielonej.
 Jedynym komunikatem, który można wysłać do adaptera jest ,,dane się zmieniły, odśwież się''.
-Potrzebna jest więc możliwość przekazania adapterowi przyczyny rozkazu odświeżenia widoku --
-czy z~powodu zmiany rozwinięcia elementu, zmiany dnia, czy też na skutek rozkazu odświeżenia
-danych od użytkownika.
+Potrzebna jest więc możliwość przekazania adapterowi przyczyny polecenia odświeżenia widoku --
+czy z~powodu zmiany rozwinięcia elementu, zmiany dnia, czy też na skutek polecenia od użytkownika.
 
 \chapter{Przegląd funkcjonalności}
+\label{sec:przeglad}
 
-W~tym rozdziale postanowiliśmy zaprezentować przegląd zrealizowanych funkcjonalności
-i~poprawek do oryginalnej aplikacji.
+W~tym rozdziale dokonujemy przeglądu funkcjonalności aplikacji (stan na sierpień 2019~r.).
 
 % TODO *dużo obrazków*, trochę lania wody, dużo chwalenia się, że dowiezione rzeczy
 % JMD: mapa aplikacji, może referencja do adobe XD?
 
 \section{Ekran powitalny}
 
-\begin{figure}[h]
+\begin{figure}[p]
 	\centering
-	\begin{subfigure}[h]{0.4\textwidth}
+	\begin{subfigure}[t]{0.3\textwidth}
 		\includegraphics[width=\textwidth]{img/splash_screen.png}
-		\caption{Nazwa aplikacji i loga}
+		\caption{Nazwa aplikacji i zestaw logo}
 		\label{fig:splash_screen}
 	\end{subfigure}
 	\quad
-	\begin{subfigure}[h]{0.4\textwidth}
+	\begin{subfigure}[t]{0.3\textwidth}
 		\includegraphics[width=\textwidth]{img/splash_prompt.png}
 		\caption{Prośba o zgodę na przesyłanie informacji diagnostycznych}
 		\label{fig:splash_prompt}
@@ -1343,19 +1339,19 @@ aplikacji, loga, nazwy uczelni oraz informacji o finansowaniu projektu.
 Ekran jest wyświetlany przez dokładnie 3 sekundy, po czym aplikacja przechodzi do
 ekranu logowania.
 
-Naszym wkładem w ten ekran było dodanie tekstu alternatywnego do~obrazków i dodanie
-sprawdzenia, czy na serwer USOS API uczelni jest zainstalowany w obsługiwanej wersji.
+W~tym widoku dokonuje się też sprawdzenie,
+czy serwer USOS API uczelni jest zainstalowany w obsługiwanej wersji.
 Jeżeli nie jest, użytkownik zostaje poinformowany o~konieczności zaktualizowania
 aplikacji. Oprócz tego przy pierwszym uruchomieniu Mobilnego USOS wyświetlane jest
 pytanie, czy użytkownik chce przesyłać anonimowe informacje diagnostyczne do programistów 
-(\ref{fig:splash_prompt}).
+(Rysunek \ref{fig:splash_prompt}).
 
 
 \section{Ekran logowania}
 
-\begin{figure}[h]
+\begin{figure}[p]
 	\centering
-	\includegraphics[width=0.4\textwidth]{img/login.png}
+	\includegraphics[width=0.3\textwidth]{img/login.png}
 	
 	\caption{Ekran logowania}\label{fig:login}
 	\medskip
@@ -1374,27 +1370,29 @@ Problematyczna była także obsługa kilku scenariuszy logowania przez jeden ekr
 Użytkownik wchodząc do aplikacji mógł być niezalogowany, mógł być zalogowany i
 wtedy logowanie stawało się niepotrzebne, mógł zostać wylogowany w trakcie korzystania
 z aplikacji, np. z powodu upłynięcia daty ważności tokenów, wreszcie mógł zostać
-poproszony o dodatkowe zalogowanie aby uzyskać potwierdzenie wykonania szczególnie
-niebezpiecznej operacji. W każdym z tych przypadków Mobilny USOS musi się zachować
+poproszony o dodatkowe zalogowanie, aby uzyskać potwierdzenie wykonania szczególnie
+wrażliwej operacji. W każdym z tych przypadków Mobilny USOS musi się zachować
 inaczej. W sytuacji, gdy do aplikacji może się logować nowa osoba, należy usunąć
-stare dane sesji aby nikt niepowołony nie mógł ich odczytać. Z kolei nie wolno
+stare dane sesji, aby nikt niepowołony nie mógł ich odczytać. Z kolei nie wolno
 tego robić, gdy ekran logowania ma potwierdzić wykonanie operacji, gdyż wtedy
 nie byłoby wiadomo, jaka operacja była potwierdzana. Przykładowo, żądamy ponownego
 wpisania hasła podczas wystawiania ocen. Gdyby po wpisaniu hasła dane użytkownika
-były usuwane, stracone byłyby także wpisane oceny, bo nie zostały jeszcze wysłane
+były usuwane, stracono by także wpisane oceny, bo nie zostały jeszcze wysłane
 do serwera USOS API.
+
+\clearpage
 
 \section{Mój USOS}
 
-\begin{figure}[h]
+\begin{figure}[p]
 	\centering
-	\begin{subfigure}[h]{0.3\textwidth}
+	\begin{subfigure}[t]{0.3\textwidth}
 		\includegraphics[width=\textwidth]{img/myusos_employee.png}
 		\caption{Pracownik}
 		\label{fig:myusos_employee}
 	\end{subfigure}
 	\quad
-	\begin{subfigure}[h]{0.3\textwidth}
+	\begin{subfigure}[t]{0.3\textwidth}
 		\includegraphics[width=\textwidth]{img/myusos_student.png}
 		\caption{Student}
 		\label{fig:myusos_student}
@@ -1404,119 +1402,120 @@ do serwera USOS API.
 	\medskip
 \end{figure}
 
-Mój USOS (Rysunek \ref{fig:myusos}) jest jednym z bardziej skomplikowanych ekranów. W zamierzeniu ma wyświetlać
+Mój USOS (Rysunek \ref{fig:myusos}) jest jednym z bardziej skomplikowanych ekranów. W~zamierzeniu ma wyświetlać
 wszystkie informacje potrzebne użytkownikowi. W związku z tym wyświetlone są na nim
-obecnie zalogowany użytkownik, nowe oceny u studenta, lista aktywnych protokołów u
-pracownika, plan zajęć, ankiety oraz najnowsze aktualności uczelniane. Ponadto
-dostępna jest wyszukiwarka, która zapewnia szybki dostęp do katalogów.
+dane obecnie zalogowanego użytkownika, nowe oceny u studenta, lista aktywnych protokołów
+u~pracownika, plan zajęć, ankiety oraz aktualności uczelniane z~ostatnich dwóch tygodni.
+Ponadto dostępna jest wyszukiwarka, która zapewnia szybki dostęp do katalogów.
 
 \section{Oceny}
 
-\begin{figure}[h]
+\begin{figure}[p]
 	\centering
-	\begin{subfigure}[h]{0.3\textwidth}
+	\begin{subfigure}[t]{0.3\textwidth}
 		\includegraphics[width=\textwidth]{img/grades_list.png}
 		\caption{Lista ocen}
 		\label{fig:grades_list}
 	\end{subfigure}
 	\quad
-	\begin{subfigure}[h]{0.3\textwidth}
+	\begin{subfigure}[t]{0.3\textwidth}
 		\includegraphics[width=\textwidth]{img/grades_expanded.png}
 		\caption{Szczegóły oceny}
 		\label{fig:grades_expanded}
 	\end{subfigure}
 	\quad
-    \begin{subfigure}[h]{0.3\textwidth}
+    \begin{subfigure}[t]{0.3\textwidth}
 		\includegraphics[width=\textwidth]{img/grades_complicated.png}
 		\caption{Przykład komplikacji w modelu danych}
 		\label{fig:grades_complicated}
 	\end{subfigure}
-	\caption{Oceny}\label{fig:grades}
+	\caption{Oceny (widok studenta)}\label{fig:grades}
 	\medskip
 \end{figure}
 
 Na tym ekranie student może zobaczyć informacje o swoich ocenach. Wyświetlane są
 wszystkie przedmioty wraz z powiązanymi protokołami (Rysunek \ref{fig:grades_list}), oraz informacjami uzyskanymi
-w ramach danego protokołu. Wyzwaniem tutaj był dość skomplikowany model danych który
-zakładał, że do jednego przedmiotu może być przypisanych kilka protokołów, np. osobne
-protokoły do całych zajęć, wykładu i ćwiczeń (przykład na Rysunku \ref{fig:grades_complicated}). Student otrzymuje informacje o ocenie
-i wystawiającym. Miłym dodatkiem do załączonych informacji jest wykres z ocenami
-wszystkich studentów (\ref{fig:grades_expanded}). Ponadto funkcjonuje system powiadomień który sprawia, że
+w ramach danego protokołu. Wyzwaniem tutaj był dość skomplikowany model 
+danych, zgodnie z którym
+do jednego przedmiotu może być przypisanych kilka protokołów, np. osobne
+protokoły do przedmiotu, wykładu i ćwiczeń (przykład na Rysunku \ref{fig:grades_complicated}). Student otrzymuje informacje o ocenie
+i wystawiającym. Użytecznym dodatkiem do załączonych informacji jest wykres z ocenami
+wszystkich studentów (Rysunek \ref{fig:grades_expanded}). Ponadto funkcjonuje system powiadomień, który sprawia, że
 informacja o nowej ocenie przychodzi na telefon w 20 sekund od wystawienia.
 
 \section{Protokoły}
 
-\begin{figure}[h]
+\begin{figure}[p]
 	\centering
-	\begin{subfigure}[h]{0.3\textwidth}
+	\begin{subfigure}[t]{0.3\textwidth}
 		\includegraphics[width=\textwidth]{img/protocols_list.png}
 		\caption{Lista protokołów}
 		\label{fig:protocols_list}
 	\end{subfigure}
 	\quad
-	\begin{subfigure}[h]{0.3\textwidth}
+	\begin{subfigure}[t]{0.3\textwidth}
 		\includegraphics[width=\textwidth]{img/protocols_people_list.png}
 		\caption{Lista studentów}
 		\label{fig:protocols_people_list}
 	\end{subfigure}
 	\\
-	\begin{subfigure}[h]{0.3\textwidth}
+	\begin{subfigure}[t]{0.3\textwidth}
 		\includegraphics[width=\textwidth]{img/protocols_edit.png}
-		\caption{Edycja protokołu}
+		\caption{Edycja oceny i~komentarzy}
 		\label{fig:protocols_edit}
 	\end{subfigure}
 	\quad
-	\begin{subfigure}[h]{0.3\textwidth}
+	\begin{subfigure}[t]{0.3\textwidth}
 		\includegraphics[width=\textwidth]{img/protocols_access.png}
 		\caption{Potwierdzenie tożsamości}
 		\label{fig:protocols_access}
 	\end{subfigure}
-	\caption{Protokoły}\label{fig:protocols}
+	\caption{Protokoły (widok pracownika)}\label{fig:protocols}
 	\medskip
 \end{figure}
 
 Protokoły służą do wystawiania ocen przez prowadzącego. Po otwarciu modułu wykładowca
-widzi listę protokołów (Rysunek \ref{fig:protocols_list}), która jest przeszukiwalna. Po kliknięciu protokołu i wybraniu
-sesji egzaminacyjnej, prowadzący uzyskuje dostęp do listy studentów i ich ocen (\ref{fig:protocols_people_list}). W tym
+widzi listę protokołów (Rysunek \ref{fig:protocols_list}), którą można przeszukiwać. Po kliknięciu na protokół i wybraniu
+sesji egzaminacyjnej, prowadzący uzyskuje dostęp do listy studentów i ich ocen (Rysunek \ref{fig:protocols_people_list}). W tym
 momencie może sprawdzić informacje o protokole, statystyki ocen albo wyszukać
-studenta i wystawić mu ocenę (\ref{fig:protocols_edit}). Pierwsze wystawienie oceny musi być potwierdzone przez
-wizytę na ekranie logowania (\ref{fig:protocols_access}). Ze względów bezpieczeństwa informacje o studentach nie
+studenta i wystawić mu ocenę (Rysunek \ref{fig:protocols_edit}). Pierwsze wystawienie oceny musi być potwierdzone przez
+wizytę na ekranie logowania (Rysunek \ref{fig:protocols_access}). Ze względów bezpieczeństwa informacje o studentach nie
 są przechowywane w pamięci stałej telefonu.
 
 \section{Sprawdziany studenta}
 
-\begin{figure}[h]
+\begin{figure}[p]
 	\centering
-	\begin{subfigure}[h]{0.3\textwidth}
+	\begin{subfigure}[t]{0.3\textwidth}
 		\includegraphics[width=\textwidth]{img/tests_list.png}
 		\caption{Lista sprawdzianów}
 		\label{fig:tests_list}
 	\end{subfigure}
 	\quad
-	\begin{subfigure}[h]{0.3\textwidth}
+	\begin{subfigure}[t]{0.3\textwidth}
 		\includegraphics[width=\textwidth]{img/tests_root.png}
 		\caption{Węzeł główny}
 		\label{fig:tests_root}
 	\end{subfigure}
 	\quad
-		\begin{subfigure}[h]{0.3\textwidth}
+	\begin{subfigure}[t]{0.3\textwidth}
 		\includegraphics[width=\textwidth]{img/tests_root_details.png}
 		\caption{Szczegóły węzła}
 		\label{fig:tests_root_details}
 	\end{subfigure}
 	\\
-	\begin{subfigure}[h]{0.3\textwidth}
+	\begin{subfigure}[t]{0.3\textwidth}
 		\includegraphics[width=\textwidth]{img/tests_folder.png}
 		\caption{Folder}
 		\label{fig:tests_folder}
 	\end{subfigure}
 	\quad
-	\begin{subfigure}[h]{0.3\textwidth}
+	\begin{subfigure}[t]{0.3\textwidth}
 		\includegraphics[width=\textwidth]{img/tests_details.png}
 		\caption{Szczegóły liścia}
 		\label{fig:tests_details}
 	\end{subfigure}
-	\caption{Sprawdziany}\label{fig:tests}
+	\caption{Sprawdziany studenta}\label{fig:tests}
 	\medskip
 \end{figure}
 
@@ -1529,34 +1528,36 @@ zdecydowaliśmy, że potraktujemy sprawdzian jak drzewo katalogów, po którym m
 nawigować użytkownik.
 
 Student wchodzący do modułu widzi listę sprawdzianów posortowaną po cyklu dydaktycznym (Rysunek \ref{fig:tests_list}).
-Po wybraniu konkretnego sprawdzianu otwiera się widok jego korzenia (\ref{fig:tests_root}). Jako pierwsza
-zawsze jest wyświetlana karteczka z~właściwościami i~statystykami aktualnie otwartego
-węzła (\ref{fig:tests_root_details}). Następnie pokazywane są karteczki reprezentujące dzieci danego węzła.
-W zależności od typu dziecka, można wejść w głąb drzewa (\ref{fig:tests_folder}) lub rozwinąć informację o~punktach i~ocenie (\ref{fig:tests_details}).
+Po wybraniu konkretnego sprawdzianu otwiera się widok jego korzenia (Rysunek \ref{fig:tests_root}). Jako pierwsza
+wyświetlana jest zawsze karteczka z~właściwościami i~statystykami aktualnie otwartego
+węzła (Rysunek \ref{fig:tests_root_details}). Następnie pokazywane są karteczki reprezentujące dzieci danego węzła.
+W zależności od typu dziecka, można wejść w głąb drzewa (Rysunek \ref{fig:tests_folder}) lub rozwinąć informacje zawarte w~liściu (Rysunek \ref{fig:tests_details}).
+
+\clearpage
 
 \section{Sprawdziany pracownika}
 
-\begin{figure}[h]
+\begin{figure}[p]
 	\centering
-	\begin{subfigure}[h]{0.3\textwidth}
+	\begin{subfigure}[t]{0.3\textwidth}
 		\includegraphics[width=\textwidth]{img/emptests_list.png}
 		\caption{Lista sprawdzianów}
 		\label{fig:emptests_list}
 	\end{subfigure}
 	\quad
-	\begin{subfigure}[h]{0.3\textwidth}
+	\begin{subfigure}[t]{0.3\textwidth}
 		\includegraphics[width=\textwidth]{img/emptests_node.png}
 		\caption{Węzeł główny}
 		\label{fig:emptests_node}
 	\end{subfigure}
 	\\
-	\begin{subfigure}[h]{0.3\textwidth}
+	\begin{subfigure}[t]{0.3\textwidth}
 		\includegraphics[width=\textwidth]{img/emptests_grading.png}
 		\caption{Widok oceniania}
 		\label{fig:emptests_grading}
 	\end{subfigure}
 	\quad
-	\begin{subfigure}[h]{0.3\textwidth}
+	\begin{subfigure}[t]{0.3\textwidth}
 		\includegraphics[width=\textwidth]{img/emptests_hide.png}
 		\caption{Ukrywanie ocen}
 		\label{fig:emptests_hide}
@@ -1565,23 +1566,34 @@ W zależności od typu dziecka, można wejść w głąb drzewa (\ref{fig:tests_f
 	\medskip
 \end{figure}
 
-Idea, o~którą oparliśmy sprawdziany pracowników, jest połączeniem sprawdzianów
+Idea, na której oparliśmy sprawdziany pracowników, jest połączeniem sprawdzianów
 studenta i~protokołów. Do nawigowania po poszczególnych węzłach wykorzystujemy
 ten sam mechanizm, co w~sprawdzianach studenta (Rysunki \ref{fig:emptests_list} -- \ref{fig:emptests_node}). Z~kolei po wejściu w~konkretny
-węzeł z~punktami lub ocenami i~przy próbie edycji oceny wyświetlany jest ekran
-analogiczny do protokołów (\ref{fig:emptests_grading}). Pewnym dodatkiem, który nie występował w wymienionych
+liść z~punktami lub ocenami i~przy próbie edycji danych w~liściu wyświetlany jest ekran
+analogiczny do protokołów (Rysunek \ref{fig:emptests_grading}). Pewnym dodatkiem, który nie występował w wymienionych
 modułach, jest możliwość zmiany widoczności węzła, tj. odsłonięcia lub ukrycia
 wyników dla studentów. Przycisk, który to umożliwia, umieściliśmy w pierwszej
-karteczce, która wyświetla właściwości właśnie otwartego węzła (\ref{fig:emptests_hide}).
+karteczce, która wyświetla właściwości właśnie otwartego węzła (Rysunek \ref{fig:emptests_hide}).
 
 \section{Plan zajęć}
 
-\begin{figure}[h]
+\begin{figure}[p]
 	\centering
-	\includegraphics[width=0.3\textwidth]{img/timetable.png}
-	\caption{Plan zajęć}\label{fig:timetable}
-	\medskip
+	\begin{minipage}{0.3\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{img/timetable.png}
+		\caption{Plan zajęć}\label{fig:timetable}
+		\medskip
+	\end{minipage}
+	\quad
+	\begin{minipage}{0.3\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{img/calendar_widget.png}
+		\caption{Widget z planem zajęć}\label{fig:calendar_widget}
+		\medskip
+	\end{minipage}
 \end{figure}
+
 
 Plan zajęć (Rysunek \ref{fig:timetable}) jest wyświetlany z podziałem na dzisiaj, jutro, cały tydzień, przyszły
 tydzień oraz wybrany tydzień. Po wybraniu odpowiedniego podziału wyświetlana jest
@@ -1593,27 +1605,20 @@ do nich e-maila.
 
 \section{Widget z planem zajęć}
 
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=0.3\textwidth]{img/calendar_widget.png}
-	\caption{Widget z planem zajęć}\label{fig:calendar_widget}
-	\medskip
-\end{figure}
-
 Użytkownik może umieścić na pulpicie telefonu widget, który będzie prezentował
 plan zajęć na dany dzień (Rysunek \ref{fig:calendar_widget}). W razie potrzeby możliwe jest rozwinięcie informacji o~miejscu zajęć.
 
 \section{Kalendarz}
 
-\begin{figure}[h]
+\begin{figure}[p]
 	\centering
-	\begin{subfigure}[h]{0.3\textwidth}
+	\begin{subfigure}[t]{0.3\textwidth}
 		\includegraphics[width=\textwidth]{img/calendar_june19.png}
 		\caption{Widok kalendarza}
 		\label{fig:calendar_calendar}
 	\end{subfigure}
 	\quad
-	\begin{subfigure}[h]{0.3\textwidth}
+	\begin{subfigure}[t]{0.3\textwidth}
 		\includegraphics[width=\textwidth]{img/calendar_selected.png}
 		\caption{Szczegóły wybranego dnia}
 		\label{fig:calendar_item}
@@ -1623,22 +1628,22 @@ plan zajęć na dany dzień (Rysunek \ref{fig:calendar_widget}). W razie potrzeb
 	\medskip
 \end{figure}
 
-Kalendarz roku akademickiego (Rysunek \ref{fig:calendar}) dostarcza informacji
-o~najważniejszych wydarzeniach w~roku akademickim, takich jak okresy wolne, podpięcia czy
-sesja. Zdarzenia są wizualizowane przy użyciu kolorowych ikon, a~po wybraniu dnia pod
-kalendarzem można poznać szczegółowe opisy wydarzeń (\ref{fig:calendar_item}).
+Kalendarz roku akademickiego (Rysunek \ref{fig:calendar}) dostarcza informacje
+o~najważniejszych wydarzeniach w~roku akademickim, takich jak okresy zajęć, przerwy, sesja czy
+święta. Zdarzenia są wizualizowane przy użyciu kolorowych ikon, a~po wybraniu dnia pod
+kalendarzem można przeczytać szczegółowe opisy wydarzeń (Rysunek \ref{fig:calendar_item}).
 
 \section{Grupy zajęciowe}
 
-\begin{figure}[h]
+\begin{figure}[p]
 	\centering
-	\begin{subfigure}[h]{0.3\textwidth}
+	\begin{subfigure}[t]{0.3\textwidth}
 		\includegraphics[width=\textwidth]{img/groups_list.png}
 		\caption{Lista grup}
 		\label{fig:groups_list}
 	\end{subfigure}
 	\quad
-	\begin{subfigure}[h]{0.3\textwidth}
+	\begin{subfigure}[t]{0.3\textwidth}
 		\includegraphics[width=\textwidth]{img/groups_group.png}
 		\caption{Węzeł główny}
 		\label{fig:groups_group}
@@ -1648,65 +1653,67 @@ kalendarzem można poznać szczegółowe opisy wydarzeń (\ref{fig:calendar_item
 \end{figure}
 
 Ten ekran wyświetla posortowaną listę wszystkich grup zajęciowych studenta (Rysunek \ref{fig:groups_list}).
-Student może kliknąć wybraną grupę aby zobaczyć szczegóły wybranej grupy zajęciowej (\ref{fig:groups_group}). W szczególności
+Student może kliknąć wybraną grupę aby zobaczyć jej szczegóły (Rysunek \ref{fig:groups_group}). W szczególności
 ma możliwość przejścia do powiązanego przedmiotu, może sprawdzić kalendarz spotkań
 i listy wszystkich uczestników zajęć. Ciekawym dodatkiem jest możliwość łatwego
 dodania wpisów o wszystkich spotkaniach do kalendarza w telefonie.
 
-\section{Widok przedmiotu}
+\section{Przedmioty}
 
-\begin{figure}[h]
+\begin{figure}[p]
 	\centering
 	\includegraphics[width=0.3\textwidth]{img/course.png}
 	\caption{Widok przedmiotu}\label{fig:course}
 	\medskip
 \end{figure}
 
-W tym widoku (Rysunek \ref{fig:course}) student może sprawdzić syllabus przedmiotu, różne informacje wprowadzone
+W tym widoku (Rysunek \ref{fig:course}) student może sprawdzić sylabus przedmiotu, różne informacje wprowadzone
 przez wykładowcę, zobaczyć adres strony WWW przedmiotu oraz plan zajęć powiązanych grup.
+
+\clearpage
 
 \section{Ankiety studenta}
 
-\begin{figure}[h]
+\begin{figure}[p]
 	\centering
-	\begin{subfigure}[h]{0.3\textwidth}
+	\begin{subfigure}[t]{0.3\textwidth}
 		\includegraphics[width=\textwidth]{img/surveys_list.png}
 		\caption{Lista ankiet}
 		\label{fig:surveys_list}
 	\end{subfigure}
 	\quad
-	\begin{subfigure}[h]{0.3\textwidth}
+	\begin{subfigure}[t]{0.3\textwidth}
 		\includegraphics[width=\textwidth]{img/surveys_survey.png}
 		\caption{Widok ankiety}
 		\label{fig:surveys_survey}
 	\end{subfigure}
 	\quad
-	\begin{subfigure}[h]{0.3\textwidth}
+	\begin{subfigure}[t]{0.3\textwidth}
 		\includegraphics[width=\textwidth]{img/surveys_question.png}
 		\caption{Wyświetlanie pytania jednokrotnego wyboru}
 		\label{fig:surveys_question}
 	\end{subfigure}
-	\caption{Ankiety}\label{fig:surveys}
+	\caption{Ankiety studenta}\label{fig:surveys}
 	\medskip
 \end{figure}
 
 W tym module student może wyświetlić listę ankiet do wypełnienia (Rysunek \ref{fig:surveys_list}). Po wybraniu ankiety
-możliwe jest wypełnienie jej i wysłanie do serwera. Ankiety w USOS dzielą się na dwa
+możliwe jest wypełnienie jej i~wysłanie na serwer. Ankiety w USOS dzielą się na dwa
 rodzaje: ogólne i zajęciowe, dotyczące wykładowców. W przypadku ankiet zajęciowych
 Mobilny USOS oprócz pytań do ankiety dodatkowo wyświetla informację o ocenianych
-zajęciach i wykładowcy (\ref{fig:surveys_survey}).
+zajęciach i wykładowcy (Rysunek \ref{fig:surveys_survey}).
 
 \section{Ankiety pracownika}
 
-\begin{figure}[h]
+\begin{figure}[p]
 	\centering
-	\begin{subfigure}[h]{0.3\textwidth}
+	\begin{subfigure}[t]{0.3\textwidth}
 		\includegraphics[width=\textwidth]{img/empsurveys_list.png}
 		\caption{Lista ankiet}
 		\label{fig:empsurveys_list}
 	\end{subfigure}
 	\quad
-	\begin{subfigure}[h]{0.3\textwidth}
+	\begin{subfigure}[t]{0.3\textwidth}
 		\includegraphics[width=\textwidth]{img/empsurveys_progress.png}
 		\caption{Status wypełnienia}
 		\label{fig:empsurveys_progress}
@@ -1722,15 +1729,15 @@ ankiet. Pasek postępu wypełnienia jest aktualizowany w czasie rzeczywistym (Ry
 
 \section{USOSmail}
 
-\begin{figure}[h]
+\begin{figure}[p]
 	\centering
-	\begin{subfigure}[h]{0.3\textwidth}
+	\begin{subfigure}[t]{0.3\textwidth}
 		\includegraphics[width=\textwidth]{img/usosmail_to.png}
 		\caption{Wybór adresatów}
 		\label{fig:usosmail_to}
 	\end{subfigure}
 	\quad
-	\begin{subfigure}[h]{0.3\textwidth}
+	\begin{subfigure}[t]{0.3\textwidth}
 		\includegraphics[width=\textwidth]{img/usosmail_compose.png}
 		\caption{Tworzenie wiadomości}
 		\label{fig:usosmail_compose}
@@ -1739,43 +1746,43 @@ ankiet. Pasek postępu wypełnienia jest aktualizowany w czasie rzeczywistym (Ry
 	\medskip
 \end{figure}
 
-USOSmail służy do komunikacji z innymi studentami i pracownikami uczelni. Obecnie
-moduł ten służy do łatwego wysyłania wiadomości e-mail. Użytkownik najpierw wybiera
+USOSmail służy do komunikacji z innymi studentami i pracownikami uczelni.
+Użytkownik najpierw wybiera
 odbiorców wiadomości (Rysunek \ref{fig:usosmail_to}). Może to być konkretna osoba, grupa osób zdefiniowana przez
 użytkownika w USOS albo grupa zajęciowa. Możliwe jest wybranie kilku grup.
 Po wybraniu grupy zajęciowej można zawęzić listę odbiorców do studentów lub
 wykładowców. Po uzupełnieniu tytułu i treści wiadomości jest ona wysyłana do USOS
-API w celu dostarczenia do wybranych osób (\ref{fig:usosmail_compose}).
+API w celu dostarczenia do wybranych osób (Rysunek \ref{fig:usosmail_compose}).
 
 \section{Moje legitymacje}
 
-\begin{figure}[h]
+\begin{figure}[p]
 	\centering
 	\includegraphics[width=0.3\textwidth]{img/idcards.png}
 	\caption{Moje legitymacje}\label{fig:idcards}
 	\medskip
 \end{figure}
 
-Moduł ,,Moje legitymacje'' (Rysynek \ref{fig:idcards}) pozwala na wyświetlenie podglądu wszystkich legitymacji
+Moduł \textit{Moje legitymacje} (Rysynek \ref{fig:idcards}) pozwala na wyświetlenie podglądu wszystkich legitymacji
 przypisanych do użytkownika oraz informacji o ich dacie ważności.
 
 \section{Moje eID}
 
-\begin{figure}[h]
+\begin{figure}[p]
 	\centering
 	\includegraphics[width=0.3\textwidth]{img/myeid.png}
 	\caption{Moje eID}\label{fig:myeid}
 	\medskip
 \end{figure}
 
-,,Moje eID'' (Rysunek \ref{fig:myeid}) wyświetla numery identyfikacyjne przypisane do użytkownika takie jak
+Moduł \textit{Moje eID} (Rysunek \ref{fig:myeid}) wyświetla numery identyfikacyjne przypisane do użytkownika, takie jak
 PESEL, numer karty bibliotecznej, ORCID i PBN. Moduł ma w swoim założeniu umożliwiać
 łatwą wymianę wymienionych numerów, dlatego każdy numer może zostać wyświetlony na
 ekranie w formacie CODE128 i Aztec.
 
 \section{Przydatne informacje o uczelni}
 
-\begin{figure}[h]
+\begin{figure}[p]
 	\centering
 		\includegraphics[width=0.3\textwidth]{img/guide.png}
 	\caption{Przykładowy wpis w przydatnych informacjach}\label{fig:guide}
@@ -1787,19 +1794,20 @@ które mogą okazać się interesujące dla użytkownika. Przykładem takiej inf
 są np. władze wydziału, numery telefonów i godziny pracy dziekanatu. Osoba wchodząca
 do modułu wybiera interesującą siebie jednostkę, a następnie w panelu z zakładkami
 wybiera właściwą kategorię tematyczną, po czym wyszukuje odpowiednią sekcję
-zawierającą potrzebną informację.
+zawierającą potrzebną informację. Treści wyświetlane w tym module wprowadza się w~części
+administracyjnej USOS (aplikacji USOSadm).
 
 \section{Aktualności uczelniane}
 
-\begin{figure}[h]
+\begin{figure}[p]
 	\centering
-	\begin{subfigure}[h]{0.3\textwidth}
+	\begin{subfigure}[t]{0.3\textwidth}
 		\includegraphics[width=\textwidth]{img/news_list.png}
 		\caption{Lista aktualności}
 		\label{fig:news_list}
 	\end{subfigure}
 	\quad
-	\begin{subfigure}[h]{0.3\textwidth}
+	\begin{subfigure}[t]{0.3\textwidth}
 		\includegraphics[width=\textwidth]{img/news_item.png}
 		\caption{Przykładowy wpis}
 		\label{fig:news_item}
@@ -1820,20 +1828,20 @@ zewnętrzny serwer Wordpress. Tak pobierane aktualności dzielone są na trzy ka
 
 Poszczególne aktualności są podzielone i posortowane według daty dodania (Rysunek \ref{fig:news_list}). Po
 kliknięciu w aktualność wyświetla się podgląd, na który składa się obrazek ilustrujący,
-tytuł, nagłówek i treść artykułu (\ref{fig:news_item}). Możliwa jest łatwa nawigacja gestami pomiędzy
+tytuł, nagłówek i treść artykułu (Rysunek \ref{fig:news_item}). Możliwa jest łatwa nawigacja gestami pomiędzy
 artykułami.
 
 \section{Mapa uczelni}
 
-\begin{figure}[h]
+\begin{figure}[p]
 	\centering
-	\begin{subfigure}[h]{0.3\textwidth}
+	\begin{subfigure}[t]{0.3\textwidth}
 		\includegraphics[width=\textwidth]{img/map_map.png}
 		\caption{Mapa uczelni}
 		\label{fig:map_map}
 	\end{subfigure}
 	\quad
-	\begin{subfigure}[h]{0.3\textwidth}
+	\begin{subfigure}[t]{0.3\textwidth}
 		\includegraphics[width=\textwidth]{img/map_item.png}
 		\caption{Szczegóły budynku}
 		\label{fig:map_item}
@@ -1843,21 +1851,21 @@ artykułami.
 \end{figure}
 
 Mapa uczelni (Rysunek \ref{fig:map}) wyświetla wszystkie budynki powiązane z uczelnią lub wybraną jednostką
-użytkownika na mapie Google. Użytkownik po kliknięciu na danym budynku może uzyskać
+użytkownika na mapie Google. Użytkownik po kliknięciu w~dany budynek może uzyskać
 informację o jednostce, która jest właścicielem budynku, danych kontaktowych oraz
-może otworzyć nawigację (\ref{fig:map_item}).
+może otworzyć nawigację (Rysunek \ref{fig:map_item}).
 
 \section{Katalog osób, przedmiotów i jednostek}
 
-\begin{figure}[h]
+\begin{figure}[p]
 	\centering
-	\begin{subfigure}[h]{0.3\textwidth}
+	\begin{subfigure}[t]{0.3\textwidth}
 		\includegraphics[width=\textwidth]{img/search_pirani.png}
 		\caption{Wyszukiwanie osoby}
 		\label{fig:search_pirani}
 	\end{subfigure}
 	\quad
-	\begin{subfigure}[h]{0.3\textwidth}
+	\begin{subfigure}[t]{0.3\textwidth}
 		\includegraphics[width=\textwidth]{img/search_systemy.png}
 		\caption{Wyszukiwanie przedmiotu}
 		\label{fig:search_systemy}
@@ -1873,17 +1881,17 @@ obiektu użytkownik może się przenieść do ekranu prezentującego szczegóły
 
 \section{Ustawienia}
 
-\begin{figure}[h]
+\begin{figure}[p]
 	\centering
-	\includegraphics[width=\textwidth]{img/settings.png}
+	\includegraphics[width=0.3\textwidth]{img/settings.png}
 	\caption{Ustawienia}\label{fig:settings}
 	\medskip
 \end{figure}
 
-Na tym ekranie (Rysunek \ref{fig:settings}) użytkownik może ustawić:
+Na tym ekranie (Rysunek \ref{fig:settings}) użytkownik może:
 
 \begin{itemize}
-	\item Raportowanie anonimowych informacji o awariach Mobilnego USOS.
+	\item Ustawić raportowanie anonimowych informacji o awariach Mobilnego USOS.
 	\item Ukryć swoje zdjęcie na ekranie Mój USOS.
 	\item Zmienić język aplikacji.
 	\item Wybrać sposób wysyłania wiadomości -- przez USOSmail, klienta pocztowego,
@@ -1906,14 +1914,14 @@ polskich uczelniach.
 Podstawowym problemem, na który musieliśmy zwracać uwagę podczas projektowania i~wdrażania aplikacji, jest liczba
 potencjalnie zainteresowanych uczelni -- obecnie 63 uczelnie należą do konsorcjum MUCI \cite{uczelnie-w-muci} i~każda
 z~nich mogła być zainteresowana otrzymaniem aplikacji. W~okresie od października 2018 do lipca 2019 wdrożenia
-produkcyjne zakończyło 14 uczelni \cite{news-musosumk, news-musospwste}, w~lipcu 2019 r. 7 kolejnych było w~fazie testów.
+produkcyjne zakończyło 14 uczelni (lista dostępna na stronie \cite{usos-wdrozenia}), w~sierpniu 2019 r. 7 kolejnych było w~fazie testów.
 
 Liczba zainteresowanych zrodziła dwa główne problemy. Po pierwsze, poszczególne uczelnie mogą korzystać z~różnych
 wersji USOS, w~szczególności USOS API. Należało więc utrzymać jednocześnie wsteczną zgodność na wypadek, gdyby uczelnie
 nie aktualizowały systemu oraz dostarczać nowe funkcjonalności, które często wymagają nowej wersji USOS API. Drugim
 problemem jest czas potrzebny na obsługę procesu wdrażania aplikacji do Google Play. Dodanie nowej wersji pakietu
 wymaga od kilku do kilkunastu minut ręcznej pracy, co pomnożone przez liczbę uczelni mogłoby spowodować duże koszty
-czasowe na proces aktualizacji.
+czasowe procesu aktualizacji.
 
 \section{System budowania aplikacji}
 
@@ -1963,12 +1971,12 @@ Istotną częścią procesu rozwoju aplikacji i~wdrażania na kolejne uczelnie b
 Do dystrybucji wersji testowych wykorzystaliśmy wspomniany wcześniej system Fabric \cite{fabric}. 
 Integracja tego systemu z~Crashlytics pozwoliła nam na sprawne wykrywanie i~łatanie niedoskonałości w~aplikacji.
 
-Dodatkowo przez Fabric udostępnialiśmy wersje deweloperskie aplikacji w~ramach specjalnej instancji DEMO. Dzięki temu
+Dodatkowo przez Fabric udostępnialiśmy wersje deweloperskie aplikacji w~ramach specjalnej instalacji DEMO. Dzięki temu
 wszystkie osoby zainteresowane podglądem i~testami funkcjonalności aktualnie rozwijanych otrzymywały dedykowane wydania.
-Dodatkowym czynnikiem, który przemawiał za użyciem Fabric jako systemu dystrybucji testowej była możliwość ustawienia grupy
+Dodatkowym czynnikiem, który przemawiał za użyciem Fabric jako systemu dystrybucji testowej, była możliwość ustawienia grupy
 docelowej dla każdego pakietu instalacyjnego z~osobna. Dzięki temu łatwo mogliśmy na przykład równolegle przedstawiać
 Biuru Osób Niepełnosprawnych UW postępy w~zakresie dostosowywania aplikacji do potrzeb osób niepełnosprawnych, konsultować
-z~grafikiem projekt graficzny modułu kalendarza i~testować edycję sprawdzianów przez pracownika.
+z~graficzką projekt graficzny modułu kalendarza i~testować edycję sprawdzianów przez pracownika.
 
 \section{Jenkins}
 
@@ -1977,9 +1985,11 @@ kodu dla każdej uczelni osobno. Ponadto chcieliśmy, aby przygotowanie nowego w
 ,,rozpocznij wdrożenie''. Należało także wybrać formę przekazywania skompilowanej aplikacji uczelniom, zgodnie
 z~decyzją, że to uczelnie wybierają moment przeprowadzenia wdrożenia nowej wersji.
 
-Skorzystaliśmy z~istniejącego systemu dystrybucji USOS i~narzędzia Jenkins. Zaletami tej decyzji są powszechne
-wykorzystanie w~projekcie USOS, dzięki czemu wdrożeniowcy na uczelniach wiedzieli, jak odbierać od nas nowe wersje,
-oraz wsparcie dla Jenkinsa wśród programistów USOS, także wśród tworzących Mobilnego USOS, ponieważ już we wczesnej
+Skorzystaliśmy z~istniejącego systemu dystrybucji USOS i~narzędzia Jenkins. System dystrybucji
+jest powszechnie wykorzystywany w~projekcie USOS, dzięki czemu wdrożeniowcy na uczelniach
+nie musieli uczyć się nowej procedury obsługi wdrożenia.
+Zaletą wyboru Jenkinsa było wsparcie wśród programistów USOS, także tworzących
+Mobilnego USOS, ponieważ już we wczesnej
 fazie rozwoju aplikacji była ona automatycznie testowana.
 
 Jenkins dodatkowo przechowuje zależności i~szczegóły procesu budowania wewnątrz swojej konfiguracji, co istotnie
@@ -1992,11 +2002,11 @@ konieczność opracowania procedury wdrażania aplikacji do sklepu Google Play w
 sposób, aby była jak najbardziej odporna na błędy ludzkie.
 
 Dla wygody wdrażających i~dla maksymalnej spójności między uczelniami, stworzyliśmy
-następujący schemat obsługi sklepu:
+następującą procedurę przekazywania aplikacji do sklepu:
 \begin{itemize}
 	\item Dla każdej wersji aplikacji przygotowujemy krótkie podsumowanie zmian
 	w~danej wersji po polsku i~angielsku.
-	Uczelnia przekleja tę informację do pola ,,Co nowego'' w formularzu w~konsoli Google Play.
+	Uczelnia przekleja tę informację do pola \textit{Co nowego} w formularzu w~konsoli Google Play.
 	\item Aplikacja ma ustandaryzowany opis funkcjonalności, uczelnia ma wyłącznie
 	obowiązek wstawić do tego opisu swoją nazwę w~odpowiednim miejscu.
 	\item Kolejne wersje aplikacji pojawiają się w~dedykowanym katalogu uczelni na
@@ -2007,7 +2017,7 @@ następujący schemat obsługi sklepu:
 	aplikacji wraz z~odwołaniem do dziennika zmian i~informacją do sklepu. Ponadto,
 	jeśli nowa wersja aplikacji zawiera moduł wymagający aktualizacji USOS API
 	(o czym pisaliśmy wcześniej), zwracamy na to uwagę wdrażających zarówno w~dzienniku
-	zmian, jak i~w~wiadomości.
+	zmian, jak i~w~wysłanej wiadomości.
 \end{itemize}
 
 Mechanizm ten sprawdził się dobrze w~praktyce, redukuje on do minimum potrzebną pracę
@@ -2020,8 +2030,8 @@ zarówno po stronie zespołu deweloperskiego, jak i~wdrażających na poszczegó
 \chapter{Podsumowanie}
 
 Projekt Mobilny USOS jest naszym zdaniem dużym sukcesem. Udało nam się doprowadzić do
-wdrożenia na wielu uczelniach aplikacji mobilnej dla systemu USOS, która posiadałaby
-najważniejsze funkcje USOSweb w~użytecznej na telefonie formie.
+wdrożenia na wielu uczelniach aplikacji mobilnej dla systemu USOS, która posiadała by
+najważniejsze funkcje USOSweb w~formie użytecznej na telefonie.
 
 W~kontekście sukcesu aplikacji istotnym wydaje się fakt, że wielu w powodzenie 
 projektu nie wierzyło. Na Wydziale MIM UW chociażby gorzkim żartem przez wiele
@@ -2034,13 +2044,16 @@ W~zależności od uczelni, oceny oscylują między 3.8 a~4.9 na 5 gwiazdek.
 Wyjątkiem jest tu Uniwerystet Łódzki ze średnią ocen na poziomie 3.5/5, co prawdopodobnie
 jest związane z~faktem, że na tej uczelni wdrożona została wersja przedprodukcyjna z~wieloma
 błędami. Na pozostałych uczelniach większość negatywnych uwag była związana z~brakującymi
-funkcjonalnościami, jak sprawdziany, więc wraz z~wdrażaniem nowych modułów, oceny powinny
-wciąż rosnąć.
+funkcjonalnościami, jak sprawdziany, więc wraz z~wdrażaniem nowych modułów oceny powinny
+rosnąć. Według danych z~Fabric, w~okresie 15.06.-15.07.2019 r. z~aplikacji korzystało w~sumie
+ponad 40 tysięcy użytkowników (suma dla wszystkich uczelni).
 
 Duże plany wobec aplikacji ma Politechnika Warszawska. W~ramach ich projektu e-usług
 aplikacja otrzyma kilka kolejnych modułów. W~międzyczasie
 rozpoczął się port Mobilnego USOS na system iOS, jego pierwsza wersja została wdrożona
-już m.in. na UW \cite{uw-ios, appstore}.
+już m.in. na UW \cite{appstore, uw-ios}. Projektowana jest także (stan na sierpień 2019 r.)
+integracja z~aplikacją mObywatel. Rozwój Mobilnego USOS ściśle łączy się z~rozwojem USOS API,
+część wymaganych zmian w~USOS API była zrealizowana siłami zespołu aplikacji mobilnej.
 
 Aplikacja nie jest projektem zakończonym, czekamy na propozycje kolejnych przydatnych
 funkcjonalności. W~ramach tej
@@ -2070,79 +2083,124 @@ perspektywie na to, że aplikacje wdrożą wszystkie uczelnie z~MUCI.
 %   function}, Mathematica Absurdica, 117 (1965) 338--9.
 %\bibitem[Ajax]{AJAXwikipl} AJAX - Wikipedia \url{https://pl.wikipedia.org/wiki/AJAX} (dostęp 21.03.2017)
 
-\bibitem{euslugi} Uniwersytet Warszawski,
-\textit{Rozwój e-usług Uniwersytetu Warszawskiego związanych z~edukacją},
-\url{http://www.euslugi.uw.edu.pl/}. [Dostęp: 2019-07-24].
+\bibitem{appstore} Apple Inc.,
+\textit{Aplikacja Mobile USOS UW w~App Store},\\
+\url{https://apps.apple.com/us/app/mobilny-usos-uw/id1447221710}.\\
+{[Dostęp: 2019-07-18]}.
 
-\bibitem{muci} Międzyuniwersyteckie Centrum Informatyzacji, Strona główna
-\url{http://muci.edu.pl/index.html}. [Dostęp: 2019-07-24].
 
-\bibitem{usos} Międzyuniwersyteckie Centrum Informatyzacji, \textit{USOS},
-\url{https://www.usos.edu.pl/usos-start}. [Dostęp: 2019-07-24].
+\bibitem{jenkins} Continuous Delivery Foundation, \textit{Jenkins},
+\url{https://jenkins.io/}. [Dostęp: 2019-05-07].
 
-\bibitem{przegladaplikacji}  Katarzyna Moszczyńska, \textit{Przegląd uniwersyteckich aplikacji mobilnych},
-\url{https://www.usos.edu.pl/sites/default/files/pl_aplikacje_mobilne_przeglad.pdf}. [Dostęp: 2019-07-28].
 
-\bibitem{propozycjaszaty}  Katarzyna Moszczyńska, \textit{Propozycja szaty graficznej dla Mobilnego USOS},
-\url{https://xd.adobe.com/spec/cc492e84-e31b-4fa9-4c7f-3a5ff3d62678-ba78/grid/}. [Dostęp: 2019-07-28].
+\bibitem{jackson} FasterXML, LLC., \textit{Jackson},
+\url{https://github.com/FasterXML/jackson}.\\
+{[Dostęp: 2019-05-07]}.
 
-\bibitem{usosapi} Międzyuniwersyteckie Centrum Informatyzacji, \textit{USOS API Reference},
-\url{https://apps.usos.edu.pl/developers/api/}. [Dostęp: 2019-07-24].
-
-\bibitem{uodc} Sejm RP, \textit{Ustawa o~dostępności cyfrowej stron internetowych i~aplikacji mobilnych podmiotów publicznych}, Dz. U. z~2019~r., poz. 848.
-
-\bibitem{talkback} Google Inc., \textit{TalkBack}, \url{https://support.google.com/accessibility/android/topic/3529932}. [Dostęp: 2019-05-07].
-
-\bibitem{mifare} NXP Semiconductors Austria GmbH, \textit{Mifare ICs}, \url{https://www.mifare.net/en/products/chip-card-ics/}. [Dostęp: 2019-07-18].
-
-\bibitem{mobywatel} Ministerstwo Cyfryzacji, \textit{mDokumenty. Potwierdzaj tożsamość smartfonem},\\ \url{https://obywatel.gov.pl/dokumenty-i-dane-osobowe/mdokumenty-potwierdzaj-tozsamosc-smartfonem}. [Dostęp: 2019-07-18].
-
-\bibitem{wcag21} World Wide Web Consortium, \textit{Web Content Accessibility Guidelines (WCAG) 2.1},
-\url{https://www.w3.org/TR/WCAG21/}. [Dostęp: 2019-06-17].
 
 \bibitem{android} Google Inc., \textit{Android -- Documentation for app developers},
-	 \url{https://developer.android.com/docs}. [Dostęp: 2019-05-04].
-
-\bibitem{androidstudio} Google Inc., \textit{Android Studio},
-	\url{https://developer.android.com/studio}. \\ 
-	{[Dostęp: 2019-05-07]}.
+\url{https://developer.android.com/docs}. [Dostęp: 2019-05-04].
 
 \bibitem{androidsupportlibrary} Google Inc., \textit{Android -- Support Library},
-	\url{https://developer.android.com/topic/libraries/support-library}. [Dostęp: 2019-05-07].
+\url{https://developer.android.com/topic/libraries/support-library}. [Dostęp: 2019-05-07].
+
+\bibitem{androidstudio} Google Inc., \textit{Android Studio},
+\url{https://developer.android.com/studio}. \\ 
+{[Dostęp: 2019-05-07]}.
+
+\bibitem{product-flavor} Google Inc., \textit{Configure build variants}, \url{https://developer.android.com/studio/build/build-variants#product-flavors}. [Dostęp: 2019-05-20].
 
 \bibitem{crashlytics} Google Inc., \textit{Crashlytics}, \url{https://try.crashlytics.com/}. [Dostęp: 2019-05-07].
+
+\bibitem{deeplinks} Google Inc., \textit{Create Deep Links to App Content}, \url{https://developer.android.com/training/app-links/deep-linking}. [Dostęp: 2019-05-28].
 
 \bibitem{fabric} Google Inc., \textit{Fabric}, \url{https://get.fabric.io/}. [Dostęp: 2019-05-07].
 
 \bibitem{firebase} Google Inc., \textit{Firebase}, \url{https://firebase.google.com/}. [Dostęp: 2019-05-07].
 
 \bibitem{firebasecm} Google Inc., \textit{Firebase Cloud Messaging},
-	\url{https://firebase.google.com/docs/cloud-messaging}. [Dostęp: 2019-05-09].
-
-\bibitem{git} Software Freedom Conservancy, \textit{Git},
-	\url{https://git-scm.com/}. [Dostęp: 2019-05-07].
+\url{https://firebase.google.com/docs/cloud-messaging}. [Dostęp: 2019-05-09].
 
 \bibitem{gerrit} Google Inc., \textit{Gerrit Code Review},
-	\url{https://www.gerritcodereview.com/}.\\
-	{[Dostęp: 2019-05-07]}.
-
-\bibitem{jenkins} Continuous Delivery Foundation, \textit{Jenkins},
-	\url{https://jenkins.io/}. [Dostęp: 2019-05-07].
-
-\bibitem{gradle} Gradle Inc., \textit{Gradle}, \url{https://gradle.org/}. [Dostęp: 2019-05-07].
-
-\bibitem{jackson} FasterXML, LLC., \textit{Jackson},
-	\url{https://github.com/FasterXML/jackson}.\\
-	{[Dostęp: 2019-05-07]}.
+\url{https://www.gerritcodereview.com/}.\\
+{[Dostęp: 2019-05-07]}.
 
 \bibitem{gson} Google Inc., \textit{Gson},	\url{https://github.com/google/gson}. [Dostęp: 2019-05-09].
 
-\bibitem{java} Oracle Corporation, \textit{Java}, \url{https://www.java.com/}. [Dostęp: 2019-05-07].
+\bibitem{gmail} Google Inc., \textit{Gmail}, \url{https://www.google.com/intl/pl/gmail/about/}.\\
+{[Dostęp: 2019-05-07]}.
+
+\bibitem{googlecalendar} Google Inc., \textit{Google Calendar},	\url{https://www.google.com/calendar}.\\
+{[Dostęp: 2019-05-07]}.
+
+\bibitem{googlemaps} Google Inc., \textit{Google Maps},	\url{https://www.google.com/maps}. [Dostęp: 2019-05-07].
+
+\bibitem{googleplay} Google Inc., \textit{Google Play}, \url{https://play.google.com/store}. [Dostęp: 2019-05-07].
+
+\bibitem{talkback} Google Inc., \textit{TalkBack}, \url{https://support.google.com/accessibility/android/topic/3529932}. [Dostęp: 2019-05-07].
+
+\bibitem{webview} Google Inc., \textit{WebView}, \url{https://developer.android.com/reference/android/webkit/WebView}. [Dostęp: 2019-05-20].
+
+\bibitem{zxing} Google Inc., \textit{ZXing}, \url{https://github.com/zxing/zxing}. [Dostęp: 2019-05-07].
+
+
+\bibitem{gradle} Gradle Inc., \textit{Gradle}, \url{https://gradle.org/}. [Dostęp: 2019-05-07].
+
+
+\bibitem{tls12} Internet Engineering Task Force, \textit{The Transport Layer Security (TLS) Protocol},\\
+\url{https://tools.ietf.org/html/rfc5246}. [Dostęp: 2019-05-28].
+
 
 \bibitem{kotlin} Kotlin Foundation, \textit{Kotlin}, \url{https://kotlinlang.org/}. [Dostęp: 2019-05-07].
 
+
+\bibitem{muci} Międzyuniwersyteckie Centrum Informatyzacji, Strona główna
+\url{http://muci.edu.pl/index.html}. [Dostęp: 2019-07-24].
+
+\bibitem{uczelnie-w-muci} Międzyuniwersyteckie Centrum Informatyzacji, \textit{Członkowie MUCI w~chronologicznej kolejności przystępowania do konsorcjum}, \url{https://www.usos.edu.pl/czlonkowie-muci-w-chronologicznej-kolejnosci-przystepowania-do-konsorcjum}. [Dostęp: 2019-05-20].
+
+
+\bibitem{usos} Międzyuniwersyteckie Centrum Informatyzacji, \textit{USOS},
+\url{https://www.usos.edu.pl/usos-start}. [Dostęp: 2019-07-24].
+
+\bibitem{usosapi} Międzyuniwersyteckie Centrum Informatyzacji, \textit{USOS API Reference},
+\url{https://apps.usos.edu.pl/developers/api/}. [Dostęp: 2019-07-24].
+
+\bibitem{usosapi-auth} Międzyuniwersyteckie Centrum Informatyzacji, \textit{USOS API Reference - Authorization}, \url{https://apps.usos.edu.pl/developers/api/authorization/}. [Dostęp: 2019-05-28].
+
+\bibitem{usos-wdrozenia} Międzyuniwersyteckie Centrum Informatyzacji, \textit{Wdrożenia na polskich uczelniach oprogramowania dystrybuowanego przez MUCI  (wraz z odnośnikami)},\\
+\url{https://www.usos.edu.pl/wdrozenia}. [Dostęp: 2019-08-13].
+
+
+\bibitem{propozycjaszaty}  Katarzyna Moszczyńska, \textit{Propozycja szaty graficznej dla Mobilnego USOS},\\
+\url{https://xd.adobe.com/spec/cc492e84-e31b-4fa9-4c7f-3a5ff3d62678-ba78/grid/}. [Dostęp: 2019-07-28].
+
+\bibitem{przegladaplikacji}  Katarzyna Moszczyńska, \textit{Przegląd uniwersyteckich aplikacji mobilnych},\\
+\url{https://www.usos.edu.pl/sites/default/files/pl_aplikacje_mobilne_przeglad.pdf}. [Dostęp: 2019-07-28].
+
+
+\bibitem{mobywatel} Ministerstwo Cyfryzacji, \textit{mDokumenty. Potwierdzaj tożsamość smartfonem},\\ \url{https://obywatel.gov.pl/dokumenty-i-dane-osobowe/mdokumenty-potwierdzaj-tozsamosc-smartfonem}. [Dostęp: 2019-07-18].
+
+
+\bibitem{mifare} NXP Semiconductors Austria GmbH, \textit{Mifare ICs}, \url{https://www.mifare.net/en/products/chip-card-ics/}. [Dostęp: 2019-07-18].
+
+
+\bibitem{oauth} OAuth Core Workgroup, \textit{OAuth Core 1.0 Revision A}, \url{https://oauth.net/core/1.0a/}. [Dostęp: 2019-05-28].
+
+
+\bibitem{java} Oracle Corporation, \textit{Java}, \url{https://www.java.com/}. [Dostęp: 2019-05-07].
+
+
+\bibitem{uodc} Sejm RP, \textit{Ustawa o~dostępności cyfrowej stron internetowych i~aplikacji mobilnych podmiotów publicznych}, Dz. U. z~2019~r., poz. 848.
+
+
 \bibitem{kotlinandroid} Maxim Shafirov, \textit{Kotlin on Android. Now official},
-	\url{https://blog.jetbrains.com/kotlin/2017/05/kotlin-on-android-now-official/}. [Dostęp: 2019-05-09].
+\url{https://blog.jetbrains.com/kotlin/2017/05/kotlin-on-android-now-official/}. [Dostęp: 2019-05-09].
+
+
+\bibitem{git} Software Freedom Conservancy, \textit{Git},
+\url{https://git-scm.com/}. [Dostęp: 2019-05-07].
+
 
 \bibitem{okhttp} Square, Inc., \textit{OkHttp},	\url{https://square.github.io/okhttp/}. [Dostęp: 2019-05-07].
 
@@ -2151,45 +2209,18 @@ perspektywie na to, że aplikacje wdrożą wszystkie uczelnie z~MUCI.
 \bibitem{retrofit} Square, Inc., \textit{Retrofit}, \url{https://square.github.io/retrofit/}. [Dostęp: 2019-05-07].
 
 
-\bibitem{googleplay} Google Inc., \textit{Google Play}, \url{https://play.google.com/store}. [Dostęp: 2019-05-07].
-
-\bibitem{googlemaps} Google Inc., \textit{Google Maps},	\url{https://www.google.com/maps}. [Dostęp: 2019-05-07].
-
-\bibitem{googlecalendar} Google Inc., \textit{Google Calendar},	\url{https://www.google.com/calendar}.\\
-{[Dostęp: 2019-05-07]}.
-
-\bibitem{gmail} Google Inc., \textit{Gmail}, \url{https://www.google.com/intl/pl/gmail/about/}.\\
-{[Dostęp: 2019-05-07]}.
-
-\bibitem{zxing} Google Inc., \textit{ZXing}, \url{https://github.com/zxing/zxing}. [Dostęp: 2019-05-07].
-
-\bibitem{oauth} OAuth Core Workgroup, \textit{OAuth Core 1.0 Revision A}, \url{https://oauth.net/core/1.0a/}. [Dostęp: 2019-05-28].
-
-\bibitem{tls12} Internet Engineering Task Force, \textit{The Transport Layer Security (TLS) Protocol}, \url{https://tools.ietf.org/html/rfc5246}. [Dostęp: 2019-05-28].
-
-\bibitem{usosapi-auth} MUCI, \textit{USOS API Reference - Authorization}, \url{https://apps.usos.edu.pl/developers/api/authorization/}. [Dostęp: 2019-05-28].
-
-\bibitem{deeplinks} Google Inc., \textit{Create Deep Links to App Content}, \url{https://developer.android.com/training/app-links/deep-linking}. [Dostęp: 2019-05-28].
-
-\bibitem{uczelnie-w-muci} MUCI, \textit{Członkowie MUCI w~chronologicznej kolejności przystępowania do konsorcjum}, \url{https://www.usos.edu.pl/czlonkowie-muci-w-chronologicznej-kolejnosci-przystepowania-do-konsorcjum}. [Dostęp: 2019-05-20].
-
-\bibitem{news-musosumk} MUCI, \textit{Mobilny USOS UMK w~sklepie Google Play}, \url{https://www.usos.edu.pl/node/4157/mobilny-usos-umk-w-sklepie-google-play}. [Dostęp: 2019-05-20].
-
-\bibitem{news-musospwste} MUCI, \textit{Mobilny USOS PWSTE w~sklepie Google Play}, \url{https://www.usos.edu.pl/node/4170/mobilny-usos-pwste-w-sklepie-google-play}. [Dostęp: 2019-07-19].
-
-\bibitem{webview} Google Inc., \textit{WebView}, \url{https://developer.android.com/reference/android/webkit/WebView}. [Dostęp: 2019-05-20].
-
-\bibitem{product-flavor} Google Inc., \textit{Configure build variants}, \url{https://developer.android.com/studio/build/build-variants#product-flavors}. [Dostęp: 2019-05-20].
-
 \bibitem{uw-ios} Uniwersytet Warszawski,
 \textit{Aplikacja Mobilny USOS już dostępna na iOS},\\
 \url{https://www.uw.edu.pl/aplikacja-mobilny-usos-juz-dostepna-na-ios/}.\\
 {[Dostęp: 2019-07-18]}.
 
-\bibitem{appstore} Apple Inc.,
-\textit{Aplikacja Mobile USOS UW w~App Store},\\
-\url{https://apps.apple.com/us/app/mobilny-usos-uw/id1447221710}.\\
-{[Dostęp: 2019-07-18]}.
+\bibitem{euslugi} Uniwersytet Warszawski,
+\textit{Rozwój e-usług Uniwersytetu Warszawskiego związanych z~edukacją},
+\url{http://www.euslugi.uw.edu.pl/}. [Dostęp: 2019-07-24].
+
+
+\bibitem{wcag21} World Wide Web Consortium, \textit{Web Content Accessibility Guidelines (WCAG) 2.1},
+\url{https://www.w3.org/TR/WCAG21/}. [Dostęp: 2019-06-17].
 
 \end{thebibliography}
 
