@@ -159,8 +159,9 @@ Od kwietnia 2018~r. przejęliśmy rozwój aplikacji. Naszym głównym celem
 było wdrożenie jej na uczelniach wchodzących w skład Międzyuniwersyteckiego Centrum Informatyzacji (MUCI).
 MUCI zajmuje się m. in. tworzeniem, rozwojem i~wdrażaniem systemów wspierających
 uczelnie \cite{muci}. W~ramach dążenia do tego celu należało wykonać
-refaktoring kodu, rozbudować aplikację o~nowe moduły oraz dostosować ją do potrzeb osób 
-niepełnosprawnych.
+refaktoring kodu, rozbudować aplikację o~nowe moduły, uzupełnić brakujące elementy
+dokumentacji instalacyjnej \cite{dokumentacja-instalacyjna} oraz dostosować ją do
+potrzeb osób niepełnosprawnych.
 
 Istotnym elementem refaktoringu kodu była migracja z~Javy na Kotlin (o~wyborze technologii obecnych w~produkcyjnej wersji
 aplikacji opowiemy w~rozdziale 4.), zastąpienie wadliwego rozwiązania problemu
@@ -178,13 +179,7 @@ funkcjonalności aplikacji.
 W~pracy przedstawimy także proces projektowania i~rozwijania aplikacji -- w~rozdziale 2.
 wizję projektu, w~3. specyfikację wymagań, w~5. szczegóły implementacji.
 
-% We wstępie Słownik pojęć, Co to właściwie jest, opis firmy, czemu wybraliśmy ten projekt,(?wizja?)
-%Przedstawienie problemu
-%Przedstawienie produktu
-%Opis użytkowników i ich cele
-%Funkcje programu
-%Licencja
-%Wykorzystane technologie
+% TODO wkład członków zespołu w projekt
 
 \chapter{Wizja}
 
@@ -483,7 +478,7 @@ Następnie zapytano o~sprawy związane z~aplikacją mobilną.
 \medskip
 \endgroup
 
-Z przeprowadzonej ankiety wyciągneliśmy następujące wnioski:
+Z przeprowadzonej ankiety wyciągnęliśmy następujące wnioski:
 \begin{itemize}
 	\item Zdecydowana większość studentów uważa, że aplikacja mobilna oferująca funkcje serwisu USOSweb byłaby przydatna.
 	\item Moduły, które przynajmniej 50\% studentów obu uczelni chciałoby widzieć w~Mobilnym USOS to: Katalogi, Plan zajęć, Rejestracje, Oceny.
@@ -580,9 +575,9 @@ sesję użytkownika bezterminowo, do wylogowania się bądź odinstalowania apli
 Pozwala to uniknąć regularnego wpisywania hasła, co na telefonie jest szczególnie
 niewygodne, a~także niebezpieczne, ponieważ atakujący może łatwiej podejrzeć hasło.
 
-Ostatnim z~wymagań było zabezpieczenie aplikacji przed wykorzystaniem sesji przez
-niepowołane osoby. Użytkownik powinien mieć możliwość zablokować aplikację kodem PIN
-lub wzorem, które będą wymagane przy każdym uruchomieniu aplikacji.
+Ostatnim z~wymagań było zabezpieczenie aplikacji przed wykorzystaniem sesji zalogowanego
+w USOS użytkownika przez niepowołane osoby. Użytkownik powinien mieć możliwość zablokować
+aplikację kodem PIN lub wzorem, które będą wymagane przy każdym uruchomieniu aplikacji.
 
 \section{Dashboard}
 
@@ -670,7 +665,7 @@ W~widoku użytkownik powinien mieć możliwość wyboru jednostki, dla której c
 dane. Sam kalendarz powinien w~graficzny sposób wskazywać użytkownikowi, kiedy mają miejsce 
 interesujące go zdarzenia. 
 Po wybraniu z~kalendarza interesującego dnia powinna się pojawić szczegółowa lista zdarzeń.
-Moduł powinien być też łatwo rozwijalny, na przykład o~rejestracje na zajęcia czy informacje
+Moduł powinien być też łatwo rozszerzalny, na przykład o~rejestracje na zajęcia czy informacje
 o~terminach składania wniosków o~stypendium.
 
 \section{Informacje o uczelni}
@@ -798,7 +793,7 @@ pomocy dołączonej biblioteki możliwe jest ręcznie wysłanie informacji o~bł
 \section{Fabric}
 
 Fabric \cite{fabric} łączy funkcjonalność Crashlytics z~prostą analityką opartą na
-danych przesyłanych przez aplikację oraz możliwością tworzenia zamkniętych grup
+danych przesyłanych przez aplikację oraz możliwością tworzenia zamkniętych zespołów
 beta-testerów. W~Fabric można między innymi sprawdzić, ilu użytkowników korzystało
 z aplikacji w~danym przedziale czasowym i~regionie, ile trwała jedna sesja oraz
 ile było tych sesji. Wszystkie dane są zanonimizowane i~wyświetlane w~sposób
@@ -1004,7 +999,7 @@ Parametry zapytania są przekazywane w~identyczny sposób, w~jaki przesyłane s�
 pola formularza na stronie WWW. Każde zapytanie jest podpisane przy pomocy klucza
 konsumenta i~tokenów użytkownika. Mobilny USOS otrzymuje tokeny użytkownika po
 poprawnym zalogowaniu się osoby do USOS API. Aby utrudnić fałszowanie zapytań,
-cześcią podpisu jest dokładny adres URL wywoływanej metody USOS API.
+częścią podpisu jest dokładny adres URL wywoływanej metody USOS API.
 
 Opiszemy teraz ścieżkę, którą pokonuje typowe zapytanie do USOS API w~Mobilnym USOS.
 Każda metoda USOS API ma swój opis w~kotlinowym interfejsie. Na ten opis składa
@@ -1701,7 +1696,8 @@ W tym module student może wyświetlić listę ankiet do wypełnienia (Rysunek \
 możliwe jest wypełnienie jej i~wysłanie na serwer. Ankiety w USOS dzielą się na dwa
 rodzaje: ogólne i zajęciowe, dotyczące wykładowców. W przypadku ankiet zajęciowych
 Mobilny USOS oprócz pytań do ankiety dodatkowo wyświetla informację o ocenianych
-zajęciach i wykładowcy (Rysunek \ref{fig:surveys_survey}).
+zajęciach i wykładowcy (Rysunek \ref{fig:surveys_survey}). Pytania do ankiety
+wyświetlane są w formie rozwijalnej listy (Rysunek \ref{fig:surveys_question}).
 
 \section{Ankiety pracownika}
 
@@ -1763,8 +1759,8 @@ API w celu dostarczenia do wybranych osób (Rysunek \ref{fig:usosmail_compose}).
 	\medskip
 \end{figure}
 
-Moduł \textit{Moje legitymacje} (Rysynek \ref{fig:idcards}) pozwala na wyświetlenie podglądu wszystkich legitymacji
-przypisanych do użytkownika oraz informacji o ich dacie ważności.
+Moduł \textit{Moje legitymacje} (Rysynek \ref{fig:idcards}) pozwala na wyświetlenie
+wszystkich legitymacji przypisanych do użytkownika oraz informacji o ich dacie ważności.
 
 \section{Moje eID}
 
@@ -1937,7 +1933,7 @@ W~ramach przygotowywania aplikacji, uczelnia ma dostarczyć:
 	\item (opcjonalnie) Wzór legitymacji pracowniczej -- zdjęcie pustej legitymacji i~układ tekstu oraz zdjęcia.
 	\item (opcjonalnie) Sposób pobierania i~wyświetlania aktualności. Domyślnie moduł Aktualności pobiera dane z~USOS
         API i~wyświetla je poprzez uproszczone renderowanie HTML. Na życzenie uczelni możliwe jest wyświetlanie
-        aktualności przez komponent \textit{WebView} \cite{webview}, choć nie jest to zalecane ze względu na istotny
+        aktualności przez komponent \texttt{WebView} \cite{webview}, choć nie jest to zalecane ze względu na istotny
         spadek wydajności aplikacji. Dostępna jest także integracja z~instalacją Wordpress uczelni i~pobieranie z~niej wiadomości.
 	\item Klucz do podpisu aplikacji (na życzenie uczelni może być generowany po stronie MUCI).
 	\item Adres strony z~polityką prywatności aplikacji ze względu na wymagania RODO. Uczelnie mogą skorzystać z~szablonu udostępnionego w~USOSweb.
@@ -1949,7 +1945,7 @@ W~ramach przygotowywania aplikacji, uczelnia ma dostarczyć:
 \end{enumerate}
 
 Z~perspektywy procesu budowania aplikacji każda uczelnia to osobny wariant aplikacji 
-(\textit{product flavor} \cite{product-flavor}), w~którym umieszczone są dane dedykowane dla tej uczelni i~które w~trakcie
+(ang. \textit{product flavor} \cite{product-flavor}), w~którym umieszczone są dane dedykowane dla tej uczelni i~które w~trakcie
 budowania są scalane z~kodem źródłowym wspólnym dla wszystkich. Dane wrażliwe, typu klucze autoryzacyjne i~hasła, są
 umieszczone w~specjalnym pliku \texttt{private.gradle}, który nie jest wersjonowany w~repozytorium. Skonstruowany jest on
 ponadto w~taki sposób, że dla skompilowania wersji dla danej uczelni, wymagany jest tylko wpis dla niej, dzięki czemu
@@ -2023,14 +2019,10 @@ następującą procedurę przekazywania aplikacji do sklepu:
 Mechanizm ten sprawdził się dobrze w~praktyce, redukuje on do minimum potrzebną pracę
 zarówno po stronie zespołu deweloperskiego, jak i~wdrażających na poszczególnych uczelniach.
 
-\chapter{Wkład poszczególnych autorów w pracę}
-
-% TODO wkład autorów
-
 \chapter{Podsumowanie}
 
 Projekt Mobilny USOS jest naszym zdaniem dużym sukcesem. Udało nam się doprowadzić do
-wdrożenia na wielu uczelniach aplikacji mobilnej dla systemu USOS, która posiadała by
+wdrożenia na wielu uczelniach aplikacji mobilnej dla systemu USOS, która posiada
 najważniejsze funkcje USOSweb w~formie użytecznej na telefonie.
 
 W~kontekście sukcesu aplikacji istotnym wydaje się fakt, że wielu w powodzenie 
@@ -2154,11 +2146,11 @@ perspektywie na to, że aplikacje wdrożą wszystkie uczelnie z~MUCI.
 \bibitem{kotlin} Kotlin Foundation, \textit{Kotlin}, \url{https://kotlinlang.org/}. [Dostęp: 2019-05-07].
 
 
-\bibitem{muci} Międzyuniwersyteckie Centrum Informatyzacji, Strona główna
-\url{http://muci.edu.pl/index.html}. [Dostęp: 2019-07-24].
-
 \bibitem{uczelnie-w-muci} Międzyuniwersyteckie Centrum Informatyzacji, \textit{Członkowie MUCI w~chronologicznej kolejności przystępowania do konsorcjum}, \url{https://www.usos.edu.pl/czlonkowie-muci-w-chronologicznej-kolejnosci-przystepowania-do-konsorcjum}. [Dostęp: 2019-05-20].
 
+\bibitem{dokumentacja-instalacyjna} Międzyuniwersyteckie Centrum Informatyzacji,
+\textit{Dokumentacja instalacyjna Mobilnego USOS}
+\url{https://docs.usos.edu.pl/mobilnyusos/master/android/index.html}. [Dostęp: 2019-08-16].
 
 \bibitem{usos} Międzyuniwersyteckie Centrum Informatyzacji, \textit{USOS},
 \url{https://www.usos.edu.pl/usos-start}. [Dostęp: 2019-07-24].
@@ -2167,6 +2159,9 @@ perspektywie na to, że aplikacje wdrożą wszystkie uczelnie z~MUCI.
 \url{https://apps.usos.edu.pl/developers/api/}. [Dostęp: 2019-07-24].
 
 \bibitem{usosapi-auth} Międzyuniwersyteckie Centrum Informatyzacji, \textit{USOS API Reference - Authorization}, \url{https://apps.usos.edu.pl/developers/api/authorization/}. [Dostęp: 2019-05-28].
+
+\bibitem{muci} Międzyuniwersyteckie Centrum Informatyzacji, \textit{Strona główna}
+\url{http://muci.edu.pl/index.html}. [Dostęp: 2019-07-24].
 
 \bibitem{usos-wdrozenia} Międzyuniwersyteckie Centrum Informatyzacji, \textit{Wdrożenia na polskich uczelniach oprogramowania dystrybuowanego przez MUCI  (wraz z odnośnikami)},\\
 \url{https://www.usos.edu.pl/wdrozenia}. [Dostęp: 2019-08-13].
