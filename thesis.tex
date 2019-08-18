@@ -164,20 +164,20 @@ dokumentacji instalacyjnej \cite{dokumentacja-instalacyjna} oraz dostosować ją
 potrzeb osób niepełnosprawnych.
 
 Istotnym elementem refaktoringu kodu była migracja z~Javy na Kotlin (o~wyborze technologii obecnych w~produkcyjnej wersji
-aplikacji opowiemy w~rozdziale 4.), zastąpienie wadliwego rozwiązania problemu
+aplikacji opowiemy w~rozdziale \ref{sec:technologie}.), zastąpienie wadliwego rozwiązania problemu
 wykonywania asynchronicznych zapytań do USOS API przez mechanizm korutyn 
 (ang. \textit{coroutines}) oraz naprawienie innych błędów w~oryginalnym kodzie.
 
 1 października 2018 roku wdrożyliśmy oficjalnie Mobilny USOS na Uniwersytecie Warszawskim,
 wypełniając tym samym pierwszą część celu pracy -- wdrożenie produkcyjne na pierwszej uczelni.
-W~rozdziale 7. wskażemy wyzwania związane z~procesem wdrażania oraz procedury wdrożeniowe.
+W~rozdziale \ref{sec:wdrozenie}. wskażemy wyzwania związane z~procesem wdrażania oraz procedury wdrożeniowe.
 
 Równolegle do prac nad wdrażaniem aplikacji na kolejnych uczelniach rozwijaliśmy kolejne
-moduły w~ramach strategii ciągłego rozwoju. W~rozdziale 6. przedstawimy przegląd
+moduły w~ramach strategii ciągłego rozwoju. W~rozdziale \ref{sec:przeglad}. przedstawimy przegląd
 funkcjonalności aplikacji.
 
-W~pracy przedstawimy także proces projektowania i~rozwijania aplikacji -- w~rozdziale 2.
-wizję projektu, w~3. specyfikację wymagań, w~5. szczegóły implementacji.
+W~pracy przedstawimy także proces projektowania i~rozwijania aplikacji -- w~rozdziale \ref{sec:wizja}.
+wizję projektu, w~\ref{sec:specyfikacja}. specyfikację wymagań, w~\ref{sec:implementacja}. szczegóły implementacji.
 
 W trakcie pisania niniejszej pracy przyjęto następujący podział zadań. Dominik Murzynowski
 zajmował się:
@@ -205,6 +205,7 @@ Piotr Zalas zajmował się:
 \end{itemize}
 
 \chapter{Wizja}
+\label{sec:wizja}
 
 \section{Aplikacje mobilne na innych uczelniach}
 
@@ -581,6 +582,7 @@ współdziałanie z~oprogramowaniem wspierającym osoby niewidome, takim jak Goo
 TalkBack \cite{talkback}.
 
 \chapter{Specyfikacja wymagań}
+\label{sec:specyfikacja}
 
 \section{Logowanie do aplikacji}
 
@@ -784,6 +786,7 @@ oprogramowanie asystujące, tak żeby na przykład moduł czytający mógł auto
 syntezator mowy w~odpowiednim języku.
 
 \chapter{Technologie}
+\label{sec:technologie}
 
 W tym rozdziale przedstawiamy użyte technologie, biblioteki i~narzędzia.
 
@@ -858,7 +861,7 @@ jej dane dostępowe i~ta część może być bezproblemowo użyta do zbudowania 
 
 Jackson \cite{jackson} jest biblioteką do deserializacji danych zapisanych w
 formacie JSON. Jest ona o~tyle kluczowa, że praktycznie wszystkie dane przesyłane
-przez USOS API są zapisane w~tym formacie. W~porówaniu do konkurencyjnej biblioteki
+przez USOS API są zapisane w~tym formacie. W~porównaniu do konkurencyjnej biblioteki
 Gson \cite{gson}, Jackson zapewnia lepszą kontrolę nad procesem deserializacji,
 dostarczane do niego są także rozszerzenia do obsługi języka Kotlin.
 
@@ -946,6 +949,7 @@ studenckich. Oprócz tego generujemy też przy pomocy tej biblioteki kody kresko
 w formacie Aztec.
 
 \chapter{Szczegóły implementacji}
+\label{sec:implementacja}
 
 W tym rozdziale koncentrujemy się na detalach technicznych związanych z~implementacją
 Mobilnego USOS.
@@ -983,7 +987,7 @@ tej aktywności są zrealizowane jako fragmenty (ang. \textit{fragment}). Przyk�
 osobnymi fragmentami są: lista grup, lista protokołów, lista studentów w~konkretnym
 terminie danego protokołu. Każdy fragment niezależnie od innych pobiera
 danych z~USOS API, zapisywaniem ich w~schowku (ang. \textit{cache}),
-wyświetlaniem pobranych danych oraz obsługą interacji z~użytkownikiem. Dzięki temu,
+wyświetlaniem pobranych danych oraz obsługą interakcji z~użytkownikiem. Dzięki temu,
 że każdy fragment jest niezależny od danych pobranych przez inne fragmenty, informacje
 wyświetlane na ekranie zawsze tworzą jedną spójną całość, a~zarządzanie danymi
 składowanymi w~schowku staje się bardzo proste. Na wygląd fragmentu mogą się
@@ -1159,7 +1163,7 @@ Wielką uwagę przykładaliśmy do niezawodności mechanizmu powiadomień. Z~teg
 zdecydowaliśmy się na użycie gotowej, przetestowanej i~szeroko wykorzystywanej
 usługi. Dzięki temu uniknęliśmy wielu problemów, które by się pojawiły gdybyśmy
 sami podjęli się implementacji serwera powiadomień. Usługa odpowiedzialna za
-odbieranie powiadomień jest cześcią systemu Android i~działa w~tle. Dzięki temu
+odbieranie powiadomień jest częścią systemu Android i~działa w~tle. Dzięki temu
 Mobilny USOS otrzymuje powiadomienie nawet wtedy, gdy użytkownik wymusi zamknięcie
 aplikacji. Dobra integracja z~ekosystemem Androida była kolejnym czynnikiem, który
 przemawiał za wykorzystaniem Firebase.
@@ -1167,7 +1171,7 @@ przemawiał za wykorzystaniem Firebase.
 Do Mobilnego USOS na jednym urządzeniu mogą być w~różnym czasie zalogowani różni
 użytkownicy. W~sytuacji gdyby doszło do splotu kilku niekorzystnych okoliczności
 związanych z~ograniczeniami serwera USOS API, mogłoby się zdarzyć, że do obecnie
-zalogowanego użytkownika przyjdzie powiadomienie związane z~użytkownkiem poprzednio zalogowanym
+zalogowanego użytkownika przyjdzie powiadomienie związane z~użytkownikiem poprzednio zalogowanym
 na urządzeniu. Rozwiązujemy ten problem przez nieprzesyłanie danych
 osobowych w~powiadomieniu, pomijanie powiadomień, gdy nikt nie jest zalogowany w
 Mobilnym USOS na danym urządzeniu oraz przez wymuszenie wygenerowania nowego tokenu
@@ -1782,7 +1786,7 @@ API w celu dostarczenia do wybranych osób (Rysunek \ref{fig:usosmail_compose}).
 	\medskip
 \end{figure}
 
-Moduł \textit{Moje legitymacje} (Rysynek \ref{fig:idcards}) pozwala na wyświetlenie
+Moduł \textit{Moje legitymacje} (Rysunek \ref{fig:idcards}) pozwala na wyświetlenie
 wszystkich legitymacji przypisanych do użytkownika oraz informacji o ich dacie ważności.
 
 \section{Moje eID}
@@ -1923,6 +1927,7 @@ Ponadto ekran ustawień zawiera odnośniki do polityki prywatności, pomocy tech
 oraz listy aplikacji, którym przyznano dostęp do USOS API.
 
 \chapter{Wdrożenie w skali Polski}
+\label{sec:wdrozenie}
 
 Aplikację Mobilny USOS projektowaliśmy i~rozwijaliśmy z~myślą o~jej wdrażaniu we wszystkich zainteresowanych uczelniach
 korzystających z~USOS. W~tym rozdziale przedstawimy wyzwania związane z~procesem wdrażania aplikacji Mobilny USOS na
@@ -1957,7 +1962,7 @@ W~ramach przygotowywania aplikacji, uczelnia ma dostarczyć:
 	\item (opcjonalnie) Sposób pobierania i~wyświetlania aktualności. Domyślnie moduł Aktualności pobiera dane z~USOS
         API i~wyświetla je poprzez uproszczone renderowanie HTML. Na życzenie uczelni możliwe jest wyświetlanie
         aktualności przez komponent \texttt{WebView} \cite{webview}, choć nie jest to zalecane ze względu na istotny
-        spadek wydajności aplikacji. Dostępna jest także integracja z~instalacją Wordpress uczelni i~pobieranie z~niej wiadomości.
+        spadek wydajności aplikacji. Dostępna jest także integracja z~instalacją WordPress uczelni i~pobieranie z~niej wiadomości.
 	\item Klucz do podpisu aplikacji (na życzenie uczelni może być generowany po stronie MUCI).
 	\item Adres strony z~polityką prywatności aplikacji ze względu na wymagania RODO. Uczelnie mogą skorzystać z~szablonu udostępnionego w~USOSweb.
 	\item Adres e-mail do wysyłania powiadomień o~umieszczeniu na serwerze dystrybucyjnym nowej wersji aplikacji.
@@ -2056,7 +2061,7 @@ umierało z~braku zainteresowania studentów.
 
 Aplikacja została naszym zdaniem ciepło przyjęta przez studentów i~pracowników.
 W~zależności od uczelni, oceny oscylują między 3.8 a~4.9 na 5 gwiazdek.
-Wyjątkiem jest tu Uniwerystet Łódzki ze średnią ocen na poziomie 3.5/5, co prawdopodobnie
+Wyjątkiem jest tu Uniwersytet Łódzki ze średnią ocen na poziomie 3.5/5, co prawdopodobnie
 jest związane z~faktem, że na tej uczelni wdrożona została wersja przedprodukcyjna z~wieloma
 błędami. Na pozostałych uczelniach większość negatywnych uwag była związana z~brakującymi
 funkcjonalnościami, jak sprawdziany, więc wraz z~wdrażaniem nowych modułów oceny powinny
