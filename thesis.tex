@@ -1078,7 +1078,7 @@ użytkownika do ekranu logowania. To wywołanie ma miejsce w~przeglądarce zains
 w telefonie użytkownika. Dzięki temu użytkownik ma pewność, że Mobilny USOS nie
 przechwytuje jego hasła do USOS. Ponadto może on ręcznie zweryfikować certyfikat SSL
 by upewnić się, że łączy się z~prawdziwym serwerem USOS API. Gdybyśmy do realizacji
-mechanizmu logowania wykorzystali komponent WebView osadzany wewnątrz aplikacji,
+mechanizmu logowania wykorzystali komponent \texttt{WebView} osadzany wewnątrz aplikacji,
 Mobilny USOS mógłby odczytać wszystkie dane wprowadzone na stronie logowania.
 Ponadto użytkownik nie miałby możliwości zweryfikowania ważności certyfikatu SSL.
 W związku z~tym twórcy USOS API odradzają podawanie swoich danych logowania w
@@ -1333,9 +1333,6 @@ czy z~powodu zmiany rozwinięcia elementu, zmiany dnia, czy też na skutek polec
 
 W~tym rozdziale dokonujemy przeglądu funkcjonalności aplikacji (stan na sierpień 2019~r.).
 
-% TODO *dużo obrazków*, trochę lania wody, dużo chwalenia się, że dowiezione rzeczy
-% JMD: mapa aplikacji, może referencja do adobe XD?
-
 \section{Ekran powitalny}
 
 \begin{figure}[p]
@@ -1383,7 +1380,7 @@ Na ekranie logowania (Rysunek \ref{fig:login}) użytkownik potwierdza swoją to�
 zetknęliśmy podczas prac nad tym ekranem, było zapewnienie bezpieczeństwa hasła
 wpisywanego przez użytkownika i obsłużenie kilku scenariuszy logowania.
 
-Gdyby hasło było wpisywane przez WebView, aplikacja miałaby możliwość przeczytać hasło
+Gdyby hasło było wpisywane przez \texttt{WebView}, aplikacja miałaby możliwość przeczytać hasło
 użytkownika, co jest sprzeczne z założeniami protokołu OAuth. W związku z tym
 użytkownik podaje swoje dane logowania w zaufanej aplikacji, którą jest przeglądarka
 internetowa.
@@ -1395,7 +1392,7 @@ z aplikacji, np. z powodu upłynięcia daty ważności tokenów, wreszcie mógł
 poproszony o dodatkowe zalogowanie, aby uzyskać potwierdzenie wykonania szczególnie
 wrażliwej operacji. W każdym z tych przypadków Mobilny USOS musi się zachować
 inaczej. W sytuacji, gdy do aplikacji może się logować nowa osoba, należy usunąć
-stare dane sesji, aby nikt niepowołony nie mógł ich odczytać. Z kolei nie wolno
+stare dane sesji, aby nikt niepowołany nie mógł ich odczytać. Z kolei nie wolno
 tego robić, gdy ekran logowania ma potwierdzić wykonanie operacji, gdyż wtedy
 nie byłoby wiadomo, jaka operacja była potwierdzana. Przykładowo, żądamy ponownego
 wpisania hasła podczas wystawiania ocen. Gdyby po wpisaniu hasła dane użytkownika
@@ -1841,7 +1838,7 @@ administracyjnej USOS (aplikacji USOSadm).
 
 Uczelnie mają możliwość umieszczania swoich aktualności w Mobilnym USOS. Może się
 to odbywać w dwojaki sposób: albo poprzez odpowiedni panel w USOSadm, albo przez
-zewnętrzny serwer Wordpress. Tak pobierane aktualności dzielone są na trzy kategorie:
+zewnętrzny serwer WordPress. Tak pobierane aktualności dzielone są na trzy kategorie:
 
 \begin{itemize}
 	\item Wszystkie aktualności, także te niezwiązane z użytkownikiem,
